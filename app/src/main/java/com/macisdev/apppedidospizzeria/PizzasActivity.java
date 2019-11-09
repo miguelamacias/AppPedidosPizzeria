@@ -12,6 +12,9 @@ import android.widget.SimpleCursorAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PizzasActivity extends AppCompatActivity {
+    //the cursor and Database are declared her so they can be closed from onDestroy
+    Cursor cursor;
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +24,9 @@ public class PizzasActivity extends AppCompatActivity {
         //loads pizza list from DB
         ListView pizzaList = findViewById(R.id.pizza_list);
         DBHelper dbHelper = new DBHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.query("pizzas", new String[]{"_id", "name", "ingredients"}, null, null, null, null, null);
+        cursor = db.query("pizzas", new String[]{"_id", "name", "ingredients"}, null, null, null, null, null);
 
         pizzaList.setAdapter(new SimpleCursorAdapter(this,
                 android.R.layout.two_line_list_item,
@@ -40,5 +43,13 @@ public class PizzasActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        cursor.close();
+        db.close();
     }
 }

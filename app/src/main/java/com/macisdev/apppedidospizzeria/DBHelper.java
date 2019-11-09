@@ -33,10 +33,24 @@ public class DBHelper extends SQLiteOpenHelper {
                     "_id INTEGER PRIMARY KEY," +
                     "name TEXT," +
                     "ingredients TEXT)");
+
+            //Creates the sizes table
+            db.execSQL("CREATE TABLE sizes (size TEXT PRIMARY KEY)");
+
+            //Creates the pizzas_sizes table
+            db.execSQL("CREATE TABLE pizzas_sizes(" +
+                    "pizza_id INTEGER, " +
+                    "size_id TEXT," +
+                    "price REAL," +
+                    "PRIMARY KEY (pizza_id, size_id))");
         }
 
-        //Populates the table
+        //Populates the tables
         populatePizzasTable(db, currentDbVersion);
+        populateSizesTable(db, currentDbVersion);
+        populatePizzaSizeTable(db, currentDbVersion);
+
+
     }
 
     private void populatePizzasTable(SQLiteDatabase db, int dbVersion) {
@@ -54,6 +68,41 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    private void populatePizzaSizeTable(SQLiteDatabase db, int dbVersion) {
+        if (dbVersion < 1) {
+            insertPizzaSizeRow(db, 1, context.getString(R.string.size_medium), 8.00);
+            insertPizzaSizeRow(db, 1, context.getString(R.string.size_big), 17.00);
+            insertPizzaSizeRow(db, 2, context.getString(R.string.size_medium), 6.50);
+            insertPizzaSizeRow(db, 2, context.getString(R.string.size_big), 14.50);
+            insertPizzaSizeRow(db, 3, context.getString(R.string.size_medium), 6.70);
+            insertPizzaSizeRow(db, 3, context.getString(R.string.size_big), 14.80);
+            insertPizzaSizeRow(db, 4, context.getString(R.string.size_medium), 7.30);
+            insertPizzaSizeRow(db, 4, context.getString(R.string.size_big), 15.20);
+            insertPizzaSizeRow(db, 5, context.getString(R.string.size_medium), 6.50);
+            insertPizzaSizeRow(db, 5, context.getString(R.string.size_big), 14.80);
+            insertPizzaSizeRow(db, 6, context.getString(R.string.size_medium), 7.30);
+            insertPizzaSizeRow(db, 6, context.getString(R.string.size_big), 16.50);
+            insertPizzaSizeRow(db, 7, context.getString(R.string.size_medium), 6.80);
+            insertPizzaSizeRow(db, 7, context.getString(R.string.size_big), 14.50);
+            insertPizzaSizeRow(db, 8, context.getString(R.string.size_medium), 6.50);
+            insertPizzaSizeRow(db, 8, context.getString(R.string.size_big), 13.50);
+        }
+    }
+
+    private void populateSizesTable(SQLiteDatabase db, int dbVersion) {
+        if(dbVersion < 1) {
+            //Insert medium size
+            ContentValues values = new ContentValues();
+            values.put("size", context.getString(R.string.size_medium));
+            db.insertOrThrow("sizes",null, values);
+
+            //Insert big size
+            values.clear();
+            values.put("size", context.getString(R.string.size_big));
+            db.insertOrThrow("sizes",null, values);
+        }
+    }
+
     private void insertPizzaRow(SQLiteDatabase db, int id, String name, String ingredients) {
         ContentValues values = new ContentValues();
         values.put("_id", id);
@@ -61,5 +110,14 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put("ingredients", ingredients);
 
         db.insertOrThrow("pizzas", null, values);
+    }
+
+    private void insertPizzaSizeRow(SQLiteDatabase db, int pizza_id, String size_id, double price) {
+        ContentValues values = new ContentValues();
+        values.put("pizza_id", pizza_id);
+        values.put("size_id", size_id);
+        values.put("price", price);
+
+        db.insertOrThrow("pizzas_sizes", null, values);
     }
 }

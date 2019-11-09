@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".PizzaDetailsActivity"></activity>
+        <activity android:name=".PizzaDetailsActivity"
+            android:parentActivityName=".PizzasActivity"/>
         <activity
             android:name=".PizzasActivity"
             android:label="@string/pizzas_menu"
