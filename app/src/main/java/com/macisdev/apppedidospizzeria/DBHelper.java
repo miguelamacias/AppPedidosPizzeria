@@ -39,10 +39,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
             //Creates the pizzas_sizes table
             db.execSQL("CREATE TABLE pizzas_sizes(" +
+                    "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "pizza_id INTEGER, " +
                     "size_id TEXT," +
                     "price REAL," +
-                    "PRIMARY KEY (pizza_id, size_id))");
+                    "UNIQUE(pizza_id, size_id))");
         }
 
         //Populates the tables
