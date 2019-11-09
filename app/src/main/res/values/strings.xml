@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AppPedidosPizzeria</string>
+    <string name="shop_name">Pizzería Giuseppe</string>
+    <string name="welcome">Bienvenido a nuestra APP. Navegue por la carta y añada los productos deseados a su pedido.</string>
+    <string name="pizzas_menu">Pizzas</string>
+    <string name="drinks_menu">Bebidas</string>
+    <string name="appetizers">Complementos</string>
 </resources>

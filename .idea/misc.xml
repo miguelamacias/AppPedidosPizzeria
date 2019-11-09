@@ -13,12 +13,6 @@
       </map>
     </option>
   </component>
-  <component name="CommitMessageInspectionProfile">
-    <profile version="1.0">
-      <inspection_tool class="CommitMessageSpellChecking" enabled="false" level="TYPO" enabled_by_default="false" />
-      <inspection_tool class="SubjectBodySeparation" enabled="true" level="WARNING" enabled_by_default="true" />
-    </profile>
-  </component>
   <component name="ProjectDictionaryState">
     <dictionary name="Admin" />
   </component>
@@ -291,7 +285,7 @@
       </profile-state>
     </entry>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
