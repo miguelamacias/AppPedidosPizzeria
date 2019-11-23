@@ -109,7 +109,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
 
                 if (position == 1) {
                     tvChoosenSize.setText(R.string.size_medium);
-                    pizzaSize = getString(R.string.size_big);
+                    pizzaSize = getString(R.string.size_medium);
                 }
                  layoutAddOrder.setVisibility(View.VISIBLE);
             }
