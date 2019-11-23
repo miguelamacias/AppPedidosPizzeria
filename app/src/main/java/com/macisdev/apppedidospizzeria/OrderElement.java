@@ -50,6 +50,6 @@ public class OrderElement {
 
     @Override
     public String toString() {
-        return String.format(Locale.getDefault(), "%s \t %s \t %.2f",getName(), getSize(), getPrice());
+        return String.format(Locale.getDefault(), "%s  -  %s  -  %.2f€",getName(), getSize(), getPrice());
     }
 }

@@ -125,6 +125,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
 
     }
 
+    //Method when add button is pressed
     public void addPizzaToOrder(View v) {
         OrderElement elementTobeAdded = new OrderElement(pizzaId, pizzaName, pizzaSize, "null", pizzaPrice);
         for (int i = 0; i < quantityPicker.getValue(); i++) {
@@ -132,6 +133,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         }
 
         Toast.makeText(this, R.string.element_added, Toast.LENGTH_SHORT).show();
+        startActivity(this.getParentActivityIntent());
     }
 
     @Override

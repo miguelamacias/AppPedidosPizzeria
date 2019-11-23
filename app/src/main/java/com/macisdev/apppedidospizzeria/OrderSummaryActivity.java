@@ -29,6 +29,6 @@ public class OrderSummaryActivity extends AppCompatActivity {
             totalPrice += element.getPrice();
         }
 
-        tvTotalPrice.setText(String.format(Locale.getDefault(), "%.2f €", totalPrice));
+        tvTotalPrice.setText(String.format(Locale.getDefault(), "%.2f€", totalPrice));
     }
 }
