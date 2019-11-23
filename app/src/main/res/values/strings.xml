@@ -6,4 +6,11 @@
     <string name="drinks_menu">Bebidas</string>
     <string name="appetizers">Complementos</string>
     <string name="choose_size">Seleccione el tamaño:</string>
+    <string name="size">Tamaño: </string>
+    <string name="quantity">Cantidad: </string>
+    <string name="not_available">Aún no disponible</string>
+    <string name="element_added">¡Artículo añadido a su pedido!</string>
+    <string name="total_price">Total: </string>
+    <string name="continue_btn">Continuar</string>
+    <string name="show_order_summary">Resúmen del pedido</string>
 </resources>
