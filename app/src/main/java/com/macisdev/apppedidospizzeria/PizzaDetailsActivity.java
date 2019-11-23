@@ -83,7 +83,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
             public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
                 if (columnIndex == 2) { //price is the column #2 of the cursor
                     double price = cursor.getDouble(columnIndex); //getting the price as is stored in the db
-                    pizzaPrice = cursor.getDouble(columnIndex);
+                    pizzaPrice = price;
                     TextView textView = (TextView) view; //making the generic view a textView
 
                     textView.setText(String.format(Locale.getDefault(), "%.2f%c", price, '€')); //formatting the price to show the currency sign.
@@ -127,12 +127,22 @@ public class PizzaDetailsActivity extends AppCompatActivity {
 
     //Method when add button is pressed
     public void addPizzaToOrder(View v) {
+        //Retrieve the price of the selected pizza
+
+        Cursor cursorPrice = db.rawQuery("SELECT price FROM pizzas_sizes WHERE size_id = ? AND pizza_id = ?",
+                new String[]{pizzaSize, String.valueOf(pizzaId)});
+        if (cursorPrice.moveToFirst()) {
+            pizzaPrice = cursorPrice.getDouble(0);
+        }
+
+        //Creates the element to be added with the right information
         OrderElement elementTobeAdded = new OrderElement(pizzaId, pizzaName, pizzaSize, "null", pizzaPrice);
         for (int i = 0; i < quantityPicker.getValue(); i++) {
             MainActivity.orderelements.add(elementTobeAdded);
         }
 
         Toast.makeText(this, R.string.element_added, Toast.LENGTH_SHORT).show();
+        cursorPrice.close();
         startActivity(this.getParentActivityIntent());
     }
 
