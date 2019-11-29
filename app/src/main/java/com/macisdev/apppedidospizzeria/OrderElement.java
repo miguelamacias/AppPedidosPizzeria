@@ -3,12 +3,12 @@ package com.macisdev.apppedidospizzeria;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class OrderElement {
-    private int code;
-    private String name;
-    private String size;
-    private String extras;
-    private double price;
+class OrderElement {
+    private final int code;
+    private final String name;
+    private final String size;
+    private final String extras;
+    private final double price;
 
     public OrderElement(int code, String name, String size, String extras, double price) {
         this.code = code;
@@ -22,15 +22,15 @@ public class OrderElement {
         return code;
     }
 
-    public String getName() {
+    private String getName() {
         return name;
     }
 
-    public String getSize() {
+    private String getSize() {
         return size;
     }
 
-    public String getExtras() {
+    private String getExtras() {
         return extras;
     }
 
@@ -41,7 +41,7 @@ public class OrderElement {
     public static ArrayList<String> getSummaryStrings() {
         ArrayList<String> stringArrayList = new ArrayList<>();
 
-        for (OrderElement element : MainActivity.orderelements) {
+        for (OrderElement element : MainActivity.ORDER_ELEMENTS) {
             stringArrayList.add(element.toString());
         }
 

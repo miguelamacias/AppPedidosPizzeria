@@ -13,8 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class PizzasActivity extends AppCompatActivity {
     //the cursor and Database are declared her so they can be closed from onDestroy
-    Cursor cursor;
-    SQLiteDatabase db;
+    private Cursor cursor;
+    private SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

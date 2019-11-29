@@ -13,4 +13,8 @@
     <string name="total_price">Total: </string>
     <string name="continue_btn">Continuar</string>
     <string name="show_order_summary">Resúmen del pedido</string>
+    <string name="customize_pizza">Personalizar pizza</string>
+    <string name="ok_button">Aceptar</string>
+    <string name="delete_button">Botón borrar</string>
+    <string name="add_button">Botón añadir</string>
 </resources>

@@ -22,5 +22,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
         android:onClick="getSelectedIngredients"
-        android:text="Button" />
+        android:text="@string/ok_button" />
 </LinearLayout>

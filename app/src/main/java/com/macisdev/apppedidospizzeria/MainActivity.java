@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     //Araylist that contains the elements to order
-    public static ArrayList<OrderElement> orderelements = new ArrayList<>();
+    public static final ArrayList<OrderElement> ORDER_ELEMENTS = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +29,8 @@ public class MainActivity extends Activity {
                 getString(R.string.drinks_menu),
                 getString(R.string.show_order_summary)};
 
-        mainMenu.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1 ,
+        mainMenu.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,
                 mainMenuEntries));
 
         mainMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -42,7 +42,6 @@ public class MainActivity extends Activity {
 
                 if (position == 1) {
                     Toast.makeText(MainActivity.this, R.string.not_available, Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this, CustomizePizzaActivity.class));
                 }
 
                 if (position == 2) {

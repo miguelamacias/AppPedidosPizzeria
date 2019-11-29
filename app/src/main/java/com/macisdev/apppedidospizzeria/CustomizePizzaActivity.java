@@ -10,8 +10,8 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CustomizePizzaActivity extends AppCompatActivity {
-    ListView ingredientsList;
-    String[] ingredientsArray;
+    private ListView ingredientsList;
+    private String[] ingredientsArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +27,12 @@ public class CustomizePizzaActivity extends AppCompatActivity {
 
     }
 
+
     public void getSelectedIngredients(View v) {
         //get checked ingredients form the listview
         SparseBooleanArray checkedIngredients = ingredientsList.getCheckedItemPositions();
 
-        StringBuffer buffer = new StringBuffer("Extras: ");
+        StringBuilder buffer = new StringBuilder("Extras: ");
         //iterate through the array of ingredients to get only the checked ones
         for (int i = 0; i < ingredientsArray.length; i++) {
             if (checkedIngredients.get(i)) {

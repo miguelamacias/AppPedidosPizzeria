@@ -78,6 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="addPizzaToOrder"
+            android:contentDescription="@string/add_button"
             app:srcCompat="@android:drawable/ic_input_add" />
 
     </LinearLayout>
@@ -93,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="customizePizza"
-            android:text="Personalizar Pizza"
+            android:text="@string/customize_pizza"
             android:visibility="invisible"
             tools:visibility="visible" />
     </LinearLayout>

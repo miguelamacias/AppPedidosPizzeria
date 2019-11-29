@@ -21,9 +21,9 @@ import java.util.Locale;
 public class PizzaDetailsActivity extends AppCompatActivity {
     public static final String PIZZA_ID = "pizzaId";
 
-    NumberPicker quantityPicker;
-    SQLiteDatabase db;
-    Cursor cursorNameDetails;
+    private NumberPicker quantityPicker;
+    private SQLiteDatabase db;
+    private Cursor cursorNameDetails;
     //Fields needed to get the info about the item ordered
     private int pizzaId;
     private String pizzaName, pizzaSize;
@@ -154,7 +154,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         //Creates the element to be added with the right information
         OrderElement elementTobeAdded = new OrderElement(pizzaId, pizzaName, pizzaSize, pizzaExtras, pizzaPrice);
         for (int i = 0; i < quantityPicker.getValue(); i++) {
-            MainActivity.orderelements.add(elementTobeAdded);
+            MainActivity.ORDER_ELEMENTS.add(elementTobeAdded);
         }
 
         Toast.makeText(this, R.string.element_added, Toast.LENGTH_SHORT).show();

@@ -26,7 +26,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
         //Calculate and shows the total price of the order
         TextView tvTotalPrice = findViewById(R.id.tv_total_price);
         double totalPrice = 0;
-        for (OrderElement element:MainActivity.orderelements) {
+        for (OrderElement element:MainActivity.ORDER_ELEMENTS) {
             totalPrice += element.getPrice();
         }
         tvTotalPrice.setText(String.format(Locale.getDefault(), "%.2f€", totalPrice));
