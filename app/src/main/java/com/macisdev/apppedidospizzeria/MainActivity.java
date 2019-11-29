@@ -42,6 +42,7 @@ public class MainActivity extends Activity {
 
                 if (position == 1) {
                     Toast.makeText(MainActivity.this, R.string.not_available, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, CustomizePizzaActivity.class));
                 }
 
                 if (position == 2) {

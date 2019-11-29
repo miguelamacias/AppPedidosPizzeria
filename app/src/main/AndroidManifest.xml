@@ -11,10 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".CustomizePizzaActivity"></activity>
         <activity
             android:name=".OrderSummaryActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="@string/show_order_summary" />
+            android:label="@string/show_order_summary"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".PizzaDetailsActivity"
             android:parentActivityName=".PizzasActivity" />

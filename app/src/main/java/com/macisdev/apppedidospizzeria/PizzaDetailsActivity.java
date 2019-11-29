@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
@@ -27,6 +28,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
     private int pizzaId;
     private String pizzaName, pizzaSize;
     private double pizzaPrice;
+    private static String pizzaExtras;
 
 
     @Override
@@ -98,6 +100,8 @@ public class PizzaDetailsActivity extends AppCompatActivity {
 
         final TextView tvChoosenSize = findViewById(R.id.tv_choosen_size);
         final LinearLayout layoutAddOrder = findViewById(R.id.layout_add_order);
+        final Button btnCustomizePizza = findViewById(R.id.btn_customize_pizza);
+
 
         sizesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,6 +116,8 @@ public class PizzaDetailsActivity extends AppCompatActivity {
                     pizzaSize = getString(R.string.size_medium);
                 }
                  layoutAddOrder.setVisibility(View.VISIBLE);
+                btnCustomizePizza.setVisibility(View.VISIBLE);
+
             }
 
         });
@@ -125,6 +131,16 @@ public class PizzaDetailsActivity extends AppCompatActivity {
 
     }
 
+    //Method that triggers when Customize pizza button is pressed
+    public void customizePizza(View v) {
+        startActivity(new Intent(PizzaDetailsActivity.this, CustomizePizzaActivity.class));
+    }
+
+    //method that sets the extras selected
+    public static void setPizzaExtras(String extras) {
+        pizzaExtras = extras;
+    }
+
     //Method when add button is pressed
     public void addPizzaToOrder(View v) {
         //Retrieve the price of the selected pizza
@@ -136,7 +152,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         }
 
         //Creates the element to be added with the right information
-        OrderElement elementTobeAdded = new OrderElement(pizzaId, pizzaName, pizzaSize, "null", pizzaPrice);
+        OrderElement elementTobeAdded = new OrderElement(pizzaId, pizzaName, pizzaSize, pizzaExtras, pizzaPrice);
         for (int i = 0; i < quantityPicker.getValue(); i++) {
             MainActivity.orderelements.add(elementTobeAdded);
         }
@@ -145,6 +161,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         cursorPrice.close();
         startActivity(this.getParentActivityIntent());
     }
+
 
     @Override
     protected void onDestroy() {
