@@ -39,7 +39,7 @@ public class PizzasActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(PizzasActivity.this, PizzaDetailsActivity.class);
-                intent.putExtra(PizzaDetailsActivity.PIZZA_ID, (int) id); //this ID contains the _id of the pizza in the DB table
+                intent.putExtra(PizzaDetailsActivity.PIZZA_ID_KEY, (int) id); //this ID contains the _id of the pizza in the DB table
                 startActivity(intent);
             }
         });

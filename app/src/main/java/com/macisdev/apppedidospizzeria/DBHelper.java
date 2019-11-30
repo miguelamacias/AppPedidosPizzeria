@@ -44,12 +44,20 @@ class DBHelper extends SQLiteOpenHelper {
                     "size_id TEXT," +
                     "price REAL," +
                     "UNIQUE(pizza_id, size_id))");
+
+            //Creates the pizzas_ingredients table
+            db.execSQL("CREATE TABLE pizzas_ingredients(" +
+                    "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "pizza_id INTEGER, " +
+                    "ingredient TEXT," +
+                    "UNIQUE(pizza_id, ingredient))");
         }
 
         //Populates the tables
         populatePizzasTable(db, currentDbVersion);
         populateSizesTable(db, currentDbVersion);
         populatePizzaSizeTable(db, currentDbVersion);
+        populatePizzasIngredientsTable(db, currentDbVersion);
 
 
     }
@@ -69,6 +77,29 @@ class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    private void populatePizzasIngredientsTable(SQLiteDatabase db, int dbVersion) {
+        if (dbVersion < 1) {
+            insertPizzaIngredientRow(db, 1, context.getString(R.string.beef));
+            insertPizzaIngredientRow(db, 1, context.getString(R.string.chicken));
+            insertPizzaIngredientRow(db, 1, context.getString(R.string.bacon));
+            insertPizzaIngredientRow(db, 1, context.getString(R.string.cheese_mix));
+            insertPizzaIngredientRow(db, 2, context.getString(R.string.beef));
+            insertPizzaIngredientRow(db, 3, context.getString(R.string.cheese_mix));
+            insertPizzaIngredientRow(db, 4, context.getString(R.string.bbq_sauce));
+            insertPizzaIngredientRow(db, 4, context.getString(R.string.chicken));
+            insertPizzaIngredientRow(db, 4, context.getString(R.string.bacon));
+            insertPizzaIngredientRow(db, 5, context.getString(R.string.carbonara_sauce));
+            insertPizzaIngredientRow(db, 5, context.getString(R.string.bacon));
+            insertPizzaIngredientRow(db, 6, context.getString(R.string.ham));
+            insertPizzaIngredientRow(db, 6, context.getString(R.string.pepperoni));
+            insertPizzaIngredientRow(db, 6, context.getString(R.string.pork_meat));
+            insertPizzaIngredientRow(db, 7, context.getString(R.string.mushroom));
+            insertPizzaIngredientRow(db, 7, context.getString(R.string.onion));
+            insertPizzaIngredientRow(db, 7, context.getString(R.string.spicy_sausage));
+            insertPizzaIngredientRow(db, 8, context.getString(R.string.ham));
+            insertPizzaIngredientRow(db, 8, context.getString(R.string.pineapple));
+        }
+    }
     private void populatePizzaSizeTable(SQLiteDatabase db, int dbVersion) {
         if (dbVersion < 1) {
             insertPizzaSizeRow(db, 1, context.getString(R.string.size_medium), 8.00);
@@ -120,5 +151,13 @@ class DBHelper extends SQLiteOpenHelper {
         values.put("price", price);
 
         db.insertOrThrow("pizzas_sizes", null, values);
+    }
+
+    private void insertPizzaIngredientRow(SQLiteDatabase db, int pizza_id, String ingredient) {
+        ContentValues values = new ContentValues();
+        values.put("pizza_id", pizza_id);
+        values.put("ingredient", ingredient);
+
+        db.insertOrThrow("pizzas_ingredients", null, values);
     }
 }

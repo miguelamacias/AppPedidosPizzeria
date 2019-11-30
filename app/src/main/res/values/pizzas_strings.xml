@@ -12,6 +12,20 @@
     <string name="size_medium">Mediana</string>
     <string name="size_big">Familiar</string>
 
+    <string name="beef">Ternera</string>
+    <string name="chicken">Pollo</string>
+    <string name="bacon">Bacon</string>
+    <string name="cheese_mix">Mezcla 4 Quesos</string>
+    <string name="bbq_sauce">Salsa barbacoa</string>
+    <string name="carbonara_sauce">Salsa carbonara</string>
+    <string name="ham">Jamón York</string>
+    <string name="pepperoni">Pepperoni</string>
+    <string name="pork_meat">Cerdo</string>
+    <string name="mushroom">Champiñones</string>
+    <string name="onion">Cebolla</string>
+    <string name="spicy_sausage">Chorizo picante</string>
+    <string name="pineapple">Piña</string>
+
     <string-array name="extra_ingredients">
         <item>Mozzarella</item>
         <item>Ternera</item>
@@ -25,5 +39,8 @@
         <item>Chorizo Picante</item>
         <item>Piña</item>
         <item>Atún</item>
+        <item>Aceitunas</item>
+        <item>Pimiento verde</item>
+        <item>Anchoas</item>
     </string-array>
 </resources>

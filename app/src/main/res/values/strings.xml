@@ -31,4 +31,6 @@
     <string name="card">Tarjeta</string>
     <string name="cash">Efectivo</string>
     <string name="make_order">Terminar Pedido</string>
+    <string name="add_ingredient">Añadir ingredientes</string>
+    <string name="remove_ingredient">Quitar ingredientes</string>
 </resources>

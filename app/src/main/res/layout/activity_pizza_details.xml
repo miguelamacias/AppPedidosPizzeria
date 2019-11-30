@@ -122,16 +122,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom|center_horizontal"
-        android:orientation="vertical">
+        android:layout_marginTop="12dp"
+        android:gravity="center_horizontal">
 
         <Button
-            android:id="@+id/btn_customize_pizza"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_customize_pizza_add"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:onClick="customizePizza"
-            android:text="@string/customize_pizza"
+            android:text="@string/add_ingredient"
             android:visibility="invisible"
             tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_customize_pizza_remove"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="customizePizza"
+            android:text="@string/remove_ingredient" />
+
     </LinearLayout>
 </LinearLayout>
