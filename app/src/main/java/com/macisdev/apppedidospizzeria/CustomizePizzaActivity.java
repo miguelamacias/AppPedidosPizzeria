@@ -29,6 +29,7 @@ public class CustomizePizzaActivity extends AppCompatActivity {
 
 
     public void getSelectedIngredients(View v) {
+        int numberOfExtras = 0;
         //get checked ingredients form the listview
         SparseBooleanArray checkedIngredients = ingredientsList.getCheckedItemPositions();
 
@@ -37,11 +38,12 @@ public class CustomizePizzaActivity extends AppCompatActivity {
         for (int i = 0; i < ingredientsArray.length; i++) {
             if (checkedIngredients.get(i)) {
                 Log.d("INGREDIENTES_EXTRAS", ingredientsArray[i]);
-                buffer.append(ingredientsArray[i]);
+                buffer.append(ingredientsArray[i]).append(" ");
+                numberOfExtras += 0;
             }
         }
 
-        PizzaDetailsActivity.setPizzaExtras(buffer.toString());
+        PizzaDetailsActivity.setPizzaExtras(buffer.toString().trim(), numberOfExtras);
         finish();
 
 

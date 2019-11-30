@@ -1,5 +1,6 @@
 package com.macisdev.apppedidospizzeria;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -34,5 +35,9 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
     public void deleteFromSummary(View v) {
         Toast.makeText(this, R.string.not_available, Toast.LENGTH_SHORT).show();
+    }
+
+    public void continueToMakeOrder(View v) {
+        startActivity(new Intent(this, MakeOrderActivity.class));
     }
 }

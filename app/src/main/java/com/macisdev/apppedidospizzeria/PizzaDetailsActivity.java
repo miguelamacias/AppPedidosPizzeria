@@ -29,12 +29,14 @@ public class PizzaDetailsActivity extends AppCompatActivity {
     private String pizzaName, pizzaSize;
     private double pizzaPrice;
     private static String pizzaExtras;
+    private static int numberOfExtras;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pizza_details);
+        pizzaExtras = getString(R.string.no);
         //Loads the views from the layout
         TextView tvPizzaName = findViewById(R.id.tvIPizzaName);
         TextView tvPizzaIngredients = findViewById(R.id.tvPizzaIngredients);
@@ -137,8 +139,9 @@ public class PizzaDetailsActivity extends AppCompatActivity {
     }
 
     //method that sets the extras selected
-    public static void setPizzaExtras(String extras) {
+    public static void setPizzaExtras(String extras, int number) {
         pizzaExtras = extras;
+        numberOfExtras = number;
     }
 
     //Method when add button is pressed

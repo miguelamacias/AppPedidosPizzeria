@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".CustomizePizzaActivity"/>
+        <activity android:name=".MakeOrderActivity"></activity>
+        <activity android:name=".CustomizePizzaActivity" />
         <activity
             android:name=".OrderSummaryActivity"
             android:label="@string/show_order_summary"

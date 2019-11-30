@@ -17,4 +17,18 @@
     <string name="ok_button">Aceptar</string>
     <string name="delete_button">Botón borrar</string>
     <string name="add_button">Botón añadir</string>
+    <string name="extras">Extras:</string>
+    <string name="price_with_extras">Precio con extras:</string>
+    <string name="no">No</string>
+    <string name="customer_info">Información del cliente:</string>
+    <string name="name">Nombre:</string>
+    <string name="address">Dirección:</string>
+    <string name="phone">Nº móvil:</string>
+    <string name="delivery_method">Forma de entrega:</string>
+    <string name="home_delivery">Envío a domicilio</string>
+    <string name="pick_at_restaurant">Recoger en local</string>
+    <string name="payment_method">Forma de pago</string>
+    <string name="card">Tarjeta</string>
+    <string name="cash">Efectivo</string>
+    <string name="make_order">Terminar Pedido</string>
 </resources>

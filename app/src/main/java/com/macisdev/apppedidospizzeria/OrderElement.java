@@ -22,15 +22,15 @@ class OrderElement {
         return code;
     }
 
-    private String getName() {
+    public String getName() {
         return name;
     }
 
-    private String getSize() {
+    public String getSize() {
         return size;
     }
 
-    private String getExtras() {
+    public String getExtras() {
         return extras;
     }
 
