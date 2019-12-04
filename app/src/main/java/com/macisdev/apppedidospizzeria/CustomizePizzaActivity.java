@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -63,25 +62,26 @@ public class CustomizePizzaActivity extends AppCompatActivity {
         }
     }
 
-
     public void getSelectedIngredients(View v) {
-        if (mode == ADD_MODE) { //TODO legacy code, it needs to be changed
-            int numberOfExtras = 0;
-            //get checked ingredients form the listview
-            SparseBooleanArray checkedIngredients = ingredientsList.getCheckedItemPositions();
+        //Intent used to come back to pizzadetails activity
+        Intent pizzaDetailsIntent = new Intent(this, PizzaDetailsActivity.class);
+        //get checked ingredients from the listview
+        SparseBooleanArray checkedIngredients = ingredientsList.getCheckedItemPositions();
+        //Stringbuilder to store and build the ingredinets string
+        StringBuilder stringBuilder = new StringBuilder();
 
-            StringBuilder buffer = new StringBuilder("Extras: ");
+        if (mode == ADD_MODE) {
+            int numberOfExtras = 0;
+
             //iterate through the array of ingredients to get only the checked ones
             for (int i = 0; i < ingredientsArray.length; i++) {
                 if (checkedIngredients.get(i)) {
-                    Log.d("INGREDIENTES_EXTRAS", ingredientsArray[i]);
-                    buffer.append(ingredientsArray[i]).append(" ");
+                    stringBuilder.append(ingredientsArray[i]).append(" ");
                     numberOfExtras += 0;
                 }
             }
-
-            PizzaDetailsActivity.setPizzaExtras(buffer.toString().trim(), numberOfExtras);
-            finish();
+            pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_TYPE_KEY, ADD_MODE);
+            pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_NUMBER_KEY, numberOfExtras);
         }
 
         if (mode == REMOVE_MODE) {
@@ -92,22 +92,17 @@ public class CustomizePizzaActivity extends AppCompatActivity {
             }
 
             //gets a string with the deleted items
-            SparseBooleanArray checkedIngredients = ingredientsList.getCheckedItemPositions();
-            StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < ingredientsArray.size(); i++) {
                 if (checkedIngredients.get(i)) {
                     stringBuilder.append(ingredientsArray.get(i)).append(" ");
                 }
             }
-
-            Intent pizzaDetailsIntent = new Intent(this, PizzaDetailsActivity.class);
-            pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_INGREDIENTS_KEY, stringBuilder.toString());
             pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_TYPE_KEY, REMOVE_MODE);
-            pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_ID_KEY, pizzaId);
-            startActivity(pizzaDetailsIntent);
+
         }
 
-
-
+        pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_INGREDIENTS_KEY, stringBuilder.toString());
+        pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_ID_KEY, pizzaId);
+        startActivity(pizzaDetailsIntent);
     }
 }

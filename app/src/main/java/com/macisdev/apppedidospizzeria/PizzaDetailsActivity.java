@@ -23,16 +23,17 @@ public class PizzaDetailsActivity extends AppCompatActivity {
     public static final String PIZZA_ID_KEY = "pizzaIdKey";
     public static final String PIZZA_EXTRA_INGREDIENTS_KEY = "pizzaExtraIngredientsKey";
     public static final String PIZZA_EXTRA_TYPE_KEY = "pizzaExtraTypeKey";
+    public static final String PIZZA_EXTRA_NUMBER_KEY = "pizzaExtraNumberKey";
+
 
     private NumberPicker quantityPicker;
     private SQLiteDatabase db;
     private Cursor cursorNameDetails;
     //Fields needed to get the info about the item ordered
-    private int pizzaId;
+    private int pizzaId, numberOfExtras;
     private String pizzaName, pizzaSize, pizzaExtrasAdded, pizzaExtrasRemoved;
     private double pizzaPrice;
     private static String pizzaExtras;
-    private static int numberOfExtras;
 
 
     @Override
@@ -157,12 +158,6 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         startActivity(customizePizzaIntent);
     }
 
-    //method that sets the extras selected
-    public static void setPizzaExtras(String extras, int number) {
-        pizzaExtras = extras;
-        numberOfExtras = number;
-    }
-
     //Method when add button is pressed
     public void addPizzaToOrder(View v) {
         //Retrieve the price of the selected pizza
@@ -192,6 +187,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         }
 
         if (mode == CustomizePizzaActivity.ADD_MODE) {
+            //TODO get the number of extras from the intent.
             pizzaExtrasAdded += getIntent().getStringExtra(PIZZA_EXTRA_TYPE_KEY);
         }
         Log.d("INGREDIENTES_EXTRAS", pizzaExtrasAdded + " - " + pizzaExtrasRemoved);
