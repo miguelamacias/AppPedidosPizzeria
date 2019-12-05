@@ -19,12 +19,14 @@ public class CustomizePizzaActivity extends AppCompatActivity {
     public static final int ADD_MODE = 2;
     public static final String PIZZA_ID_KEY = "pizzaIdKey";
     public static final String EXTRA_MODE_KEY = "extraModeKey";
+    public static final String PREVIOUS_SELECTION_KEY = "previousSelectionKey";
 
     private ListView ingredientsList;
     private String[] ingredientsArray;
 
     private int mode;
     private int pizzaId;
+    private String previousSelection;
 
     private Cursor ingredientsCursor;
 
@@ -37,6 +39,10 @@ public class CustomizePizzaActivity extends AppCompatActivity {
         //Getting the extra info from the Intent
         mode = getIntent().getIntExtra(EXTRA_MODE_KEY, 2);
         pizzaId = getIntent().getIntExtra(PIZZA_ID_KEY, 0);
+        previousSelection = getIntent().getStringExtra(PREVIOUS_SELECTION_KEY);
+        if (previousSelection == null) {
+            previousSelection = "";
+        }
         //Loads one ingredients list acording to the selected mode
         switch (mode) {
             case REMOVE_MODE:
@@ -62,16 +68,16 @@ public class CustomizePizzaActivity extends AppCompatActivity {
         }
     }
 
+    //when the ok button is pressed
     public void getSelectedIngredients(View v) {
-        //Intent used to come back to pizzadetails activity
-        Intent pizzaDetailsIntent = new Intent(this, PizzaDetailsActivity.class);
         //get checked ingredients from the listview
         SparseBooleanArray checkedIngredients = ingredientsList.getCheckedItemPositions();
         //Stringbuilder to store and build the ingredinets string
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder(previousSelection);
 
-        if (mode == ADD_MODE) {
+        if (mode == ADD_MODE) { //Always executes first
             int numberOfExtras = 0;
+            stringBuilder.append("EXTRA: ");
 
             //iterate through the array of ingredients to get only the checked ones
             for (int i = 0; i < ingredientsArray.length; i++) {
@@ -80,8 +86,15 @@ public class CustomizePizzaActivity extends AppCompatActivity {
                     numberOfExtras += 0;
                 }
             }
-            pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_TYPE_KEY, ADD_MODE);
-            pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_NUMBER_KEY, numberOfExtras);
+
+            Intent deleteIngredientsIntent = new Intent(this, CustomizePizzaActivity.class);
+            deleteIngredientsIntent.putExtra(EXTRA_MODE_KEY, REMOVE_MODE);
+            deleteIngredientsIntent.putExtra(PREVIOUS_SELECTION_KEY, stringBuilder.toString());
+            deleteIngredientsIntent.putExtra(PIZZA_ID_KEY, pizzaId);
+            startActivity(deleteIngredientsIntent);
+            //TODO implements the function to get the number of extras
+            //pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_NUMBER_KEY, numberOfExtras);
+
         }
 
         if (mode == REMOVE_MODE) {
@@ -90,19 +103,19 @@ public class CustomizePizzaActivity extends AppCompatActivity {
             for (ingredientsCursor.moveToFirst(); !ingredientsCursor.isAfterLast(); ingredientsCursor.moveToNext()) {
                 ingredientsArray.add(ingredientsCursor.getString(1));
             }
-
+            stringBuilder.append("\nSIN: ");
             //gets a string with the deleted items
             for (int i = 0; i < ingredientsArray.size(); i++) {
                 if (checkedIngredients.get(i)) {
                     stringBuilder.append(ingredientsArray.get(i)).append(" ");
                 }
             }
+            Intent pizzaDetailsIntent = new Intent(this, PizzaDetailsActivity.class);
+            pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_ID_KEY, pizzaId);
             pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_TYPE_KEY, REMOVE_MODE);
-
+            pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_INGREDIENTS_KEY, stringBuilder.toString());
+            startActivity(pizzaDetailsIntent);
         }
 
-        pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_INGREDIENTS_KEY, stringBuilder.toString());
-        pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_ID_KEY, pizzaId);
-        startActivity(pizzaDetailsIntent);
     }
 }

@@ -4,14 +4,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.NumberPicker;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,14 +22,14 @@ public class PizzaDetailsActivity extends AppCompatActivity {
     public static final String PIZZA_EXTRA_NUMBER_KEY = "pizzaExtraNumberKey";
 
 
-    private NumberPicker quantityPicker;
+    private Spinner spinnerQuantity;
     private SQLiteDatabase db;
     private Cursor cursorNameDetails;
     //Fields needed to get the info about the item ordered
     private int pizzaId, numberOfExtras;
-    private String pizzaName, pizzaSize, pizzaExtrasAdded, pizzaExtrasRemoved;
+    private String pizzaName, pizzaSize;
     private double pizzaPrice;
-    private static String pizzaExtras;
+    private String pizzaExtras;
 
 
     @Override
@@ -41,12 +37,12 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pizza_details);
         pizzaExtras = getString(R.string.no);
-        pizzaExtrasRemoved = "Sin: ";
-        pizzaExtrasAdded = "Extra: ";
+        pizzaSize = getString(R.string.size_medium);
 
         //Loads the views from the layout
         TextView tvPizzaName = findViewById(R.id.tvIPizzaName);
         TextView tvPizzaIngredients = findViewById(R.id.tvPizzaIngredients);
+        spinnerQuantity = findViewById(R.id.spinner_quantity);
 
         //Loads the pizza _id that was selected
         Intent intent = getIntent();
@@ -56,8 +52,11 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         //Loads the extra ingredients if they have been added
         int extraModeUsed = getIntent().getIntExtra(PIZZA_EXTRA_TYPE_KEY, 0);
         if (extraModeUsed != 0) {
-            loadsExtraIngredients(extraModeUsed);
+            pizzaExtras = getIntent().getStringExtra(PIZZA_EXTRA_INGREDIENTS_KEY);
+            TextView tvExtras = findViewById(R.id.tv_extras);
+            tvExtras.setText(pizzaExtras);
         }
+
 
         //Another cursor is needed so we create all the needed stuffs
         DBHelper dbHelper = new DBHelper(this);
@@ -85,7 +84,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
                 new String[]{String.valueOf(selectedPizzaId)},
                 null,
                 null,
-                null);
+                "size_id DESC");
 
         SimpleCursorAdapter adapterSizePrice = new SimpleCursorAdapter(this,
                 android.R.layout.two_line_list_item,
@@ -110,50 +109,33 @@ public class PizzaDetailsActivity extends AppCompatActivity {
             }
         });
 
-        ListView sizesList = findViewById(R.id.sizes_list);
-        sizesList.setAdapter(adapterSizePrice);
+        //loads the spinner with the available sizes
+        Spinner spinnerSizes = findViewById(R.id.spinner_size);
+        spinnerSizes.setAdapter(adapterSizePrice);
 
-        final TextView tvChoosenSize = findViewById(R.id.tv_choosen_size);
-        final LinearLayout layoutAddOrder = findViewById(R.id.layout_add_order);
-        final Button btnCustomizePizza = findViewById(R.id.btn_customize_pizza_add);
-
-
-        sizesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //attach a listener to the spinner to get the selected size
+        spinnerSizes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    tvChoosenSize.setText(R.string.size_big);
-                    pizzaSize = getString(R.string.size_big);
-                }
-
-                if (position == 1) {
-                    tvChoosenSize.setText(R.string.size_medium);
                     pizzaSize = getString(R.string.size_medium);
                 }
-                 layoutAddOrder.setVisibility(View.VISIBLE);
-                btnCustomizePizza.setVisibility(View.VISIBLE);
-
+                if (position == 1) {
+                    pizzaSize = getString(R.string.size_big);
+                }
             }
 
-        });
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        quantityPicker = findViewById(R.id.quantity_picker);
-        quantityPicker.setMinValue(1);
-        quantityPicker.setMaxValue(10);
+            }
+        });
     }
 
-    //Method that triggers when one of the Customize pizza buttons is pressed
+    //Method that triggers when the Customize pizza buttons is pressed
     public void customizePizza(View v) {
         Intent customizePizzaIntent = new Intent(this, CustomizePizzaActivity.class);
-
-        switch (v.getId()) {
-            case R.id.btn_customize_pizza_add:
-                customizePizzaIntent.putExtra(CustomizePizzaActivity.EXTRA_MODE_KEY, CustomizePizzaActivity.ADD_MODE);
-                break;
-            case R.id.btn_customize_pizza_remove:
-                customizePizzaIntent.putExtra(CustomizePizzaActivity.EXTRA_MODE_KEY, CustomizePizzaActivity.REMOVE_MODE);
-                break;
-        }
+        customizePizzaIntent.putExtra(CustomizePizzaActivity.EXTRA_MODE_KEY, CustomizePizzaActivity.ADD_MODE);
         customizePizzaIntent.putExtra(CustomizePizzaActivity.PIZZA_ID_KEY, pizzaId);
         startActivity(customizePizzaIntent);
     }
@@ -170,27 +152,15 @@ public class PizzaDetailsActivity extends AppCompatActivity {
 
         //Creates the element to be added with the right information
         OrderElement elementTobeAdded = new OrderElement(pizzaId, pizzaName, pizzaSize,
-                pizzaExtrasAdded + "" + pizzaExtrasRemoved, pizzaPrice);
-        for (int i = 0; i < quantityPicker.getValue(); i++) {
+                pizzaExtras, pizzaPrice);
+        int quantity = Integer.parseInt((String)spinnerQuantity.getSelectedItem());
+        for (int i = 0; i < quantity; i++) {
             MainActivity.ORDER_ELEMENTS.add(elementTobeAdded);
         }
 
         Toast.makeText(this, R.string.element_added, Toast.LENGTH_SHORT).show();
         cursorPrice.close();
         startActivity(this.getParentActivityIntent());
-    }
-
-    //Method that loads the extra ingredients selected
-    private void loadsExtraIngredients(int mode) {
-        if (mode == CustomizePizzaActivity.REMOVE_MODE) {
-            pizzaExtrasRemoved += getIntent().getStringExtra(PIZZA_EXTRA_INGREDIENTS_KEY);
-        }
-
-        if (mode == CustomizePizzaActivity.ADD_MODE) {
-            //TODO get the number of extras from the intent.
-            pizzaExtrasAdded += getIntent().getStringExtra(PIZZA_EXTRA_TYPE_KEY);
-        }
-        Log.d("INGREDIENTES_EXTRAS", pizzaExtrasAdded + " - " + pizzaExtrasRemoved);
     }
 
     @Override

@@ -30,55 +30,39 @@
         android:layout_marginTop="12dp"
         android:text="@string/choose_size" />
 
-    <ListView
-        android:id="@+id/sizes_list"
+    <Spinner
+        android:id="@+id/spinner_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:gravity="end"
+        android:text="@string/quantity" />
+
+    <Spinner
+        android:id="@+id/spinner_quantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_height="120dp"/>
+        android:entries="@array/quantity" />
 
     <LinearLayout
         android:id="@+id/layout_add_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:visibility="invisible"
         tools:visibility="visible">
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:text="@string/size" />
-
-        <TextView
-            android:id="@+id/tv_choosen_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:text="familiar" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:text="@string/quantity" />
-
-        <NumberPicker
-            android:id="@+id/quantity_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <ImageButton
             android:id="@+id/imageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="addPizzaToOrder"
             android:contentDescription="@string/add_button"
+            android:onClick="addPizzaToOrder"
             app:srcCompat="@android:drawable/ic_input_add" />
 
     </LinearLayout>
@@ -88,13 +72,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="@string/extras" />
-
-        <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/tv_extras"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Bacon, Pollo" />
@@ -119,29 +97,12 @@
             tools:text="8,25€" />
     </LinearLayout>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btn_customize_pizza_add"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
-        android:gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:onClick="customizePizza"
+        android:text="@string/customize_ingredients"
+        tools:visibility="visible" />
 
-        <Button
-            android:id="@+id/btn_customize_pizza_add"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="customizePizza"
-            android:text="@string/add_ingredient"
-            android:visibility="invisible"
-            tools:visibility="visible" />
-
-        <Button
-            android:id="@+id/btn_customize_pizza_remove"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="customizePizza"
-            android:text="@string/remove_ingredient" />
-
-    </LinearLayout>
 </LinearLayout>
