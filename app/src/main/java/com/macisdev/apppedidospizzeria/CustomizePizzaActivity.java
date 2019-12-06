@@ -46,6 +46,7 @@ public class CustomizePizzaActivity extends AppCompatActivity {
         //Loads one ingredients list acording to the selected mode
         switch (mode) {
             case REMOVE_MODE:
+                this.setTitle(R.string.remove_ingredient);
                 //Loads the list of ingredients from the database
                 SQLiteDatabase db = new DBHelper(this).getReadableDatabase();
 
@@ -60,6 +61,7 @@ public class CustomizePizzaActivity extends AppCompatActivity {
                         0));
                 break;
             case ADD_MODE:
+                this.setTitle(R.string.add_ingredients);
                 ingredientsArray = getResources().getStringArray(R.array.extra_ingredients);
                 ingredientsList.setAdapter(new ArrayAdapter<>(this,
                         android.R.layout.simple_list_item_multiple_choice,

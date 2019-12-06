@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Locale;
 
 public class OrderSummaryActivity extends AppCompatActivity {
+    boolean orderIsEmpty = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,9 @@ public class OrderSummaryActivity extends AppCompatActivity {
         for (OrderElement element:MainActivity.ORDER_ELEMENTS) {
             totalPrice += element.getPrice();
         }
+        if (totalPrice != 0) {
+            orderIsEmpty = false;
+        }
         tvTotalPrice.setText(String.format(Locale.getDefault(), "%.2f€", totalPrice));
     }
 
@@ -38,6 +42,11 @@ public class OrderSummaryActivity extends AppCompatActivity {
     }
 
     public void continueToMakeOrder(View v) {
-        startActivity(new Intent(this, MakeOrderActivity.class));
+        if (!orderIsEmpty) {
+            startActivity(new Intent(this, MakeOrderActivity.class));
+        } else {
+            Toast.makeText(this, R.string.error_empty_order, Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

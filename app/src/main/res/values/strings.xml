@@ -33,7 +33,10 @@
     <string name="make_order">Terminar Pedido</string>
     <string name="add_ingredient">Añadir ingredientes</string>
     <string name="remove_ingredient">Quitar ingredientes</string>
-    <string name="customize_ingredients">Personalizar ingredientes</string>
+    <string name="customize_ingredients">Personalizar\npizza</string>
+    <string name="add_ingredients">Añadir ingredientes</string>
+    <string name="add_to_order">Añadir\nal pedido</string>
+    <string name="error_empty_order">¡No puede realizar un pedido vacío!</string>
 
     <string-array name="quantity">
         <item>1</item>
