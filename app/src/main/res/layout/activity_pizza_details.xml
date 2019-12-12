@@ -76,13 +76,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="@string/price_with_extras" />
+            android:text="@string/price_with_extras"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/tv_total_price"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             tools:text="8,25€" />
     </LinearLayout>
 
@@ -97,7 +99,7 @@
             android:id="@+id/btn_customize_pizza_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@android:drawable/ic_menu_edit"
+            android:drawableStart="@android:drawable/ic_menu_edit"
             android:onClick="customizePizza"
             android:text="@string/customize_ingredients"
             tools:visibility="visible" />
@@ -106,7 +108,7 @@
             android:id="@+id/button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@android:drawable/ic_input_add"
+            android:drawableStart="@android:drawable/ic_input_add"
             android:onClick="addPizzaToOrder"
             android:text="@string/add_to_order" />
     </LinearLayout>

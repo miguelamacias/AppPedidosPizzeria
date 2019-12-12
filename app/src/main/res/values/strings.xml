@@ -18,7 +18,7 @@
     <string name="delete_button">Botón borrar</string>
     <string name="add_button">Botón añadir</string>
     <string name="extras">Extras:</string>
-    <string name="price_with_extras">Precio con extras:</string>
+    <string name="price_with_extras">Precio total:</string>
     <string name="no">No</string>
     <string name="customer_info">Información del cliente:</string>
     <string name="name">Nombre:</string>

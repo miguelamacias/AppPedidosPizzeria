@@ -26,6 +26,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
     private Spinner spinnerQuantity;
     private SQLiteDatabase db;
     private Cursor cursorNameDetails;
+    private TextView tvTotalPrice;
     //Fields needed to get the info about the item ordered
     private int pizzaId, numberOfExtras;
     private String pizzaName, pizzaSize;
@@ -45,7 +46,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         TextView tvPizzaName = findViewById(R.id.tvIPizzaName);
         TextView tvPizzaIngredients = findViewById(R.id.tvPizzaIngredients);
         spinnerQuantity = findViewById(R.id.spinner_quantity);
-        TextView tvTotalPrice = findViewById(R.id.tv_total_price);
+        tvTotalPrice = findViewById(R.id.tv_total_price);
 
         //Loads the pizza _id that was selected
         Intent intent = getIntent();
@@ -59,9 +60,6 @@ public class PizzaDetailsActivity extends AppCompatActivity {
             TextView tvExtras = findViewById(R.id.tv_extras);
             tvExtras.setText(pizzaExtras);
             numberOfExtras = getIntent().getIntExtra(PIZZA_EXTRA_NUMBER_KEY, 0);
-            //TODO change the price of the extra ingredient according to the size
-            totalPrice = numberOfExtras * 0.5;
-            tvTotalPrice.setText(String.valueOf(totalPrice));
         }
 
 
@@ -100,20 +98,16 @@ public class PizzaDetailsActivity extends AppCompatActivity {
                 new int[]{android.R.id.text1, android.R.id.text2},
                 0);
 
-        //ViewBinder used to format the price correctly
-        adapterSizePrice.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
-            @Override
-            public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
-                if (columnIndex == 2) { //price is the column #2 of the cursor
-                    double price = cursor.getDouble(columnIndex); //getting the price as is stored in the db
-                    pizzaPrice = price;
-                    TextView textView = (TextView) view; //making the generic view a textView
+        //ViewBinder used to format the price shown in the Spinner correctly
+        adapterSizePrice.setViewBinder((view, cursor, columnIndex) -> {
+            if (columnIndex == 2) { //price is the column #2 of the cursor
+                double price = cursor.getDouble(columnIndex); //getting the price as is stored in the db
+                TextView textView = (TextView) view; //making the generic view a textView
 
-                    textView.setText(String.format(Locale.getDefault(), "%.2f%c", price, '€')); //formatting the price to show the currency sign.
-                    return true;
-                }
-                return false;
+                textView.setText(String.format(Locale.getDefault(), "%.2f%c", price, '€')); //formatting the price to show the currency sign.
+                return true;
             }
+            return false;
         });
 
         //loads the spinner with the available sizes
@@ -130,6 +124,8 @@ public class PizzaDetailsActivity extends AppCompatActivity {
                 if (position == 1) {
                     pizzaSize = getString(R.string.size_big);
                 }
+
+                refreshPrice();
             }
 
             @Override
@@ -137,6 +133,9 @@ public class PizzaDetailsActivity extends AppCompatActivity {
 
             }
         });
+        //shows the current price
+        refreshPrice();
+
     }
 
     //Method that triggers when the Customize pizza buttons is pressed
@@ -147,23 +146,15 @@ public class PizzaDetailsActivity extends AppCompatActivity {
 
     //Method when add button is pressed
     public void addPizzaToOrder(View v) {
-        //Retrieve the price of the selected pizza
-        Cursor cursorPrice = db.rawQuery("SELECT price FROM pizzas_sizes WHERE size_id = ? AND pizza_id = ?",
-                new String[]{pizzaSize, String.valueOf(pizzaId)});
-        if (cursorPrice.moveToFirst()) {
-            pizzaPrice = cursorPrice.getDouble(0);
-        }
-
         //Creates the element to be added with the right information
         OrderElement elementTobeAdded = new OrderElement(pizzaId, pizzaName, pizzaSize,
-                pizzaExtras, pizzaPrice);
+                pizzaExtras, refreshPrice());
         int quantity = Integer.parseInt((String)spinnerQuantity.getSelectedItem());
         for (int i = 0; i < quantity; i++) {
             MainActivity.ORDER_ELEMENTS.add(elementTobeAdded);
         }
 
         Toast.makeText(this, R.string.element_added, Toast.LENGTH_SHORT).show();
-        cursorPrice.close();
         startActivity(this.getParentActivityIntent());
     }
 
@@ -176,6 +167,23 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         intent.putExtra(PIZZA_EXTRA_NUMBER_KEY, numberOfExtras);
 
         return intent;
+    }
+
+    //updates and show the current price
+    private double refreshPrice() {
+        //Retrieve the price of the selected pizza
+        Cursor cursorPrice = db.rawQuery("SELECT price FROM pizzas_sizes WHERE size_id = ? AND pizza_id = ?",
+                new String[]{pizzaSize, String.valueOf(pizzaId)});
+        if (cursorPrice.moveToFirst()) {
+            pizzaPrice = cursorPrice.getDouble(0);
+        }
+        cursorPrice.close();
+        //Calculates the full price with the extras added
+        double extraIngredientPrice = (pizzaSize.equals(getString(R.string.size_big)) ? 1 : 0.5);
+        totalPrice = pizzaPrice + extraIngredientPrice * numberOfExtras;
+        tvTotalPrice.setText(String.format(Locale.getDefault(), "%.2f€", totalPrice));
+
+        return totalPrice;
     }
 
     @Override
