@@ -147,7 +147,7 @@ public class MakeOrderActivity extends AppCompatActivity {
             BufferedWriter writeToServer = null;
             boolean orderPlacedSucessfully;
             try {
-                socket = new Socket("192.168.1.33", 8080);
+                socket = new Socket("83.59.44.170", 8080);
                 writeToServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                 writeToServer.write(xmlContent);
                 writeToServer.flush();

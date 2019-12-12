@@ -79,7 +79,7 @@
             android:text="@string/price_with_extras" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/tv_total_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -1,5 +1,6 @@
 package com.macisdev.apppedidospizzeria;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,12 +21,15 @@ public class CustomizePizzaActivity extends AppCompatActivity {
     public static final String PIZZA_ID_KEY = "pizzaIdKey";
     public static final String EXTRA_MODE_KEY = "extraModeKey";
     public static final String PREVIOUS_SELECTION_KEY = "previousSelectionKey";
+    public static final String NUMBER_OF_EXTRAS_KEY = "NumberOfExtrasKey";
+
 
     private ListView ingredientsList;
     private String[] ingredientsArray;
 
     private int mode;
     private int pizzaId;
+    private int numberOfExtras;
     private String previousSelection;
 
     private Cursor ingredientsCursor;
@@ -39,6 +43,7 @@ public class CustomizePizzaActivity extends AppCompatActivity {
         //Getting the extra info from the Intent
         mode = getIntent().getIntExtra(EXTRA_MODE_KEY, 2);
         pizzaId = getIntent().getIntExtra(PIZZA_ID_KEY, 0);
+        numberOfExtras = getIntent().getIntExtra(NUMBER_OF_EXTRAS_KEY, 0);
         previousSelection = getIntent().getStringExtra(PREVIOUS_SELECTION_KEY);
         if (previousSelection == null) {
             previousSelection = "";
@@ -85,17 +90,11 @@ public class CustomizePizzaActivity extends AppCompatActivity {
             for (int i = 0; i < ingredientsArray.length; i++) {
                 if (checkedIngredients.get(i)) {
                     stringBuilder.append(ingredientsArray[i]).append(" ");
-                    numberOfExtras += 0;
+                    numberOfExtras += 1;
                 }
             }
-
-            Intent deleteIngredientsIntent = new Intent(this, CustomizePizzaActivity.class);
-            deleteIngredientsIntent.putExtra(EXTRA_MODE_KEY, REMOVE_MODE);
-            deleteIngredientsIntent.putExtra(PREVIOUS_SELECTION_KEY, stringBuilder.toString());
-            deleteIngredientsIntent.putExtra(PIZZA_ID_KEY, pizzaId);
-            startActivity(deleteIngredientsIntent);
-            //TODO implements the function to get the number of extras
-            //pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_NUMBER_KEY, numberOfExtras);
+            //Starts this activity in Remove Mode
+            startActivity(newIntentDeleteIngredients(this, stringBuilder.toString(), pizzaId, numberOfExtras));
 
         }
 
@@ -112,12 +111,33 @@ public class CustomizePizzaActivity extends AppCompatActivity {
                     stringBuilder.append(ingredientsArray.get(i)).append(" ");
                 }
             }
-            Intent pizzaDetailsIntent = new Intent(this, PizzaDetailsActivity.class);
-            pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_ID_KEY, pizzaId);
-            pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_TYPE_KEY, REMOVE_MODE);
-            pizzaDetailsIntent.putExtra(PizzaDetailsActivity.PIZZA_EXTRA_INGREDIENTS_KEY, stringBuilder.toString());
-            startActivity(pizzaDetailsIntent);
+            //goes back to the pizzaDetails activity
+            startActivity(PizzaDetailsActivity.newIntentFromCustomize(this,
+                    pizzaId,
+                    REMOVE_MODE,
+                    stringBuilder.toString(),
+                    numberOfExtras));
         }
 
     }
+
+    //Creates a intent to open this activity in Addittion Mode
+    public static Intent newIntentAddIngredients(Context context, int pizzaId) {
+        Intent intent = new Intent(context, CustomizePizzaActivity.class);
+        intent.putExtra(EXTRA_MODE_KEY, ADD_MODE);
+        intent.putExtra(PIZZA_ID_KEY, pizzaId);
+        return intent;
+    }
+
+    //Creates a intent to open this same activity in remove Mode
+    private static Intent newIntentDeleteIngredients(Context context, String previousSelection, int pizzaId, int numberOfExtras) {
+        Intent intent = new Intent(context, CustomizePizzaActivity.class);
+        intent.putExtra(EXTRA_MODE_KEY, REMOVE_MODE);
+        intent.putExtra(PREVIOUS_SELECTION_KEY, previousSelection);
+        intent.putExtra(PIZZA_ID_KEY, pizzaId);
+        intent.putExtra(NUMBER_OF_EXTRAS_KEY, numberOfExtras);
+        return intent;
+    }
+
+
 }

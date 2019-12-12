@@ -1,5 +1,6 @@
 package com.macisdev.apppedidospizzeria;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,6 +31,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
     private String pizzaName, pizzaSize;
     private double pizzaPrice;
     private String pizzaExtras;
+    private double totalPrice;
 
 
     @Override
@@ -43,18 +45,23 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         TextView tvPizzaName = findViewById(R.id.tvIPizzaName);
         TextView tvPizzaIngredients = findViewById(R.id.tvPizzaIngredients);
         spinnerQuantity = findViewById(R.id.spinner_quantity);
+        TextView tvTotalPrice = findViewById(R.id.tv_total_price);
 
         //Loads the pizza _id that was selected
         Intent intent = getIntent();
         int selectedPizzaId = intent.getIntExtra(PIZZA_ID_KEY, 0);
         pizzaId = selectedPizzaId;
 
-        //Loads the extra ingredients if they have been added
+        //Loads the extra ingredients info if they have been added
         int extraModeUsed = getIntent().getIntExtra(PIZZA_EXTRA_TYPE_KEY, 0);
         if (extraModeUsed != 0) {
             pizzaExtras = getIntent().getStringExtra(PIZZA_EXTRA_INGREDIENTS_KEY);
             TextView tvExtras = findViewById(R.id.tv_extras);
             tvExtras.setText(pizzaExtras);
+            numberOfExtras = getIntent().getIntExtra(PIZZA_EXTRA_NUMBER_KEY, 0);
+            //TODO change the price of the extra ingredient according to the size
+            totalPrice = numberOfExtras * 0.5;
+            tvTotalPrice.setText(String.valueOf(totalPrice));
         }
 
 
@@ -134,16 +141,13 @@ public class PizzaDetailsActivity extends AppCompatActivity {
 
     //Method that triggers when the Customize pizza buttons is pressed
     public void customizePizza(View v) {
-        Intent customizePizzaIntent = new Intent(this, CustomizePizzaActivity.class);
-        customizePizzaIntent.putExtra(CustomizePizzaActivity.EXTRA_MODE_KEY, CustomizePizzaActivity.ADD_MODE);
-        customizePizzaIntent.putExtra(CustomizePizzaActivity.PIZZA_ID_KEY, pizzaId);
-        startActivity(customizePizzaIntent);
+        //Starts the customize activity in addition mode
+        startActivity(CustomizePizzaActivity.newIntentAddIngredients(this, pizzaId));
     }
 
     //Method when add button is pressed
     public void addPizzaToOrder(View v) {
         //Retrieve the price of the selected pizza
-
         Cursor cursorPrice = db.rawQuery("SELECT price FROM pizzas_sizes WHERE size_id = ? AND pizza_id = ?",
                 new String[]{pizzaSize, String.valueOf(pizzaId)});
         if (cursorPrice.moveToFirst()) {
@@ -161,6 +165,17 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.element_added, Toast.LENGTH_SHORT).show();
         cursorPrice.close();
         startActivity(this.getParentActivityIntent());
+    }
+
+    //creates a new intent properly configured to open this activity after a customization has been done
+    public static Intent newIntentFromCustomize(Context context, int pizzaId, int extraType, String extraIngredients, int numberOfExtras) {
+        Intent intent = new Intent(context, PizzaDetailsActivity.class);
+        intent.putExtra(PIZZA_ID_KEY, pizzaId);
+        intent.putExtra(PIZZA_EXTRA_TYPE_KEY, extraType);
+        intent.putExtra(PIZZA_EXTRA_INGREDIENTS_KEY, extraIngredients);
+        intent.putExtra(PIZZA_EXTRA_NUMBER_KEY, numberOfExtras);
+
+        return intent;
     }
 
     @Override
