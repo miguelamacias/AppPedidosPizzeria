@@ -1,15 +1,24 @@
 package com.macisdev.apppedidospizzeria;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
 import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -100,5 +109,80 @@ public class MakeOrderActivity extends AppCompatActivity {
         File outputFile = new File(outputDirectory, orderId + ".xml");
         StreamResult streamResult = new StreamResult(outputFile);
         transformer.transform(domSource, streamResult);
+
+        //gets an String representation of the xml content
+        String xmlContent = getXmlAsString(outputFile);
+
+        //sends the order to the server
+        new ServerConectionBackground(xmlContent).execute();
+
+
+    }
+
+    private String getXmlAsString(File xmlFile) throws IOException{
+        StringBuilder builder = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new FileReader(xmlFile));
+
+        while(reader.ready()) {
+            builder.append(reader.readLine());
+        }
+
+        return builder.toString();
+    }
+
+    //Inner class that manages the background proccess that uses the network
+    @SuppressLint("StaticFieldLeak")
+    private class ServerConectionBackground extends AsyncTask<Void, Void, Boolean>{
+        //private Context context;
+        private String xmlContent;
+
+        ServerConectionBackground(String xmlContent) {
+            this.xmlContent = xmlContent;
+        }
+
+
+        @Override
+        protected Boolean doInBackground(Void... objects) {
+            Socket socket = null;
+            BufferedWriter writeToServer = null;
+            boolean orderPlacedSucessfully;
+            try {
+                socket = new Socket("192.168.1.33", 8080);
+                writeToServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                writeToServer.write(xmlContent);
+                writeToServer.flush();
+                orderPlacedSucessfully = true;
+
+            } catch (IOException e) {
+                orderPlacedSucessfully = false;
+                e.printStackTrace();
+
+            } finally {
+                try {
+                    if (socket != null) {
+                        socket.close();
+                    }
+                    if (writeToServer != null) {
+                        writeToServer.close();
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+            return orderPlacedSucessfully;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean orderPlacedSucessfully) {
+            String message;
+            if (orderPlacedSucessfully) {
+                message = getString(R.string.order_placed_OK);
+            } else {
+                message = getString(R.string.order_placed_fail);
+            }
+
+            Toast.makeText(MakeOrderActivity.this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 }
