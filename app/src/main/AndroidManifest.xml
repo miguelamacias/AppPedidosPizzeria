@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MakeOrderActivity" />
+        <activity android:name=".MakeOrderActivity"
+            android:label="@string/make_order_activity"/>
         <activity android:name=".CustomizePizzaActivity" />
         <activity
             android:name=".OrderSummaryActivity"
@@ -19,7 +20,8 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".PizzaDetailsActivity"
-            android:parentActivityName=".PizzasActivity" />
+            android:parentActivityName=".PizzasActivity"
+            android:label="@string/pizza_details_activity"/>
         <activity
             android:name=".PizzasActivity"
             android:label="@string/pizzas_menu"

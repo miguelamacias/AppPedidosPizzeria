@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,11 +40,32 @@ public class MakeOrderActivity extends AppCompatActivity {
         EditText etCustomerName = findViewById(R.id.et_customer_name);
         EditText etCustomerPhone = findViewById(R.id.et_customer_phone);
         EditText etCustomerAddress = findViewById(R.id.et_customer_address);
+        RadioButton rbCard = findViewById(R.id.rb_card);
+        RadioButton rbCash = findViewById(R.id.rb_cash);
+        RadioButton rbHomeDelivery = findViewById(R.id.rb_home_delivery);
+        RadioButton rbPickRestaurant = findViewById(R.id.rb_pick_restaurant);
 
         String customerName = etCustomerName.getText().toString();
         String customerPhone = etCustomerPhone.getText().toString();
         String customerAddress = etCustomerAddress.getText().toString();
         String orderId = UUID.randomUUID().toString();
+        String deliveryMethod;
+        String paymentMethod;
+
+        if(rbCard.isChecked()) {
+            paymentMethod = getString(R.string.card);
+        }
+        if(rbCash.isChecked()) {
+            paymentMethod = getString(R.string.cash);
+        }
+        if(rbHomeDelivery.isChecked()) {
+            deliveryMethod = getString(R.string.home_delivery);
+        }
+        if ((rbPickRestaurant.isChecked())) {
+            deliveryMethod = getString(R.string.pick_at_restaurant);
+        }
+
+        //TODO check that the customer information is complete
 
         /*
          *  Building the XML file
@@ -75,6 +97,8 @@ public class MakeOrderActivity extends AppCompatActivity {
         Element address = document.createElement("customer_address");
         address.appendChild(document.createTextNode(customerAddress));
         orderInfo.appendChild(address);
+
+        //TODO add the payment and delivery methods to the XML file
 
         //Add the ordered stuffs to the xml (suppose everything is a pizza for simplicity)
         for (OrderElement currentElement : MainActivity.ORDER_ELEMENTS) {

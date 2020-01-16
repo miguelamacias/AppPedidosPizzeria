@@ -102,7 +102,8 @@
             android:drawableStart="@android:drawable/ic_menu_edit"
             android:onClick="customizePizza"
             android:text="@string/customize_ingredients"
-            tools:visibility="visible" />
+            tools:visibility="visible"
+            />
 
         <Button
             android:id="@+id/button3"
@@ -110,7 +111,8 @@
             android:layout_height="wrap_content"
             android:drawableStart="@android:drawable/ic_input_add"
             android:onClick="addPizzaToOrder"
-            android:text="@string/add_to_order" />
+            android:text="@string/add_to_order"
+            />
     </LinearLayout>
 
 </LinearLayout>
