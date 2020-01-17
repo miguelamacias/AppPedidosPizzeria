@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".MakeOrderActivity">
+    tools:context=".PlaceOrderActivity">
 
     <TextView
         android:id="@+id/textView6"
@@ -56,19 +56,6 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView12"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/address" />
-
-    <EditText
-        android:id="@+id/et_customer_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPostalAddress" />
-
-    <TextView
         android:id="@+id/textView13"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,14 +71,31 @@
             android:id="@+id/rb_pick_restaurant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
+            android:onClick="deliveryMethodChanged"
             android:text="@string/pick_at_restaurant" />
 
         <RadioButton
             android:id="@+id/rb_home_delivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="deliveryMethodChanged"
             android:text="@string/home_delivery" />
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/address" />
+
+    <EditText
+        android:id="@+id/et_customer_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="textPostalAddress" />
 
     <TextView
         android:id="@+id/rgb_payment_method"
@@ -108,6 +112,7 @@
             android:id="@+id/rb_cash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="@string/cash" />
 
         <RadioButton

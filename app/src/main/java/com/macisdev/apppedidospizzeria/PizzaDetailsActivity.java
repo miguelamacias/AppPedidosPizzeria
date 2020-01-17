@@ -35,14 +35,13 @@ public class PizzaDetailsActivity extends AppCompatActivity {
     private String pizzaName, pizzaSize;
     private double pizzaPrice;
     private String pizzaExtras;
-    private double totalPrice;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pizza_details);
-        pizzaExtras = getString(R.string.no);
+        pizzaExtras = "";
         pizzaSize = getString(R.string.size_medium);
 
         //Loads the views from the layout
@@ -192,8 +191,8 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         }
         cursorPrice.close();
         //Calculates the full price with the extras added
-        double extraIngredientPrice = (pizzaSize.equals(getString(R.string.size_big)) ? MEDIUM_EXTRA_PRICE : BIG_EXTRA_PRICE);
-        totalPrice = pizzaPrice + extraIngredientPrice * numberOfExtras;
+        double extraIngredientPrice = (pizzaSize.equals(getString(R.string.size_big)) ? BIG_EXTRA_PRICE : MEDIUM_EXTRA_PRICE);
+        double totalPrice = pizzaPrice + extraIngredientPrice * numberOfExtras;
         int quantity = Integer.parseInt((String)spinnerQuantity.getSelectedItem());
         tvTotalPrice.setText(String.format(Locale.getDefault(), "%.2f€", totalPrice * quantity));
 

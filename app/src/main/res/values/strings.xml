@@ -41,6 +41,8 @@
     <string name="order_placed_OK">Pedido realizado correctamente!</string>
     <string name="order_placed_fail">No se ha podido procesar su pedido. Inténtelo de nuevo.</string>
     <string name="pizza_details_activity">¿Cómo la quieres?</string>
+    <string name="random_error">Ha ocurrido un error, vuelva a intentarlo.</string>
+    <string name="incomplete_info">Por favor, introduzca todos sus datos antes de realizar el pedido</string>
 
     <string-array name="quantity">
         <item>1</item>

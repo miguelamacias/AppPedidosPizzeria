@@ -48,7 +48,7 @@ public class CustomizePizzaActivity extends AppCompatActivity {
         if (previousSelection == null) {
             previousSelection = "";
         }
-        //Loads one ingredients list acording to the selected mode
+        //Loads one ingredients list according to the selected mode
         switch (mode) {
             case REMOVE_MODE:
                 this.setTitle(R.string.remove_ingredient);
@@ -79,16 +79,21 @@ public class CustomizePizzaActivity extends AppCompatActivity {
     public void getSelectedIngredients(View v) {
         //get checked ingredients from the listview
         SparseBooleanArray checkedIngredients = ingredientsList.getCheckedItemPositions();
-        //Stringbuilder to store and build the ingredinets string
+
+        //Stringbuilder to store and build the ingredients string
         StringBuilder stringBuilder = new StringBuilder(previousSelection);
 
         if (mode == ADD_MODE) { //Always executes first
             int numberOfExtras = 0;
-            stringBuilder.append("EXTRA: ");
+
 
             //iterate through the array of ingredients to get only the checked ones
             for (int i = 0; i < ingredientsArray.length; i++) {
                 if (checkedIngredients.get(i)) {
+                    //Append the header if hasn't been done before.
+                    if (stringBuilder.length() < 1) {
+                        stringBuilder.append("EXTRA: ");
+                    }
                     stringBuilder.append(ingredientsArray[i]).append(" ");
                     numberOfExtras += 1;
                 }
@@ -104,10 +109,15 @@ public class CustomizePizzaActivity extends AppCompatActivity {
             for (ingredientsCursor.moveToFirst(); !ingredientsCursor.isAfterLast(); ingredientsCursor.moveToNext()) {
                 ingredientsArray.add(ingredientsCursor.getString(1));
             }
-            stringBuilder.append("\nSIN: ");
+            //boolean to check if the header hav been added
+            boolean headerAdded = false;
             //gets a string with the deleted items
             for (int i = 0; i < ingredientsArray.size(); i++) {
                 if (checkedIngredients.get(i)) {
+                    if (!headerAdded) {
+                        stringBuilder.append("\nSIN: ");
+                        headerAdded = true;
+                    }
                     stringBuilder.append(ingredientsArray.get(i)).append(" ");
                 }
             }
@@ -121,7 +131,7 @@ public class CustomizePizzaActivity extends AppCompatActivity {
 
     }
 
-    //Creates a intent to open this activity in Addittion Mode
+    //Creates a intent to open this activity in Addition Mode
     public static Intent newIntentAddIngredients(Context context, int pizzaId) {
         Intent intent = new Intent(context, CustomizePizzaActivity.class);
         intent.putExtra(EXTRA_MODE_KEY, ADD_MODE);

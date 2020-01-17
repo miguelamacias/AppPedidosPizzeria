@@ -43,7 +43,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
     public void continueToMakeOrder(View v) {
         if (!orderIsEmpty) {
-            startActivity(new Intent(this, MakeOrderActivity.class));
+            startActivity(new Intent(this, PlaceOrderActivity.class));
         } else {
             Toast.makeText(this, R.string.error_empty_order, Toast.LENGTH_SHORT).show();
         }
