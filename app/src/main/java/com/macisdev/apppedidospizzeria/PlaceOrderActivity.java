@@ -198,6 +198,8 @@ public class PlaceOrderActivity extends AppCompatActivity {
             try {
                 socket = new Socket("83.59.44.170", 8080);
                 writeToServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                writeToServer.write("1");
+                writeToServer.flush();
                 writeToServer.write(xmlContent);
                 writeToServer.flush();
                 orderPlacedSucessfully = true;
