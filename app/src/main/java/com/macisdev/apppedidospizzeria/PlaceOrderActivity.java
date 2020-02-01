@@ -14,11 +14,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.InputMismatchException;
 import java.util.UUID;
@@ -30,6 +30,10 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 public class PlaceOrderActivity extends AppCompatActivity {
+    private static final String SERVER_ADDRESS = "20.188.45.26";
+    private static final String TEST_SERVER_ADDRESS = "83.59.44.170";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,6 +166,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.incomplete_info, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(this, R.string.random_error, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
 
 
@@ -193,28 +198,36 @@ public class PlaceOrderActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... objects) {
             Socket socket = null;
-            BufferedWriter writeToServer = null;
+            PrintWriter writeToServer = null;
+            DataInputStream readFromServer = null;
             boolean orderPlacedSucessfully;
             try {
-                socket = new Socket("83.59.44.170", 8080);
-                writeToServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-                writeToServer.write("1");
-                writeToServer.flush();
-                writeToServer.write(xmlContent);
-                writeToServer.flush();
-                orderPlacedSucessfully = true;
+                socket = new Socket(TEST_SERVER_ADDRESS, 8080);
+                writeToServer = new PrintWriter(socket.getOutputStream(), true);
+                readFromServer = new DataInputStream(socket.getInputStream());
+                //it tells the server what type of threatment to give
+                writeToServer.println("CUSTOMER");
+                //waits until the server is ready to take the order
+                readFromServer.readBoolean();
+                //then sends the order
+                writeToServer.println(xmlContent);
+                orderPlacedSucessfully = readFromServer.readBoolean();
 
             } catch (IOException e) {
                 orderPlacedSucessfully = false;
                 e.printStackTrace();
 
-            } finally {
+            } finally { //Closes all the network resources used
                 try {
                     if (socket != null) {
                         socket.close();
                     }
                     if (writeToServer != null) {
                         writeToServer.close();
+                    }
+
+                    if (readFromServer != null) {
+                        readFromServer.close();
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -243,6 +256,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
             etCustomerAddress.setEnabled(true);
         } else {
             etCustomerAddress.setEnabled(false);
+            etCustomerAddress.setText("");
         }
     }
 }

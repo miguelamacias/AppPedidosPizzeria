@@ -20,6 +20,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //TODO remove the line after testing
+        ORDER_ELEMENTS.add(new OrderElement(12, "prueba", "mediano", "null", 12.12));
 
         //Loads main menu options
         ListView mainMenu = findViewById(R.id.main_menu);
