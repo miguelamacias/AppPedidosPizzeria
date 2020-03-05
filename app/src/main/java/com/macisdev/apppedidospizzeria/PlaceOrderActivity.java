@@ -31,7 +31,7 @@ import javax.xml.transform.stream.StreamResult;
 
 public class PlaceOrderActivity extends AppCompatActivity {
     private static final String SERVER_ADDRESS = "20.188.45.26";
-    private static final String TEST_SERVER_ADDRESS = "83.59.44.170";
+    private static final String TEST_SERVER_ADDRESS = "83.49.24.249";
 
 
     @Override
@@ -111,6 +111,10 @@ public class PlaceOrderActivity extends AppCompatActivity {
             phone.appendChild(document.createTextNode(customerPhone));
             orderInfo.appendChild(phone);
 
+            Element delivery = document.createElement("delivery_method");
+            delivery.appendChild(document.createTextNode(deliveryMethod));
+            orderInfo.appendChild(delivery);
+
             Element address = document.createElement("customer_address");
             address.appendChild(document.createTextNode(customerAddress));
             orderInfo.appendChild(address);
@@ -118,10 +122,6 @@ public class PlaceOrderActivity extends AppCompatActivity {
             Element payment = document.createElement("payment_method");
             payment.appendChild(document.createTextNode(paymentMethod));
             orderInfo.appendChild(payment);
-
-            Element delivery = document.createElement("delivery_method");
-            delivery.appendChild(document.createTextNode(deliveryMethod));
-            orderInfo.appendChild(delivery);
 
             //Add the ordered stuffs to the xml (suppose everything is a pizza for simplicity)
             for (OrderElement currentElement : MainActivity.ORDER_ELEMENTS) {
@@ -172,7 +172,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
     }
 
-    //Converts an xml file to a string
+    //Converts an xml file to string
     private String getXmlAsString(File xmlFile) throws IOException{
         StringBuilder builder = new StringBuilder();
         BufferedReader reader = new BufferedReader(new FileReader(xmlFile));
