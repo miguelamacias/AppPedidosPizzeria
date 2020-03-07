@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    startActivity(new Intent(MainActivity.this, PizzasActivity.class));
+                    startActivity(new Intent(MainActivity.this, PizzasListActivity.class));
                 }
 
                 if (position == 1) {

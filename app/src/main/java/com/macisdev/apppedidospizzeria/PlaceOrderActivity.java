@@ -10,16 +10,18 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.InputMismatchException;
 import java.util.UUID;
 
@@ -197,43 +199,30 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... objects) {
-            Socket socket = null;
-            PrintWriter writeToServer = null;
-            DataInputStream readFromServer = null;
             boolean orderPlacedSucessfully;
             try {
-                socket = new Socket(TEST_SERVER_ADDRESS, 8080);
-                writeToServer = new PrintWriter(socket.getOutputStream(), true);
-                readFromServer = new DataInputStream(socket.getInputStream());
-                //it tells the server what type of threatment to give
-                writeToServer.println("CUSTOMER");
-                //waits until the server is ready to take the order
-                readFromServer.readBoolean();
-                //then sends the order
-                writeToServer.println(xmlContent);
-                orderPlacedSucessfully = readFromServer.readBoolean();
+                //Variables for the SOAP service
+                String NAMESPACE = "http://pizzawebservice.macisdev.com/";
+                String URL="http://83.49.24.249:8080/PizzasWebService/PizzaService";
+                String METHOD_NAME = "sendOrder";
+                String SOAP_ACTION = "";
 
-            } catch (IOException e) {
+                //SOAP handling logic
+                SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+                request.addProperty("arg0", xmlContent);
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                envelope.setOutputSoapObject(request);
+                HttpTransportSE transport = new HttpTransportSE(URL);
+                transport.call(SOAP_ACTION, envelope);
+                SoapPrimitive serverAnswer =(SoapPrimitive)envelope.getResponse();
+                orderPlacedSucessfully = Boolean.valueOf(serverAnswer.toString());
+
+            } catch (Exception e) {
                 orderPlacedSucessfully = false;
                 e.printStackTrace();
 
-            } finally { //Closes all the network resources used
-                try {
-                    if (socket != null) {
-                        socket.close();
-                    }
-                    if (writeToServer != null) {
-                        writeToServer.close();
-                    }
-
-                    if (readFromServer != null) {
-                        readFromServer.close();
-                    }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-
             }
+
             return orderPlacedSucessfully;
         }
 

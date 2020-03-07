@@ -11,8 +11,8 @@ import android.widget.SimpleCursorAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class PizzasActivity extends AppCompatActivity {
-    //the cursor and Database are declared her so they can be closed from onDestroy
+public class PizzasListActivity extends AppCompatActivity {
+    //the cursor and Database are declared here so they can be closed from onDestroy
     private Cursor cursor;
     private SQLiteDatabase db;
 
@@ -38,11 +38,16 @@ public class PizzasActivity extends AppCompatActivity {
         pizzaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(PizzasActivity.this, PizzaDetailsActivity.class);
+                Intent intent = new Intent(PizzasListActivity.this, PizzaDetailsActivity.class);
                 intent.putExtra(PizzaDetailsActivity.PIZZA_ID_KEY, (int) id); //this ID contains the _id of the pizza in the DB table
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     @Override
