@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -124,6 +125,15 @@ public class PlaceOrderActivity extends AppCompatActivity {
             Element payment = document.createElement("payment_method");
             payment.appendChild(document.createTextNode(paymentMethod));
             orderInfo.appendChild(payment);
+
+            //Adds the total price to the xml file
+            double totalPrice = 0;
+            for (OrderElement element:MainActivity.ORDER_ELEMENTS) {
+                totalPrice += element.getPrice();
+            }
+            Element price = document.createElement("total_price");
+            price.appendChild(document.createTextNode(String.format(Locale.getDefault(), "%.2f€", totalPrice)));
+            orderInfo.appendChild(price);
 
             //Add the ordered stuffs to the xml (suppose everything is a pizza for simplicity)
             for (OrderElement currentElement : MainActivity.ORDER_ELEMENTS) {
