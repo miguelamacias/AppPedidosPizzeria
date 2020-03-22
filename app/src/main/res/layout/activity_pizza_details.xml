@@ -24,14 +24,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvIPizzaName"
+            android:id="@+id/tv_pizza_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             tools:text="Prueba" />
 
         <TextView
-            android:id="@+id/tvPizzaIngredients"
+            android:id="@+id/tv_pizza_ingredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"

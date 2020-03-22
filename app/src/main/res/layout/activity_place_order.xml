@@ -84,10 +84,11 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/tv_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/address" />
+        android:text="@string/address"
+        android:visibility="visible" />
 
     <EditText
         android:id="@+id/et_customer_address"
@@ -95,7 +96,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:enabled="false"
-        android:inputType="textPostalAddress" />
+        android:inputType="textPostalAddress"
+        android:text="@string/pick_at_restaurant" />
 
     <TextView
         android:id="@+id/rgb_payment_method"

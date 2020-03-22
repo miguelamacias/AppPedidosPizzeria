@@ -6,9 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -36,14 +41,13 @@ public class PlaceOrderActivity extends AppCompatActivity {
     private static final String SERVER_ADDRESS = "20.188.45.26";
     private static final String TEST_SERVER_ADDRESS = "83.49.24.249";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_order);
     }
 
-    //When the button to send the order is pressed
+    //Sends the order when the button is pressed
     public void makeOrder(View v) {
         //Get information about the order
         EditText etCustomerName = findViewById(R.id.et_customer_name);
@@ -61,13 +65,13 @@ public class PlaceOrderActivity extends AppCompatActivity {
         String deliveryMethod = "";
         String paymentMethod = "";
 
-        if(rbCard.isChecked()) {
+        if (rbCard.isChecked()) {
             paymentMethod = getString(R.string.card);
         }
-        if(rbCash.isChecked()) {
+        if (rbCash.isChecked()) {
             paymentMethod = getString(R.string.cash);
         }
-        if(rbHomeDelivery.isChecked()) {
+        if (rbHomeDelivery.isChecked()) {
             deliveryMethod = getString(R.string.home_delivery);
         }
         if ((rbPickRestaurant.isChecked())) {
@@ -75,17 +79,30 @@ public class PlaceOrderActivity extends AppCompatActivity {
         }
 
         try {
-            //Checking that all the information has been given
-            if(customerName.length() < 1) {
+            //Checks that all the information has been given
+            if (customerName.length() < 1) {
                 throw new InputMismatchException();
             }
-            if(customerPhone.length() < 1) {
+            if (customerPhone.length() < 1) {
                 throw new InputMismatchException();
             }
-            if(customerAddress.length() < 1 && rbHomeDelivery.isChecked()) {
-                throw new IllegalArgumentException();
+            if (customerAddress.length() < 1 && rbHomeDelivery.isChecked()) {
+                throw new InputMismatchException();
             }
 
+            //checks that the phone has a valid format using 'libphonenumber' external library
+            String number = etCustomerPhone.getText().toString();
+            PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
+            PhoneNumber phoneNumber = phoneNumberUtil.parse(number, "ES");
+            boolean isValidPhone = phoneNumberUtil.isValidNumberForRegion(phoneNumber, "ES");
+
+            if (!isValidPhone) {
+                throw new NumberFormatException("invalid");
+            }
+
+            if (phoneNumberUtil.getNumberType(phoneNumber) != PhoneNumberUtil.PhoneNumberType.MOBILE) {
+                throw new NumberFormatException("notMobile");
+            }
 
             /*
              *  Building the XML file
@@ -128,7 +145,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
             //Adds the total price to the xml file
             double totalPrice = 0;
-            for (OrderElement element:MainActivity.ORDER_ELEMENTS) {
+            for (OrderElement element : OrderSingleton.getInstance().getOrderElementsList()) {
                 totalPrice += element.getPrice();
             }
             Element price = document.createElement("total_price");
@@ -136,7 +153,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
             orderInfo.appendChild(price);
 
             //Add the ordered stuffs to the xml (suppose everything is a pizza for simplicity)
-            for (OrderElement currentElement : MainActivity.ORDER_ELEMENTS) {
+            for (OrderElement currentElement : OrderSingleton.getInstance().getOrderElementsList()) {
                 Element pizza = document.createElement("pizza");
                 root.appendChild(pizza);
 
@@ -174,31 +191,66 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
             //sends the order to the server
             new ServerConectionBackground(xmlContent).execute();
-        } catch (InputMismatchException e) {
-            Toast.makeText(this, R.string.incomplete_info, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
+
+        } catch (InputMismatchException e) {//Empty fields control
+            //Checks the empty fields to show an error message in them
+            if (customerName.length() < 1) {
+                etCustomerName.setError(getString(R.string.error_empty_name));
+            }
+            if (customerPhone.length() < 1) {
+                etCustomerPhone.setError(getString(R.string.error_empty_phone));
+            }
+            if (customerAddress.length() < 1 && rbHomeDelivery.isChecked()) {
+                etCustomerAddress.setError(getString(R.string.error_empty_address));
+            }
+
+        } catch (NumberParseException e) {//Valid phone number control (library exception)
+            etCustomerPhone.setError(getString(R.string.invalid_number));
+
+        } catch (NumberFormatException e) {//Valid phone number control (meets the requeriments of this project)
+
+            if (e.getMessage().equalsIgnoreCase("invalid")) {
+                etCustomerPhone.setError(getString(R.string.invalid_number));
+            } else {
+                etCustomerPhone.setError(getString(R.string.not_mobile_number));
+            }
+
+        } catch (Exception e) {//Control others exceptions
             Toast.makeText(this, R.string.random_error, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-
-
     }
 
     //Converts an xml file to string
-    private String getXmlAsString(File xmlFile) throws IOException{
+    private String getXmlAsString(File xmlFile) throws IOException {
         StringBuilder builder = new StringBuilder();
         BufferedReader reader = new BufferedReader(new FileReader(xmlFile));
 
-        while(reader.ready()) {
+        while (reader.ready()) {
             builder.append(reader.readLine());
         }
 
         return builder.toString();
     }
 
+    public void deliveryMethodChanged(View v) {
+        EditText etCustomerAddress = findViewById(R.id.et_customer_address);
+        TextView tvAdress = findViewById(R.id.tv_address);
+
+        if (v.getId() == R.id.rb_home_delivery) {
+            etCustomerAddress.setEnabled(true);
+            etCustomerAddress.setText("");
+
+        } else {
+            etCustomerAddress.setEnabled(false);
+            etCustomerAddress.setText(R.string.pick_at_restaurant);
+            etCustomerAddress.setError(null);
+        }
+    }
+
     //Inner class that manages the background proccess that uses the network
     @SuppressLint("StaticFieldLeak")
-    private class ServerConectionBackground extends AsyncTask<Void, Void, Boolean>{
+    private class ServerConectionBackground extends AsyncTask<Void, Void, Boolean> {
         //private Context context;
         private String xmlContent;
 
@@ -213,7 +265,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
             try {
                 //Variables for the SOAP service
                 String NAMESPACE = "http://pizzawebservice.macisdev.com/";
-                String URL="http://83.49.24.249:8080/PizzasWebService/PizzaService";
+                String URL = "http://83.49.24.249:8080/PizzasWebService/PizzaService";
                 String METHOD_NAME = "sendOrder";
                 String SOAP_ACTION = "";
 
@@ -224,7 +276,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
                 envelope.setOutputSoapObject(request);
                 HttpTransportSE transport = new HttpTransportSE(URL);
                 transport.call(SOAP_ACTION, envelope);
-                SoapPrimitive serverAnswer =(SoapPrimitive)envelope.getResponse();
+                SoapPrimitive serverAnswer = (SoapPrimitive) envelope.getResponse();
                 orderPlacedSucessfully = Boolean.valueOf(serverAnswer.toString());
 
             } catch (Exception e) {
@@ -249,13 +301,5 @@ public class PlaceOrderActivity extends AppCompatActivity {
         }
     }
 
-    public void deliveryMethodChanged(View v) {
-        EditText etCustomerAddress = findViewById(R.id.et_customer_address);
-        if (v.getId() == R.id.rb_home_delivery) {
-            etCustomerAddress.setEnabled(true);
-        } else {
-            etCustomerAddress.setEnabled(false);
-            etCustomerAddress.setText("");
-        }
-    }
+
 }

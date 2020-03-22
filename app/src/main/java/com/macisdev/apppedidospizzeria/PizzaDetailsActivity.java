@@ -45,8 +45,8 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         pizzaSize = getString(R.string.size_medium);
 
         //Loads the views from the layout
-        TextView tvPizzaName = findViewById(R.id.tvIPizzaName);
-        TextView tvPizzaIngredients = findViewById(R.id.tvPizzaIngredients);
+        TextView tvPizzaName = findViewById(R.id.tv_pizza_name);
+        TextView tvPizzaIngredients = findViewById(R.id.tv_pizza_ingredients);
         spinnerQuantity = findViewById(R.id.spinner_quantity);
         tvTotalPrice = findViewById(R.id.tv_total_price);
 
@@ -163,7 +163,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
                 pizzaExtras, refreshPrice());
         int quantity = Integer.parseInt((String)spinnerQuantity.getSelectedItem());
         for (int i = 0; i < quantity; i++) {
-            MainActivity.ORDER_ELEMENTS.add(elementTobeAdded);
+            OrderSingleton.getInstance().getOrderElementsList().add(elementTobeAdded);
         }
 
         Toast.makeText(this, R.string.element_added, Toast.LENGTH_SHORT).show();

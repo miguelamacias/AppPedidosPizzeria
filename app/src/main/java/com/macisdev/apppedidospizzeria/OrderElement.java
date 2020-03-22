@@ -1,6 +1,7 @@
 package com.macisdev.apppedidospizzeria;
 
-import java.util.ArrayList;
+import androidx.annotation.NonNull;
+
 import java.util.Locale;
 
 class OrderElement {
@@ -38,16 +39,7 @@ class OrderElement {
         return price;
     }
 
-    public static ArrayList<String> getSummaryStrings() {
-        ArrayList<String> stringArrayList = new ArrayList<>();
-
-        for (OrderElement element : MainActivity.ORDER_ELEMENTS) {
-            stringArrayList.add(element.toString());
-        }
-
-        return stringArrayList;
-    }
-
+    @NonNull
     @Override
     public String toString() {
         return String.format(Locale.getDefault(), "%s  -  %s  -  %.2f€\n%s",getName(), getSize(), getPrice(), getExtras());
