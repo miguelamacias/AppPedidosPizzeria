@@ -45,6 +45,11 @@ public class PizzasListActivity extends AppCompatActivity {
         });
     }
 
+    //launch the summary activity from the floating button
+    public void goToSummary(View v) {
+        startActivity(new Intent(this, OrderSummaryActivity.class));
+    }
+
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, MainActivity.class));

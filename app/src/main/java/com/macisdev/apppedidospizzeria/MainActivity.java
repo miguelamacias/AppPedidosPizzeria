@@ -56,4 +56,9 @@ public class MainActivity extends Activity {
             }
         });
     }
+
+    //launch the summary activity from the floating button
+    public void goToSummary(View v) {
+        startActivity(new Intent(this, OrderSummaryActivity.class));
+    }
 }
