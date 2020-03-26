@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,32 +31,41 @@ import java.util.Locale;
 import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 public class PlaceOrderActivity extends AppCompatActivity {
-    private static final String SERVER_ADDRESS = "20.188.45.26";
-    private static final String TEST_SERVER_ADDRESS = "83.49.24.249";
+    //Declares the views needed
+    EditText etCustomerName;
+    EditText etCustomerPhone;
+    EditText etCustomerAddress;
+    RadioButton rbCard;
+    RadioButton rbCash;
+    RadioButton rbHomeDelivery;
+    RadioButton rbPickRestaurant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_order);
+
+        //Initializes the views
+        etCustomerName = findViewById(R.id.et_customer_name);
+        etCustomerPhone = findViewById(R.id.et_customer_phone);
+        etCustomerAddress = findViewById(R.id.et_customer_address);
+        rbCard = findViewById(R.id.rb_card);
+        rbCash = findViewById(R.id.rb_cash);
+        rbHomeDelivery = findViewById(R.id.rb_home_delivery);
+        rbPickRestaurant = findViewById(R.id.rb_pick_restaurant);
     }
 
     //Sends the order when the button is pressed
     public void makeOrder(View v) {
-        //Get information about the order
-        EditText etCustomerName = findViewById(R.id.et_customer_name);
-        EditText etCustomerPhone = findViewById(R.id.et_customer_phone);
-        EditText etCustomerAddress = findViewById(R.id.et_customer_address);
-        RadioButton rbCard = findViewById(R.id.rb_card);
-        RadioButton rbCash = findViewById(R.id.rb_cash);
-        RadioButton rbHomeDelivery = findViewById(R.id.rb_home_delivery);
-        RadioButton rbPickRestaurant = findViewById(R.id.rb_pick_restaurant);
-
+        //Gets the order information
         String customerName = etCustomerName.getText().toString();
         String customerPhone = etCustomerPhone.getText().toString();
         String customerAddress = etCustomerAddress.getText().toString();
@@ -79,6 +87,156 @@ public class PlaceOrderActivity extends AppCompatActivity {
         }
 
         try {
+            //Checks that the information is correct before proceding, throws an exception otherwise
+            if (!checkCorrectValues(customerName, customerPhone, customerAddress)) {
+                throw new InputMismatchException();
+            }
+
+            //creates the xml document content
+            Document xmlContent = createXMLContent(orderId, customerName, customerPhone,
+                    customerAddress, deliveryMethod, paymentMethod);
+
+            //creates the XML file
+            File xmlFile = createXMLFile(xmlContent, orderId);
+
+            //gets an String representation of the xml content
+            String xmlAsString = getXmlAsString(xmlFile);
+
+            //sends the order to the server using the AsyncTask
+            new ServerConectionBackground(xmlAsString).execute();
+
+        } catch (InputMismatchException e){
+            //Do nothing, this exception has already been controlled, its only purpose is to stop the method
+        } catch (ParserConfigurationException | TransformerException | IOException e) {
+            Toast.makeText(this, R.string.random_error, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Creates the xml content representing the order
+    public Document createXMLContent(String orderId, String customerName, String customerPhone,
+                                  String customerAddress, String deliveryMethod, String paymentMethod)
+            throws ParserConfigurationException {
+        /*
+         *  Building the XML file
+         */
+        //Creates the document
+        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+
+        //Creates the root element
+        Element root = document.createElement("order");
+        document.appendChild(root);
+
+        //Creates the order_info node
+        Element orderInfo = document.createElement("order_info");
+        root.appendChild(orderInfo);
+
+        //Create the elements for the actual information about the order
+        Element orderIdElement = document.createElement("order_id");
+        orderIdElement.appendChild(document.createTextNode(orderId));
+        orderInfo.appendChild(orderIdElement);
+
+        Element name = document.createElement("customer_name");
+        name.appendChild(document.createTextNode(customerName));
+        orderInfo.appendChild(name);
+
+        Element phone = document.createElement("customer_phone");
+        phone.appendChild(document.createTextNode(customerPhone));
+        orderInfo.appendChild(phone);
+
+        Element delivery = document.createElement("delivery_method");
+        delivery.appendChild(document.createTextNode(deliveryMethod));
+        orderInfo.appendChild(delivery);
+
+        Element address = document.createElement("customer_address");
+        address.appendChild(document.createTextNode(customerAddress));
+        orderInfo.appendChild(address);
+
+        Element payment = document.createElement("payment_method");
+        payment.appendChild(document.createTextNode(paymentMethod));
+        orderInfo.appendChild(payment);
+
+        //Adds the total price to the xml file
+        double totalPrice = 0;
+        for (OrderElement element : OrderSingleton.getInstance().getOrderElementsList()) {
+            totalPrice += element.getPrice();
+        }
+        Element price = document.createElement("total_price");
+        price.appendChild(document.createTextNode(String.format(Locale.ENGLISH, "%.2f", totalPrice)));
+        orderInfo.appendChild(price);
+
+        //Add the ordered stuffs to the xml (suppose everything is a pizza for simplicity)
+        for (OrderElement currentElement : OrderSingleton.getInstance().getOrderElementsList()) {
+            Element pizza = document.createElement("pizza");
+            root.appendChild(pizza);
+
+            Element pizzaCode = document.createElement("code");
+            pizzaCode.appendChild(document.createTextNode(String.valueOf(currentElement.getCode())));
+            pizza.appendChild(pizzaCode);
+
+            Element pizzaName = document.createElement("name");
+            pizzaName.appendChild(document.createTextNode(currentElement.getName()));
+            pizza.appendChild(pizzaName);
+
+            Element pizzaSize = document.createElement("size");
+            pizzaSize.appendChild(document.createTextNode(currentElement.getSize()));
+            pizza.appendChild(pizzaSize);
+
+            Element pizzaExtras = document.createElement("extras");
+            pizzaExtras.appendChild(document.createTextNode(currentElement.getExtras()));
+            pizza.appendChild(pizzaExtras);
+
+            Element pizzaPrice = document.createElement("price");
+            pizzaPrice.appendChild(document.createTextNode(String.valueOf(currentElement.getPrice())));
+            pizza.appendChild(pizzaPrice);
+        }
+
+        return document;
+    }
+
+    public File createXMLFile(Document document, String documentName) throws TransformerException {
+        //creates the physical xml
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        DOMSource domSource = new DOMSource(document);
+        File outputDirectory = getFilesDir();
+        File outputFile = new File(outputDirectory, documentName + ".xml");
+        StreamResult streamResult = new StreamResult(outputFile);
+        transformer.transform(domSource, streamResult);
+
+        return outputFile;
+    }
+
+    //Converts an xml file to string
+    private String getXmlAsString(File xmlFile) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new FileReader(xmlFile));
+
+        while (reader.ready()) {
+            builder.append(reader.readLine());
+        }
+
+        return builder.toString();
+    }
+
+    //Enables or disables the address editText
+    public void deliveryMethodChanged(View v) {
+        EditText etCustomerAddress = findViewById(R.id.et_customer_address);
+
+        if (v.getId() == R.id.rb_home_delivery) {
+            etCustomerAddress.setEnabled(true);
+            etCustomerAddress.setText("");
+
+        } else {
+            etCustomerAddress.setEnabled(false);
+            etCustomerAddress.setText(R.string.pick_at_restaurant);
+            etCustomerAddress.setError(null);
+        }
+    }
+
+    //Checks that the info provided by the customer meets the requeriments
+    private boolean checkCorrectValues(String customerName, String customerPhone, String customerAddress) {
+        boolean validInfo = false;
+        try {
+
             //Checks that all the information has been given
             if (customerName.length() < 1) {
                 throw new InputMismatchException();
@@ -103,95 +261,8 @@ public class PlaceOrderActivity extends AppCompatActivity {
             if (phoneNumberUtil.getNumberType(phoneNumber) != PhoneNumberUtil.PhoneNumberType.MOBILE) {
                 throw new NumberFormatException("notMobile");
             }
-
-            /*
-             *  Building the XML file
-             */
-            //Creates the document
-            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-
-            //Creates the root element
-            Element root = document.createElement("order");
-            document.appendChild(root);
-
-            //Creates the order_info node
-            Element orderInfo = document.createElement("order_info");
-            root.appendChild(orderInfo);
-
-            //Create the elements for the actual information about the order
-            Element orderIdElement = document.createElement("order_id");
-            orderIdElement.appendChild(document.createTextNode(orderId));
-            orderInfo.appendChild(orderIdElement);
-
-            Element name = document.createElement("customer_name");
-            name.appendChild(document.createTextNode(customerName));
-            orderInfo.appendChild(name);
-
-            Element phone = document.createElement("customer_phone");
-            phone.appendChild(document.createTextNode(customerPhone));
-            orderInfo.appendChild(phone);
-
-            Element delivery = document.createElement("delivery_method");
-            delivery.appendChild(document.createTextNode(deliveryMethod));
-            orderInfo.appendChild(delivery);
-
-            Element address = document.createElement("customer_address");
-            address.appendChild(document.createTextNode(customerAddress));
-            orderInfo.appendChild(address);
-
-            Element payment = document.createElement("payment_method");
-            payment.appendChild(document.createTextNode(paymentMethod));
-            orderInfo.appendChild(payment);
-
-            //Adds the total price to the xml file
-            double totalPrice = 0;
-            for (OrderElement element : OrderSingleton.getInstance().getOrderElementsList()) {
-                totalPrice += element.getPrice();
-            }
-            Element price = document.createElement("total_price");
-            price.appendChild(document.createTextNode(String.format(Locale.getDefault(), "%.2f€", totalPrice)));
-            orderInfo.appendChild(price);
-
-            //Add the ordered stuffs to the xml (suppose everything is a pizza for simplicity)
-            for (OrderElement currentElement : OrderSingleton.getInstance().getOrderElementsList()) {
-                Element pizza = document.createElement("pizza");
-                root.appendChild(pizza);
-
-                Element pizzaCode = document.createElement("code");
-                pizzaCode.appendChild(document.createTextNode(String.valueOf(currentElement.getCode())));
-                pizza.appendChild(pizzaCode);
-
-                Element pizzaName = document.createElement("name");
-                pizzaName.appendChild(document.createTextNode(currentElement.getName()));
-                pizza.appendChild(pizzaName);
-
-                Element pizzaSize = document.createElement("size");
-                pizzaSize.appendChild(document.createTextNode(currentElement.getSize()));
-                pizza.appendChild(pizzaSize);
-
-                Element pizzaExtras = document.createElement("extras");
-                pizzaExtras.appendChild(document.createTextNode(currentElement.getExtras()));
-                pizza.appendChild(pizzaExtras);
-
-                Element pizzaPrice = document.createElement("price");
-                pizzaPrice.appendChild(document.createTextNode(String.valueOf(currentElement.getPrice())));
-                pizza.appendChild(pizzaPrice);
-            }
-
-            //creates the actual xml
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            DOMSource domSource = new DOMSource(document);
-            File outputDirectory = getFilesDir();
-            File outputFile = new File(outputDirectory, orderId + ".xml");
-            StreamResult streamResult = new StreamResult(outputFile);
-            transformer.transform(domSource, streamResult);
-
-            //gets an String representation of the xml content
-            String xmlContent = getXmlAsString(outputFile);
-
-            //sends the order to the server
-            new ServerConectionBackground(xmlContent).execute();
-
+            //If no exceptions have been thrown the values are all right
+            validInfo = true;
         } catch (InputMismatchException e) {//Empty fields control
             //Checks the empty fields to show an error message in them
             if (customerName.length() < 1) {
@@ -203,10 +274,8 @@ public class PlaceOrderActivity extends AppCompatActivity {
             if (customerAddress.length() < 1 && rbHomeDelivery.isChecked()) {
                 etCustomerAddress.setError(getString(R.string.error_empty_address));
             }
-
         } catch (NumberParseException e) {//Valid phone number control (library exception)
             etCustomerPhone.setError(getString(R.string.invalid_number));
-
         } catch (NumberFormatException e) {//Valid phone number control (meets the requeriments of this project)
 
             if (e.getMessage().equalsIgnoreCase("invalid")) {
@@ -219,33 +288,8 @@ public class PlaceOrderActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.random_error, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-    }
 
-    //Converts an xml file to string
-    private String getXmlAsString(File xmlFile) throws IOException {
-        StringBuilder builder = new StringBuilder();
-        BufferedReader reader = new BufferedReader(new FileReader(xmlFile));
-
-        while (reader.ready()) {
-            builder.append(reader.readLine());
-        }
-
-        return builder.toString();
-    }
-
-    public void deliveryMethodChanged(View v) {
-        EditText etCustomerAddress = findViewById(R.id.et_customer_address);
-        TextView tvAdress = findViewById(R.id.tv_address);
-
-        if (v.getId() == R.id.rb_home_delivery) {
-            etCustomerAddress.setEnabled(true);
-            etCustomerAddress.setText("");
-
-        } else {
-            etCustomerAddress.setEnabled(false);
-            etCustomerAddress.setText(R.string.pick_at_restaurant);
-            etCustomerAddress.setError(null);
-        }
+        return validInfo;
     }
 
     //Inner class that manages the background proccess that uses the network
@@ -300,6 +344,4 @@ public class PlaceOrderActivity extends AppCompatActivity {
             Toast.makeText(PlaceOrderActivity.this, message, Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }
