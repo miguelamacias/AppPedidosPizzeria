@@ -10,10 +10,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.Locale;
 
 public class OrderSummaryActivity extends AppCompatActivity {
-    boolean orderIsEmpty = true;
     ListView summaryList;
     ArrayAdapter summaryListAdapter;
 
@@ -28,27 +29,48 @@ public class OrderSummaryActivity extends AppCompatActivity {
         summaryList.setAdapter(summaryListAdapter);
 
         //Calculate and shows the total price of the order
+        updateTotalPrice();
+    }
+
+    //Deletes an element from the order.
+    public void deleteFromSummary(View v) {
+        //Gets the position of the button clicked
+        int position = summaryList.getPositionForView((View) v.getParent());
+
+        //Gets the element represented in that row and the deletes it
+        OrderElement deletedElement = OrderSingleton.getInstance().getOrderElementsList().get(position);
+        OrderSingleton.getInstance().getOrderElementsList().remove(position);
+
+        //Updates the listView
+        summaryListAdapter.notifyDataSetChanged();
+        updateTotalPrice();
+
+        //Creates a snackbar with a message and an action to undo the deletion of the order element
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.summary_parent_layout), R.string.deleted_element, Snackbar.LENGTH_LONG);
+        snackbar.setAction(getText(R.string.undo), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderSingleton.getInstance().getOrderElementsList().add(position, deletedElement);
+                summaryListAdapter.notifyDataSetChanged();
+                updateTotalPrice();
+            }
+        });
+
+        snackbar.show();
+
+    }
+
+    public void updateTotalPrice() {
         TextView tvTotalPrice = findViewById(R.id.tv_total_price);
         double totalPrice = 0;
         for (OrderElement element : OrderSingleton.getInstance().getOrderElementsList()) {
             totalPrice += element.getPrice();
         }
-        if (totalPrice != 0) {
-            orderIsEmpty = false;
-        }
         tvTotalPrice.setText(String.format(Locale.getDefault(), "%.2f€", totalPrice));
     }
 
-    //Deletes an element from the order.
-    public void deleteFromSummary(View v) {
-        int position = summaryList.getPositionForView((View) v.getParent());
-        OrderSingleton.getInstance().getOrderElementsList().remove(position);
-        summaryListAdapter.notifyDataSetChanged();
-        Toast.makeText(this, R.string.deleted_element, Toast.LENGTH_SHORT).show();
-    }
-
-    public void continueToMakeOrder(View v) {
-        if (!orderIsEmpty) {
+    public void continueToPlaceOrder(View v) {
+        if (OrderSingleton.getInstance().getOrderElementsList().size() > 0) {
             startActivity(new Intent(this, PlaceOrderActivity.class));
         } else {
             Toast.makeText(this, R.string.error_empty_order, Toast.LENGTH_SHORT).show();

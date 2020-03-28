@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="8dp"
+    android:id="@+id/summary_parent_layout"
     tools:context=".OrderSummaryActivity">
 
     <ListView
@@ -41,7 +42,7 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="continueToMakeOrder"
+            android:onClick="continueToPlaceOrder"
             android:text="@string/continue_btn" />
     </LinearLayout>
 </LinearLayout>
