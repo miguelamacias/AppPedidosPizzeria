@@ -11,7 +11,6 @@ public class PizzasListActivity extends AppCompatActivity implements PizzasListF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pizzas);
-
     }
 
     //launch the summary activity from the floating button

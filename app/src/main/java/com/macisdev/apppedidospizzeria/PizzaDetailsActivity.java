@@ -69,8 +69,8 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         DBHelper dbHelper = new DBHelper(this);
         db = dbHelper.getReadableDatabase();
 
-        cursorNameDetails = db.query("pizzas",
-                new String[]{"name", "ingredients"},
+        cursorNameDetails = db.query("products",
+                new String[]{"name", "description"},
                 "_id = ?",
                 new String[]{String.valueOf(selectedPizzaId)},
                 null, null, null);
@@ -85,9 +85,9 @@ public class PizzaDetailsActivity extends AppCompatActivity {
 
 
         //we also need the sizes and prices, its easier getting them in a separate query
-        final Cursor cursorSizePrice = db.query("pizzas_sizes",
+        final Cursor cursorSizePrice = db.query("products_sizes",
                 new String[]{"_id", "size_id", "price"},
-                "pizza_id = ?",
+                "product_id = ?",
                 new String[]{String.valueOf(selectedPizzaId)},
                 null,
                 null,
@@ -184,7 +184,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
     //updates and show the current price
     private double refreshPrice() {
         //Retrieve the price of the selected pizza
-        Cursor cursorPrice = db.rawQuery("SELECT price FROM pizzas_sizes WHERE size_id = ? AND pizza_id = ?",
+        Cursor cursorPrice = db.rawQuery("SELECT price FROM products_sizes WHERE size_id = ? AND product_id = ?",
                 new String[]{pizzaSize, String.valueOf(pizzaId)});
         if (cursorPrice.moveToFirst()) {
             pizzaPrice = cursorPrice.getDouble(0);

@@ -40,13 +40,13 @@ public class PizzasListFragment extends ListFragment {
         DBHelper dbHelper = new DBHelper(inflater.getContext());
         db = dbHelper.getReadableDatabase();
         //gets the pizza list from the DB
-        cursor = db.query("pizzas", new String[]{"_id", "name", "ingredients"}, null, null, null, null, null);
+        cursor = db.rawQuery("SELECT _id, name, description FROM products WHERE type = ?", new String[] {DBHelper.typePizza});
 
         //Sets the list to contain the results from the BD
         setListAdapter(new SimpleCursorAdapter(inflater.getContext(),
                 android.R.layout.two_line_list_item,
                 cursor,
-                new String[]{"name", "ingredients"},
+                new String[]{"name", "description"},
                 new int[]{android.R.id.text1, android.R.id.text2},
                 0));
 
