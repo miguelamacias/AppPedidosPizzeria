@@ -42,7 +42,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pizza_details);
         pizzaExtras = "";
-        pizzaSize = getString(R.string.size_medium);
+        pizzaSize = getString(R.string.size_medium_pizza);
 
         //Loads the views from the layout
         TextView tvPizzaName = findViewById(R.id.tv_pizza_name);
@@ -116,17 +116,12 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         Spinner spinnerSizes = findViewById(R.id.spinner_size);
         spinnerSizes.setAdapter(adapterSizePrice);
 
-        //attach a listener to both the spinners to get the selected size
+        //attach a listener to the spinner to get the selected size
         spinnerSizes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    pizzaSize = getString(R.string.size_medium);
-                }
-                if (position == 1) {
-                    pizzaSize = getString(R.string.size_big);
-                }
-
+                TextView tvSize = view.findViewById(android.R.id.text1);
+                pizzaSize = tvSize.getText().toString();
                 refreshPrice();
             }
 
@@ -182,6 +177,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
     }
 
     //updates and show the current price
+    //TODO doesn't work for non-pizza meals
     private double refreshPrice() {
         //Retrieve the price of the selected pizza
         Cursor cursorPrice = db.rawQuery("SELECT price FROM products_sizes WHERE size_id = ? AND product_id = ?",
@@ -191,7 +187,7 @@ public class PizzaDetailsActivity extends AppCompatActivity {
         }
         cursorPrice.close();
         //Calculates the full price with the extras added
-        double extraIngredientPrice = (pizzaSize.equals(getString(R.string.size_big)) ? BIG_EXTRA_PRICE : MEDIUM_EXTRA_PRICE);
+        double extraIngredientPrice = (pizzaSize.equals(getString(R.string.size_big_pizza)) ? BIG_EXTRA_PRICE : MEDIUM_EXTRA_PRICE);
         double totalPrice = pizzaPrice + extraIngredientPrice * numberOfExtras;
         int quantity = Integer.parseInt((String)spinnerQuantity.getSelectedItem());
         tvTotalPrice.setText(String.format(Locale.getDefault(), "%.2f€", totalPrice * quantity));

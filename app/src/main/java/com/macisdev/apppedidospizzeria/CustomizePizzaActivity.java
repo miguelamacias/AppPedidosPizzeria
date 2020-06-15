@@ -55,7 +55,7 @@ public class CustomizePizzaActivity extends AppCompatActivity {
                 //Loads the list of ingredients from the database
                 SQLiteDatabase db = new DBHelper(this).getReadableDatabase();
 
-                ingredientsCursor = db.rawQuery("SELECT _id, ingredient FROM products_ingredients WHERE pizza_id = ?",
+                ingredientsCursor = db.rawQuery("SELECT _id, ingredient FROM products_ingredients WHERE product_id = ?",
                         new String[]{String.valueOf(pizzaId)});
 
                 ingredientsList.setAdapter(new SimpleCursorAdapter(this,
