@@ -14,13 +14,13 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".PlaceOrderActivity"
             android:label="@string/make_order_activity"/>
-        <activity android:name=".CustomizePizzaActivity" />
+        <activity android:name=".CustomizeProductActivity" />
         <activity
             android:name=".OrderSummaryActivity"
             android:label="@string/show_order_summary"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".PizzaDetailsActivity"
+            android:name=".ProductDetailsActivity"
             android:parentActivityName=".PizzasListActivity"
             android:label="@string/pizza_details_activity"/>
         <activity

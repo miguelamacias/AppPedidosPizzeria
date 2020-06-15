@@ -25,8 +25,8 @@ public class PizzasListActivity extends AppCompatActivity implements PizzasListF
 
     @Override
     public void pizzaClicked(int id) {
-        Intent intent = new Intent(PizzasListActivity.this, PizzaDetailsActivity.class);
-        intent.putExtra(PizzaDetailsActivity.PIZZA_ID_KEY, (int) id);
+        Intent intent = new Intent(PizzasListActivity.this, ProductDetailsActivity.class);
+        intent.putExtra(ProductDetailsActivity.PRODUCT_ID_KEY, id);
         startActivity(intent);
     }
 }
