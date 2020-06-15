@@ -3,6 +3,7 @@ package com.macisdev.apppedidospizzeria;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -28,7 +29,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Locale;
-import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -69,7 +69,8 @@ public class PlaceOrderActivity extends AppCompatActivity {
         String customerName = etCustomerName.getText().toString();
         String customerPhone = etCustomerPhone.getText().toString();
         String customerAddress = etCustomerAddress.getText().toString();
-        String orderId = UUID.randomUUID().toString();
+        String orderId = String.valueOf(System.currentTimeMillis());
+        Log.d("#DEBUG", orderId);
         String deliveryMethod = "";
         String paymentMethod = "";
 
@@ -294,7 +295,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
     //Inner class that manages the background proccess that uses the network
     @SuppressLint("StaticFieldLeak")
-    private class ServerConectionBackground extends AsyncTask<Void, Void, Boolean> {
+    private class ServerConectionBackground extends AsyncTask<Void, Void, Integer> {
         //private Context context;
         private String xmlContent;
 
@@ -304,12 +305,12 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
 
         @Override
-        protected Boolean doInBackground(Void... objects) {
-            boolean orderPlacedSucessfully;
+        protected Integer doInBackground(Void... objects) {
+            int responseFromWebService;
             try {
                 //Variables for the SOAP service
-                String NAMESPACE = "http://pizzawebservice.macisdev.com/";
-                String URL = "http://83.49.24.249:8080/PizzasWebService/PizzaService";
+                String NAMESPACE = "http://pizzashopwebservice.macisdev.com/";
+                String URL = "http://88.6.161.45:8080/PizzaShopWebService/PizzaShopWebService";
                 String METHOD_NAME = "sendOrder";
                 String SOAP_ACTION = "";
 
@@ -321,22 +322,24 @@ public class PlaceOrderActivity extends AppCompatActivity {
                 HttpTransportSE transport = new HttpTransportSE(URL);
                 transport.call(SOAP_ACTION, envelope);
                 SoapPrimitive serverAnswer = (SoapPrimitive) envelope.getResponse();
-                orderPlacedSucessfully = Boolean.valueOf(serverAnswer.toString());
+                responseFromWebService = Integer.parseInt(serverAnswer.toString());
 
             } catch (Exception e) {
-                orderPlacedSucessfully = false;
+                responseFromWebService = 0;
                 e.printStackTrace();
-
+            } catch (Error e) {
+                responseFromWebService = 0;
             }
 
-            return orderPlacedSucessfully;
+            return responseFromWebService;
         }
 
         @Override
-        protected void onPostExecute(Boolean orderPlacedSucessfully) {
+        protected void onPostExecute(Integer waitingTime) {
             String message;
-            if (orderPlacedSucessfully) {
-                message = getString(R.string.order_placed_OK);
+            if (waitingTime > 0) {
+                message = String.format(Locale.getDefault(), "%s %d %s", getString(R.string.order_placed_OK),
+                        waitingTime, "de espera estimados");
             } else {
                 message = getString(R.string.order_placed_fail);
             }

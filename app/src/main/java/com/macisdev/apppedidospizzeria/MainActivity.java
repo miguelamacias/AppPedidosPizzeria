@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //TODO remove the line after testing
-        OrderSingleton.getInstance().getOrderElementsList().add(new OrderElement(12, "prueba", "mediano", "null", 12.12));
+        //OrderSingleton.getInstance().getOrderElementsList().add(new OrderElement(12, "prueba", "mediano", "null", 12.12));
 
         //Loads main menu options
         ListView mainMenu = findViewById(R.id.main_menu);

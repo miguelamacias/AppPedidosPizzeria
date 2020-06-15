@@ -49,6 +49,7 @@
     <string name="error_empty_address">Debe introducir una dirección o seleccionar la recogida en el local</string>
     <string name="invalid_number">El número de teléfono introducido no es válido</string>
     <string name="not_mobile_number">El número de teléfono debe ser un móvil español</string>
+    <string name="undo">Deshacer</string>
     <string-array name="quantity">
         <item>1</item>
         <item>2</item>
