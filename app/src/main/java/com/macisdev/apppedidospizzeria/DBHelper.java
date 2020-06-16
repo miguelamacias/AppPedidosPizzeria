@@ -145,8 +145,12 @@ class DBHelper extends SQLiteOpenHelper {
             insertProductsSizeRow(db, 106, context.getString(R.string.size_6units), 2.50);
             insertProductsSizeRow(db, 106, context.getString(R.string.size_10units), 4.00);
             insertProductsSizeRow(db, 107, context.getString(R.string.size_standard), 3.20);
-            //TODO every sauce should be treated as a different size
-            insertProductsSizeRow(db, 108, context.getString(R.string.size_standard), 1.10);
+            insertProductsSizeRow(db, 108, context.getString(R.string.roquefort), 1.10);
+            insertProductsSizeRow(db, 108, context.getString(R.string.garlic_sauce), 1.10);
+            insertProductsSizeRow(db, 108, context.getString(R.string.steak_sauce), 1.10);
+            insertProductsSizeRow(db, 108, context.getString(R.string.mayonnaise), 1.10);
+            insertProductsSizeRow(db, 108, context.getString(R.string.cocktail_sauce), 1.10);
+            insertProductsSizeRow(db, 108, context.getString(R.string.bbq), 1.10);
         }
     }
 

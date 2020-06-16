@@ -128,19 +128,19 @@ public class CustomizeProductActivity extends AppCompatActivity {
     }
 
     //Creates a intent to open this activity in Addition Mode
-    public static Intent newIntentAddIngredients(Context context, int pizzaId) {
+    public static Intent newIntentAddIngredients(Context context, int productId) {
         Intent intent = new Intent(context, CustomizeProductActivity.class);
         intent.putExtra(EXTRA_MODE_KEY, ADD_MODE);
-        intent.putExtra(PRODUCT_ID_KEY, pizzaId);
+        intent.putExtra(PRODUCT_ID_KEY, productId);
         return intent;
     }
 
     //Creates a intent to open this same activity in remove Mode
-    private static Intent newIntentDeleteIngredients(Context context, String previousSelection, int pizzaId, int numberOfExtras) {
+    public static Intent newIntentDeleteIngredients(Context context, String previousSelection, int productId, int numberOfExtras) {
         Intent intent = new Intent(context, CustomizeProductActivity.class);
         intent.putExtra(EXTRA_MODE_KEY, REMOVE_MODE);
         intent.putExtra(PREVIOUS_SELECTION_KEY, previousSelection);
-        intent.putExtra(PRODUCT_ID_KEY, pizzaId);
+        intent.putExtra(PRODUCT_ID_KEY, productId);
         intent.putExtra(NUMBER_OF_EXTRAS_KEY, numberOfExtras);
         return intent;
     }

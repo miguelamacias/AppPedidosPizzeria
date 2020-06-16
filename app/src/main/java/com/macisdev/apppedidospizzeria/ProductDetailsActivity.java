@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -55,6 +56,17 @@ public class ProductDetailsActivity extends AppCompatActivity {
         int selectedProductId = intent.getIntExtra(PRODUCT_ID_KEY, 0);
         productID = selectedProductId;
 
+        //checks if the customize button should be visible (no extra ingredients available means no button shown)
+        Button btnCustomize = findViewById(R.id.btn_customize);
+        DBHelper dbHelper = new DBHelper(this);
+        db = dbHelper.getReadableDatabase();
+        Cursor ingredientsCursor = db.rawQuery("SELECT _id, ingredient FROM products_ingredients WHERE product_id = ?",
+                new String[]{String.valueOf(productID)});
+        if (ingredientsCursor.getCount() == 0) {
+            btnCustomize.setVisibility(View.INVISIBLE);
+        }
+        ingredientsCursor.close();
+
         //Loads the extra ingredients info if they have been added
         int extraModeUsed = getIntent().getIntExtra(PRODUCT_EXTRA_TYPE_KEY, 0);
         if (extraModeUsed != 0) {
@@ -65,10 +77,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         }
 
 
-        //Another cursor is needed so we create all the needed stuffs
-        DBHelper dbHelper = new DBHelper(this);
-        db = dbHelper.getReadableDatabase();
-
+        //A cursor is needed to get the name and description of the selected product
         cursorNameDetails = db.query("products",
                 new String[]{"name", "description"},
                 "_id = ?",
@@ -147,8 +156,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     //Method that triggers when the Customize pizza buttons is pressed
     public void customizeProduct(View v) {
-        //Starts the customize activity in addition mode
-        startActivity(CustomizeProductActivity.newIntentAddIngredients(this, productID));
+        if (productID > 100) { //extra ingredients can be added only to certain products, but they can be usually removed
+            startActivity(CustomizeProductActivity.newIntentDeleteIngredients(this, "", productID, 0));
+        } else {
+            startActivity(CustomizeProductActivity.newIntentAddIngredients(this, productID));
+        }
     }
 
     //Method when add button is pressed
@@ -166,9 +178,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
     }
 
     //creates a new intent properly configured to open this activity after a customization has been done
-    public static Intent newIntentFromCustomize(Context context, int pizzaId, int extraType, String extraIngredients, int numberOfExtras) {
+    public static Intent newIntentFromCustomize(Context context, int productId, int extraType, String extraIngredients, int numberOfExtras) {
         Intent intent = new Intent(context, ProductDetailsActivity.class);
-        intent.putExtra(PRODUCT_ID_KEY, pizzaId);
+        intent.putExtra(PRODUCT_ID_KEY, productId);
         intent.putExtra(PRODUCT_EXTRA_TYPE_KEY, extraType);
         intent.putExtra(PRODUCT_EXTRA_INGREDIENTS_KEY, extraIngredients);
         intent.putExtra(PRODUCT_EXTRA_NUMBER_KEY, numberOfExtras);
@@ -177,7 +189,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
     }
 
     //updates and show the current price
-    //TODO doesn't work for non-pizza meals
     private double refreshPrice() {
         //Retrieve the price of the selected pizza
         Cursor cursorPrice = db.rawQuery("SELECT price FROM products_sizes WHERE size_id = ? AND product_id = ?",

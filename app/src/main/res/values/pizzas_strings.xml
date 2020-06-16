@@ -31,8 +31,19 @@
     <string name="onion">Cebolla</string>
     <string name="spicy_sausage">Chorizo picante</string>
     <string name="pineapple">Piña</string>
-    
+
     <string name="cheddar">Cheddar</string>
+
+    <!-- SAUCES -->
+    <string name="roquefort">Roquefort</string>
+    <string name="garlic_sauce">Alioli</string>
+    <string name="steak_sauce">Churrasco</string>
+    <string name="mayonnaise">Mayonesa</string>
+    <string name="cocktail_sauce">Rosa</string>
+    <string name="bbq">Barbacoa</string>
+
+
+
 
     <!-- Extra ingredients for pizzas -->
     <string-array name="extra_ingredients">
