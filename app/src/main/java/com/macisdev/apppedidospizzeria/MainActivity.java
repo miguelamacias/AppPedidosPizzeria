@@ -1,15 +1,20 @@
 package com.macisdev.apppedidospizzeria;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
-public class MainActivity extends Activity {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
+
+public class MainActivity extends AppCompatActivity implements PizzasListFragment.PizzaListInterface, StartersListFragment.PizzaListInterface{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,42 +23,69 @@ public class MainActivity extends Activity {
         //TODO remove the line after testing
         //OrderSingleton.getInstance().getOrderElementsList().add(new OrderElement(12, "prueba", "mediano", "null", 12.12));
 
-        //Loads main menu options
-        ListView mainMenu = findViewById(R.id.main_menu);
+        //Slide functionality
+        SectionsPageAdapter pagerAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+        ViewPager pager = findViewById(R.id.pager);
+        pager.setAdapter(pagerAdapter);
 
-        String[] mainMenuEntries = {getString(R.string.pizzas_menu),
-                getString(R.string.appetizers),
-                getString(R.string.drinks_menu),
-                getString(R.string.show_order_summary)};
-
-        mainMenu.setAdapter(new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1,
-                mainMenuEntries));
-
-        mainMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    startActivity(new Intent(MainActivity.this, PizzasListActivity.class));
-                }
-
-                if (position == 1) {
-                    Toast.makeText(MainActivity.this, R.string.not_available, Toast.LENGTH_SHORT).show();
-                }
-
-                if (position == 2) {
-                    Toast.makeText(MainActivity.this, R.string.not_available, Toast.LENGTH_SHORT).show();
-                }
-
-                if (position == 3) { //Option that finalizes the order.
-                    startActivity(new Intent(MainActivity.this, OrderSummaryActivity.class));
-                }
-            }
-        });
+        //Tabs functionality
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(pager);
     }
 
     //launch the summary activity from the floating button
     public void goToSummary(View v) {
         startActivity(new Intent(this, OrderSummaryActivity.class));
     }
+
+    @Override
+    public void pizzaClicked(int id) {
+        Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
+        intent.putExtra(ProductDetailsActivity.PRODUCT_ID_KEY, id);
+        startActivity(intent);
+    }
+
+    //inner class to handle the tabs and slide navigation
+    private class SectionsPageAdapter extends FragmentPagerAdapter {
+        public SectionsPageAdapter(FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @NonNull
+        @Override
+        //Specify the fragment to return at every position
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new TopFragment();
+                case 1:
+                    return new PizzasListFragment();
+                case 2:
+                    return new StartersListFragment();
+            }
+            return null;
+        }
+
+        @Nullable
+        @Override
+        //Adds a title to every tab
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return getResources().getString(R.string.home);
+                case 1:
+                    return getResources().getString(R.string.pizzas_menu);
+                case 2:
+                    return getResources().getString(R.string.appetizers);
+            }
+            return null;
+        }
+    }
 }
+
+

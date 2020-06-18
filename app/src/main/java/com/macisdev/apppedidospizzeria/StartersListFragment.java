@@ -18,7 +18,7 @@ import androidx.fragment.app.ListFragment;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PizzasListFragment extends ListFragment {
+public class StartersListFragment extends ListFragment {
     //the cursor and Database are declared here so they can be closed from onDestroy
     private Cursor cursor;
     private SQLiteDatabase db;
@@ -29,7 +29,7 @@ public class PizzasListFragment extends ListFragment {
 
     private PizzaListInterface communicationInterface;
 
-    public PizzasListFragment() {
+    public StartersListFragment() {
         // Required empty public constructor
     }
 
@@ -40,7 +40,7 @@ public class PizzasListFragment extends ListFragment {
         DBHelper dbHelper = new DBHelper(inflater.getContext());
         db = dbHelper.getReadableDatabase();
         //gets the pizza list from the DB
-        cursor = db.rawQuery("SELECT _id, name, description FROM products WHERE type = ?", new String[] {DBHelper.typePizza});
+        cursor = db.rawQuery("SELECT _id, name, description FROM products WHERE type = ?", new String[] {DBHelper.typeStarter});
 
         //Sets the list to contain the results from the BD
         setListAdapter(new SimpleCursorAdapter(inflater.getContext(),
