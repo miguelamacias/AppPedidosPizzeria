@@ -2,18 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.macisdev.apppedidospizzeria">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/pizza_icon"
-        android:label="@string/app_name"
+        android:label="@string/shop_name"
         android:roundIcon="@mipmap/pizza_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".PlaceOrderActivity"
-            android:label="@string/make_order_activity"/>
+        <activity android:name=".ConfirmationScreenActivity"/>
+        <activity
+            android:name=".PlaceOrderActivity"
+            android:label="@string/make_order_activity" />
         <activity android:name=".CustomizeProductActivity" />
         <activity
             android:name=".OrderSummaryActivity"
@@ -21,8 +25,8 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ProductDetailsActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="@string/pizza_details_activity"/>
+            android:label="@string/pizza_details_activity"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".PizzasListActivity"
             android:label="@string/pizzas_menu"
