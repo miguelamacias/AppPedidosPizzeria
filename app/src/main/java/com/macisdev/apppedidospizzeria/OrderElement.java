@@ -42,6 +42,6 @@ class OrderElement {
     @NonNull
     @Override
     public String toString() {
-        return String.format(Locale.getDefault(), "%s  -  %s  -  %.2f€\n%s",getName(), getSize(), getPrice(), getExtras());
+        return String.format(Locale.getDefault(), "%s%n%s  -  %.2f€\n%s",getName(), getSize(), getPrice(), getExtras());
     }
 }
