@@ -3,7 +3,6 @@ package com.macisdev.apppedidospizzeria;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -70,7 +69,6 @@ public class PlaceOrderActivity extends AppCompatActivity {
         String customerPhone = etCustomerPhone.getText().toString();
         String customerAddress = etCustomerAddress.getText().toString();
         String orderId = String.valueOf(System.currentTimeMillis());
-        Log.d("#DEBUG", orderId);
         String deliveryMethod = "";
         String paymentMethod = "";
 
@@ -310,7 +308,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
             try {
                 //Variables for the SOAP service
                 String NAMESPACE = "http://pizzashopwebservice.macisdev.com/";
-                String URL = "http://88.6.161.45:8080/PizzaShopWebService/PizzaShopWebService";
+                String URL = "http://83.58.198.66:8080/PizzaShopWebService/PizzaShopWebService";
                 String METHOD_NAME = "sendOrder";
                 String SOAP_ACTION = "";
 
@@ -336,15 +334,14 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer waitingTime) {
-            String message;
-            if (waitingTime > 0) {
-                message = String.format(Locale.getDefault(), "%s %d %s", getString(R.string.order_placed_OK),
-                        waitingTime, "de espera estimados");
-            } else {
-                message = getString(R.string.order_placed_fail);
-            }
 
-            Toast.makeText(PlaceOrderActivity.this, message, Toast.LENGTH_SHORT).show();
+            if (waitingTime > 0) {
+                startActivity(ConfirmationScreenActivity.getConfirmationScreenIntent(
+                        PlaceOrderActivity.this, true, waitingTime));
+            } else {
+                startActivity(ConfirmationScreenActivity.getConfirmationScreenIntent(
+                        PlaceOrderActivity.this, false, -1));
+            }
         }
     }
 }

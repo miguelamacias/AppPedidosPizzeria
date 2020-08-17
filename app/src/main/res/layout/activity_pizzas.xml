@@ -18,11 +18,12 @@
         app:fabSize="normal"
         android:onClick="goToSummary"/>
 
-    <ListView
-        android:id="@+id/pizza_list"
+    <fragment
+        android:id="@+id/pizza_list_fragment"
+        android:name="com.macisdev.apppedidospizzeria.PizzasListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </ListView>
+    </fragment>
 
 </FrameLayout>

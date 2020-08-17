@@ -15,20 +15,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class CustomizePizzaActivity extends AppCompatActivity {
+public class CustomizeProductActivity extends AppCompatActivity {
     public static final int REMOVE_MODE = 1;
     public static final int ADD_MODE = 2;
-    public static final String PIZZA_ID_KEY = "pizzaIdKey";
+    public static final String PRODUCT_ID_KEY = "pizzaIdKey";
     public static final String EXTRA_MODE_KEY = "extraModeKey";
     public static final String PREVIOUS_SELECTION_KEY = "previousSelectionKey";
     public static final String NUMBER_OF_EXTRAS_KEY = "NumberOfExtrasKey";
-
 
     private ListView ingredientsList;
     private String[] ingredientsArray;
 
     private int mode;
-    private int pizzaId;
+    private int productId;
     private int numberOfExtras;
     private String previousSelection;
 
@@ -37,12 +36,12 @@ public class CustomizePizzaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customize_pizza);
+        setContentView(R.layout.activity_customize_product);
         ingredientsList = findViewById(R.id.ingredients_list);
 
         //Getting the extra info from the Intent
         mode = getIntent().getIntExtra(EXTRA_MODE_KEY, 2);
-        pizzaId = getIntent().getIntExtra(PIZZA_ID_KEY, 0);
+        productId = getIntent().getIntExtra(PRODUCT_ID_KEY, 0);
         numberOfExtras = getIntent().getIntExtra(NUMBER_OF_EXTRAS_KEY, 0);
         previousSelection = getIntent().getStringExtra(PREVIOUS_SELECTION_KEY);
         if (previousSelection == null) {
@@ -55,8 +54,8 @@ public class CustomizePizzaActivity extends AppCompatActivity {
                 //Loads the list of ingredients from the database
                 SQLiteDatabase db = new DBHelper(this).getReadableDatabase();
 
-                ingredientsCursor = db.rawQuery("SELECT _id, ingredient FROM pizzas_ingredients WHERE pizza_id = ?",
-                        new String[]{String.valueOf(pizzaId)});
+                ingredientsCursor = db.rawQuery("SELECT _id, ingredient FROM products_ingredients WHERE product_id = ?",
+                        new String[]{String.valueOf(productId)});
 
                 ingredientsList.setAdapter(new SimpleCursorAdapter(this,
                         android.R.layout.simple_list_item_multiple_choice,
@@ -86,7 +85,6 @@ public class CustomizePizzaActivity extends AppCompatActivity {
         if (mode == ADD_MODE) { //Always executes first
             int numberOfExtras = 0;
 
-
             //iterate through the array of ingredients to get only the checked ones
             for (int i = 0; i < ingredientsArray.length; i++) {
                 if (checkedIngredients.get(i)) {
@@ -99,8 +97,7 @@ public class CustomizePizzaActivity extends AppCompatActivity {
                 }
             }
             //Starts this activity in Remove Mode
-            startActivity(newIntentDeleteIngredients(this, stringBuilder.toString(), pizzaId, numberOfExtras));
-
+            startActivity(newIntentDeleteIngredients(this, stringBuilder.toString(), productId, numberOfExtras));
         }
 
         if (mode == REMOVE_MODE) {
@@ -121,33 +118,30 @@ public class CustomizePizzaActivity extends AppCompatActivity {
                     stringBuilder.append(ingredientsArray.get(i)).append(" ");
                 }
             }
-            //goes back to the pizzaDetails activity
-            startActivity(PizzaDetailsActivity.newIntentFromCustomize(this,
-                    pizzaId,
+            //goes back to the productDetails activity
+            startActivity(ProductDetailsActivity.newIntentFromCustomize(this,
+                    productId,
                     REMOVE_MODE,
                     stringBuilder.toString(),
                     numberOfExtras));
         }
-
     }
 
     //Creates a intent to open this activity in Addition Mode
-    public static Intent newIntentAddIngredients(Context context, int pizzaId) {
-        Intent intent = new Intent(context, CustomizePizzaActivity.class);
+    public static Intent newIntentAddIngredients(Context context, int productId) {
+        Intent intent = new Intent(context, CustomizeProductActivity.class);
         intent.putExtra(EXTRA_MODE_KEY, ADD_MODE);
-        intent.putExtra(PIZZA_ID_KEY, pizzaId);
+        intent.putExtra(PRODUCT_ID_KEY, productId);
         return intent;
     }
 
     //Creates a intent to open this same activity in remove Mode
-    private static Intent newIntentDeleteIngredients(Context context, String previousSelection, int pizzaId, int numberOfExtras) {
-        Intent intent = new Intent(context, CustomizePizzaActivity.class);
+    public static Intent newIntentDeleteIngredients(Context context, String previousSelection, int productId, int numberOfExtras) {
+        Intent intent = new Intent(context, CustomizeProductActivity.class);
         intent.putExtra(EXTRA_MODE_KEY, REMOVE_MODE);
         intent.putExtra(PREVIOUS_SELECTION_KEY, previousSelection);
-        intent.putExtra(PIZZA_ID_KEY, pizzaId);
+        intent.putExtra(PRODUCT_ID_KEY, productId);
         intent.putExtra(NUMBER_OF_EXTRAS_KEY, numberOfExtras);
         return intent;
     }
-
-
 }

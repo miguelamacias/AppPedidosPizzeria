@@ -2,6 +2,7 @@
     <string name="app_name">AppPedidosPizzeria</string>
     <string name="shop_name">Pizzería Giuseppe</string>
     <string name="welcome">Bienvenido a nuestra APP. Navegue por la carta y añada los productos deseados a su pedido.</string>
+    <string name="home">Inicio</string>
     <string name="pizzas_menu">Pizzas</string>
     <string name="drinks_menu">Bebidas</string>
     <string name="appetizers">Complementos</string>
@@ -34,12 +35,12 @@
     <string name="make_order_activity">Finalizar Pedido</string>
     <string name="add_ingredient">Añadir ingredientes</string>
     <string name="remove_ingredient">Quitar ingredientes</string>
-    <string name="customize_ingredients">Personalizar\npizza</string>
+    <string name="customize_ingredients">Personalizar\n</string>
     <string name="add_ingredients">Añadir ingredientes</string>
     <string name="add_to_order">Añadir\nal pedido</string>
     <string name="error_empty_order">¡No puede realizar un pedido vacío!</string>
-    <string name="order_placed_OK">Pedido realizado correctamente!</string>
-    <string name="order_placed_fail">No se ha podido procesar su pedido. Inténtelo de nuevo.</string>
+    <string name="order_placed_OK">¡Pedido realizado correctamente!</string>
+    <string name="order_placed_fail">No se ha podido procesar su pedido.</string>
     <string name="pizza_details_activity">¿Cómo la quieres?</string>
     <string name="random_error">Ha ocurrido un error, vuelva a intentarlo.</string>
     <string name="incomplete_info">Por favor, introduzca todos sus datos antes de realizar el pedido</string>
@@ -50,6 +51,9 @@
     <string name="invalid_number">El número de teléfono introducido no es válido</string>
     <string name="not_mobile_number">El número de teléfono debe ser un móvil español</string>
     <string name="undo">Deshacer</string>
+    <string name="try_again_message">Por favor, vuelva a intentarlo en unos minutos.</string>
+    <string name="order_waiting_time">Su pedido estará listo en aproximadamente %1$d minutos.</string>
+
     <string-array name="quantity">
         <item>1</item>
         <item>2</item>
@@ -62,4 +66,7 @@
         <item>9</item>
         <item>10</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

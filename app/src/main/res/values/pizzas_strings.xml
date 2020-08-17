@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- PIZZAS -->
     <string name="ingedients_monster">Tomate, mozzarella, orégano, ternera, pollo, bacon y 4 quesos</string>
     <string name="ingedients_carneTernera">Tomate, mozzarella, orégano y ternera</string>
     <string name="ingedients_4Quesos">Tomate, mozzarella, orégano y mezcla de 4 quesos</string>
@@ -9,9 +10,14 @@
     <string name="ingedients_diMarco">Tomate, mozzarella, orégano, champiñones, cebolla y chorizo picante</string>
     <string name="ingedients_hawaiana">Tomate, mozzarella, orégano, jamon york y piña</string>
 
-    <string name="size_medium">Mediana</string>
-    <string name="size_big">Familiar</string>
+    <!--SIZES -->
+    <string name="size_medium_pizza">Mediana</string>
+    <string name="size_big_pizza">Familiar</string>
+    <string name="size_6units">Tapa: 6 unidades</string>
+    <string name="size_10units">Ración: 10 unidades</string>
+    <string name="size_standard">Normal</string>
 
+    <!-- Ingredients -->
     <string name="beef">Ternera</string>
     <string name="chicken">Pollo</string>
     <string name="bacon">Bacon</string>
@@ -26,6 +32,20 @@
     <string name="spicy_sausage">Chorizo picante</string>
     <string name="pineapple">Piña</string>
 
+    <string name="cheddar">Cheddar</string>
+
+    <!-- SAUCES -->
+    <string name="roquefort">Roquefort</string>
+    <string name="garlic_sauce">Alioli</string>
+    <string name="steak_sauce">Churrasco</string>
+    <string name="mayonnaise">Mayonesa</string>
+    <string name="cocktail_sauce">Rosa</string>
+    <string name="bbq">Barbacoa</string>
+
+
+
+
+    <!-- Extra ingredients for pizzas -->
     <string-array name="extra_ingredients">
         <item>Mozzarella</item>
         <item>Ternera</item>
