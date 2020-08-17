@@ -23,6 +23,6 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/delete_button"
         android:onClick="deleteFromSummary"
-        app:srcCompat="@android:drawable/ic_menu_delete" />
+        app:srcCompat="@drawable/ic_delete" />
 
 </LinearLayout>

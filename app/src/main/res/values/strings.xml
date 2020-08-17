@@ -35,7 +35,7 @@
     <string name="make_order_activity">Finalizar Pedido</string>
     <string name="add_ingredient">Añadir ingredientes</string>
     <string name="remove_ingredient">Quitar ingredientes</string>
-    <string name="customize_ingredients">Personalizar\n</string>
+    <string name="customize_ingredients">Personalizar</string>
     <string name="add_ingredients">Añadir ingredientes</string>
     <string name="add_to_order">Añadir\nal pedido</string>
     <string name="error_empty_order">¡No puede realizar un pedido vacío!</string>
@@ -53,6 +53,7 @@
     <string name="undo">Deshacer</string>
     <string name="try_again_message">Por favor, vuelva a intentarlo en unos minutos.</string>
     <string name="order_waiting_time">Su pedido estará listo en aproximadamente %1$d minutos.</string>
+    <string name="add">Añadir</string>
 
     <string-array name="quantity">
         <item>1</item>

@@ -11,7 +11,7 @@
         android:label="@string/shop_name"
         android:roundIcon="@mipmap/pizza_icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ConfirmationScreenActivity"/>
