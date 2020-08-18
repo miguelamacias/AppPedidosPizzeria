@@ -92,12 +92,22 @@ public class CustomizeProductActivity extends AppCompatActivity {
                     if (stringBuilder.length() < 1) {
                         stringBuilder.append("EXTRA: ");
                     }
-                    stringBuilder.append(ingredientsArray[i]).append(" ");
+                    stringBuilder.append(ingredientsArray[i]).append(", ");
                     numberOfExtras += 1;
                 }
             }
+
+            //removes the last comma of the list of extra ingredients in case any has been choosed
+            String listOfExtraIngredients = stringBuilder.toString();
+            if (numberOfExtras > 0) {
+                listOfExtraIngredients = listOfExtraIngredients.substring(0,
+                        listOfExtraIngredients.length() - 2);
+            }
+
             //Starts this activity in Remove Mode
-            startActivity(newIntentDeleteIngredients(this, stringBuilder.toString(), productId, numberOfExtras));
+            startActivity(newIntentDeleteIngredients(this,
+                    listOfExtraIngredients,
+                    productId, numberOfExtras));
         }
 
         if (mode == REMOVE_MODE) {
@@ -106,7 +116,7 @@ public class CustomizeProductActivity extends AppCompatActivity {
             for (ingredientsCursor.moveToFirst(); !ingredientsCursor.isAfterLast(); ingredientsCursor.moveToNext()) {
                 ingredientsArray.add(ingredientsCursor.getString(1));
             }
-            //boolean to check if the header hav been added
+            //boolean to check if the header have been added
             boolean headerAdded = false;
             //gets a string with the deleted items
             for (int i = 0; i < ingredientsArray.size(); i++) {
@@ -115,14 +125,22 @@ public class CustomizeProductActivity extends AppCompatActivity {
                         stringBuilder.append("\nSIN: ");
                         headerAdded = true;
                     }
-                    stringBuilder.append(ingredientsArray.get(i)).append(" ");
+                    stringBuilder.append(ingredientsArray.get(i)).append(", ");
                 }
             }
+
+            //removes the last comma of the list
+            String removedIngredients = stringBuilder.toString();
+            if (headerAdded) {
+                removedIngredients = removedIngredients.substring(0,
+                        removedIngredients.length() - 2);
+            }
+
             //goes back to the productDetails activity
             startActivity(ProductDetailsActivity.newIntentFromCustomize(this,
                     productId,
                     REMOVE_MODE,
-                    stringBuilder.toString(),
+                    removedIngredients,
                     numberOfExtras));
         }
     }
