@@ -47,6 +47,9 @@ public class PlaceOrderActivity extends AppCompatActivity {
     RadioButton rbHomeDelivery;
     RadioButton rbPickRestaurant;
 
+    //The generated orderID
+    private String orderId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
         String customerPhone = etCustomerPhone.getText().toString();
         String customerAddress = etCustomerAddress.getText().toString();
         String orderId = String.valueOf(System.currentTimeMillis());
+        this.orderId = orderId; //Stores the generated orderId
         String deliveryMethod = "";
         String paymentMethod = "";
 
@@ -337,10 +341,10 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
             if (waitingTime > 0) {
                 startActivity(ConfirmationScreenActivity.getConfirmationScreenIntent(
-                        PlaceOrderActivity.this, true, waitingTime));
+                        PlaceOrderActivity.this, true, waitingTime, orderId));
             } else {
                 startActivity(ConfirmationScreenActivity.getConfirmationScreenIntent(
-                        PlaceOrderActivity.this, false, -1));
+                        PlaceOrderActivity.this, false, -1, orderId));
             }
         }
     }

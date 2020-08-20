@@ -53,6 +53,7 @@
     <string name="undo">Deshacer</string>
     <string name="try_again_message">Por favor, vuelva a intentarlo en unos minutos.</string>
     <string name="order_waiting_time">Su pedido estará listo en aproximadamente %1$d minutos.</string>
+    <string name="your_order_id">El código de su pedido es %1$s.</string>
     <string name="add">Añadir</string>
 
     <string-array name="quantity">
