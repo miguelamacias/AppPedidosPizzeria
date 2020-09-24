@@ -40,9 +40,6 @@ class DBHelper extends SQLiteOpenHelper {
                     "description TEXT," +
                     "type INTEGER)");
 
-            //Creates the sizes table
-            db.execSQL("CREATE TABLE sizes (size TEXT PRIMARY KEY)");
-
             //Creates the pizzas_sizes table
             db.execSQL("CREATE TABLE products_sizes(" +
                     "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -61,7 +58,6 @@ class DBHelper extends SQLiteOpenHelper {
 
         //Populates the tables
         populateProductsTable(db, currentDbVersion);
-        populateSizesTable(db, currentDbVersion);
         populateProductsSizeTable(db, currentDbVersion);
         populateProductsIngredientsTable(db, currentDbVersion);
     }
@@ -87,7 +83,7 @@ class DBHelper extends SQLiteOpenHelper {
             insertProductRow(db, 107, "Queso Frito", "", typeStarter);
             insertProductRow(db, 108, "Salsas", "Roque, Ali-Oli, Churrasco, Mayonesa, Rosa, Barbacoa", typeStarter);
             //Drinks
-            insertProductRow(db, 301, "Coca-Cola", "", typeDrink);
+            insertProductRow(db, 301, "Coca-Cola", "Normal, Zero", typeDrink);
             insertProductRow(db, 302, "Fanta", "Naranja, Limón", typeDrink);
             insertProductRow(db, 303, "7Up", "", typeDrink);
             insertProductRow(db, 304, "Cruzcampo", "", typeDrink);
@@ -159,9 +155,13 @@ class DBHelper extends SQLiteOpenHelper {
             insertProductsSizeRow(db, 108, context.getString(R.string.cocktail_sauce), 1.10);
             insertProductsSizeRow(db, 108, context.getString(R.string.bbq), 1.10);
             //Drinks
-            insertProductsSizeRow(db, 301, "Lata 33cl", 1.30);
-            insertProductsSizeRow(db, 301, "Botella 50cl", 1.80);
-            insertProductsSizeRow(db, 301, "Botella 2L", 2.50);
+            insertProductsSizeRow(db, 301, "Normal Lata 33cl", 1.30);
+            insertProductsSizeRow(db, 301, "Normal Botella 50cl", 1.80);
+            insertProductsSizeRow(db, 301, "Normal Botella 2L", 2.50);
+
+            insertProductsSizeRow(db, 301, "Zero Lata 33cl", 1.30);
+            insertProductsSizeRow(db, 301, "Zero Botella 50cl", 1.80);
+            insertProductsSizeRow(db, 301, "Zero Botella 2L", 2.50);
 
             insertProductsSizeRow(db, 302, "Naranja Lata 33cl", 1.30);
             insertProductsSizeRow(db, 302, "Naranja Botella 50cl", 1.80);
@@ -182,74 +182,6 @@ class DBHelper extends SQLiteOpenHelper {
 
             insertProductsSizeRow(db, 306, "Botella 50cl", 1.00);
             insertProductsSizeRow(db, 306, "Botella 1,5L", 1.60);
-        }
-    }
-
-    private void populateSizesTable(SQLiteDatabase db, int dbVersion) {
-        if(dbVersion < 1) {
-            //Insert medium size
-            ContentValues values = new ContentValues();
-            values.put("size", context.getString(R.string.size_medium_pizza));
-            db.insertOrThrow("sizes",null, values);
-
-            //Insert big size
-            values.clear();
-            values.put("size", context.getString(R.string.size_big_pizza));
-            db.insertOrThrow("sizes",null, values);
-
-            //Insert sizes for non-pizza products
-            values.clear();
-            values.put("size", "Tapa: 6 unidades");
-            db.insertOrThrow("sizes", null, values);
-
-            values.clear();
-            values.put("size", "Ración: 10 unidades");
-            db.insertOrThrow("sizes", null, values);
-
-            //Insert sizes for drinks
-            values.clear();
-            values.put("size", "Lata 33cl");
-            db.insertOrThrow("sizes", null, values);
-
-            values.clear();
-            values.put("size", "Naranja Lata 33cl");
-            db.insertOrThrow("sizes", null, values);
-
-            values.clear();
-            values.put("size", "Limón Lata 33cl");
-            db.insertOrThrow("sizes", null, values);
-
-            values.clear();
-            values.put("size", "Botella 50cl");
-            db.insertOrThrow("sizes", null, values);
-
-            values.clear();
-            values.put("size", "Naranja Botella 50cl");
-            db.insertOrThrow("sizes", null, values);
-
-            values.clear();
-            values.put("size", "Limón Botella 50cl");
-            db.insertOrThrow("sizes", null, values);
-
-            values.clear();
-            values.put("size", "Botella 2L");
-            db.insertOrThrow("sizes", null, values);
-
-            values.clear();
-            values.put("size", "Naranja Botella 2L");
-            db.insertOrThrow("sizes", null, values);
-
-            values.clear();
-            values.put("size", "Limón Botella 2L");
-            db.insertOrThrow("sizes", null, values);
-
-            values.clear();
-            values.put("size", "Litrona 1L");
-            db.insertOrThrow("sizes", null, values);
-
-            values.clear();
-            values.put("size", "Botella 1,5L");
-            db.insertOrThrow("sizes", null, values);
         }
     }
 

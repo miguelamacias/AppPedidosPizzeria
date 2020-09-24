@@ -101,7 +101,7 @@ public class CustomizeProductActivity extends AppCompatActivity {
             String listOfExtraIngredients = stringBuilder.toString();
             if (numberOfExtras > 0) {
                 listOfExtraIngredients = listOfExtraIngredients.substring(0,
-                        listOfExtraIngredients.length() - 2);
+                        listOfExtraIngredients.length() - 2).concat(" ");
             }
 
             //Starts this activity in Remove Mode

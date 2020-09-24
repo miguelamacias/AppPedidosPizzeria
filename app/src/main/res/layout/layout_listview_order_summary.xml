@@ -10,8 +10,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        tools:text="TextView\n\n"
-        />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:text="TextView\n\n" />
 
     <ImageButton
         android:id="@+id/imageButton2"

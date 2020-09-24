@@ -108,10 +108,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 "size_id DESC");
 
         SimpleCursorAdapter adapterSizePrice = new SimpleCursorAdapter(this,
-                android.R.layout.two_line_list_item,
+                R.layout.layout_listview_two_items,
                 cursorSizePrice,
                 new String[]{"size_id", "price"},
-                new int[]{android.R.id.text1, android.R.id.text2},
+                new int[]{R.id.tv_1, R.id.tv_2},
                 0);
 
         //ViewBinder used to format the price shown in the Spinner correctly
@@ -134,7 +134,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         spinnerSizes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                TextView tvSize = view.findViewById(android.R.id.text1);
+                TextView tvSize = view.findViewById(R.id.tv_1);
                 productSize = tvSize.getText().toString();
                 refreshPrice();
             }
@@ -209,11 +209,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
         tvTotalPrice.setText(String.format(Locale.getDefault(), "%.2f€", totalPrice * quantity));
 
         return totalPrice;
-    }
-
-    //launch the summary activity from the floating button
-    public void goToSummary(View v) {
-        startActivity(new Intent(this, OrderSummaryActivity.class));
     }
 
     @Override
