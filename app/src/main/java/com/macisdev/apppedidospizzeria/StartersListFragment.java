@@ -44,10 +44,10 @@ public class StartersListFragment extends ListFragment {
 
         //Sets the list to contain the results from the BD
         setListAdapter(new SimpleCursorAdapter(inflater.getContext(),
-                android.R.layout.two_line_list_item,
+                R.layout.layout_listview_two_items,
                 cursor,
                 new String[]{"name", "description"},
-                new int[]{android.R.id.text1, android.R.id.text2},
+                new int[]{R.id.tv_1, R.id.tv_2},
                 0));
 
         return super.onCreateView(inflater, container, savedInstanceState);
