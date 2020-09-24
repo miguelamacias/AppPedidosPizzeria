@@ -31,7 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:autofillHints="personName" />
     </LinearLayout>
 
     <LinearLayout
@@ -52,7 +53,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:autofillHints="phoneNumberDevice"/>
     </LinearLayout>
 
     <TextView
@@ -79,8 +81,10 @@
             android:id="@+id/rb_home_delivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="false"
             android:onClick="deliveryMethodChanged"
             android:text="@string/home_delivery" />
+
     </RadioGroup>
 
     <TextView
@@ -94,6 +98,7 @@
         android:id="@+id/et_customer_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="postalAddress"
         android:ems="10"
         android:enabled="false"
         android:inputType="textPostalAddress"
@@ -129,7 +134,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:onClick="makeOrder"
+        android:onClick="placeOrder"
         android:text="@string/make_order" />
 
 </LinearLayout>

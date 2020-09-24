@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+
 import java.util.Locale;
 
 public class ProductDetailsActivity extends AppCompatActivity {
@@ -76,6 +78,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
             numberOfExtras = getIntent().getIntExtra(PRODUCT_EXTRA_NUMBER_KEY, 0);
         }
 
+        //Event listener for the floating button, using onClick from the layout breaks the app in older phones
+        ExtendedFloatingActionButton addToOrderFloatingButton = findViewById(R.id.add_to_order_floating_button);
+        addToOrderFloatingButton.setOnClickListener(e -> addProductToOrder(null));
 
         //A cursor is needed to get the name and description of the selected product
         cursorNameDetails = db.query("products",

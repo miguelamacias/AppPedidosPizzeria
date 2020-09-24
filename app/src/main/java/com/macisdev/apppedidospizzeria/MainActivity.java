@@ -14,7 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
-public class MainActivity extends AppCompatActivity implements PizzasListFragment.PizzaListInterface, StartersListFragment.PizzaListInterface{
+public class MainActivity extends AppCompatActivity implements PizzasListFragment.PizzaListInterface, StartersListFragment.PizzaListInterface, DrinksListFragment.PizzaListInterface{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements PizzasListFragmen
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
         @NonNull
@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements PizzasListFragmen
                     return new PizzasListFragment();
                 case 2:
                     return new StartersListFragment();
+                case 3:
+                    return new DrinksListFragment();
             }
             return null;
         }
@@ -82,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements PizzasListFragmen
                     return getResources().getString(R.string.pizzas_menu);
                 case 2:
                     return getResources().getString(R.string.appetizers);
+                case 3:
+                    return getResources().getString(R.string.drinks_menu);
             }
             return null;
         }

@@ -1,8 +1,11 @@
 package com.macisdev.apppedidospizzeria;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -38,6 +41,10 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 public class PlaceOrderActivity extends AppCompatActivity {
+    private static final String CUSTOMER_SAVED_NAME = "customerSavedName";
+    private static final String CUSTOMER_SAVED_PHONE = "customerSavedPhone";
+    private static final String CUSTOMER_SAVED_ADDRESS = "customerSavedAddress";
+
     //Declares the views needed
     EditText etCustomerName;
     EditText etCustomerPhone;
@@ -49,6 +56,9 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
     //The generated orderID
     private String orderId;
+
+    //Preferences object used to store the last entered customer information
+    SharedPreferences savedCustomerPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +73,19 @@ public class PlaceOrderActivity extends AppCompatActivity {
         rbCash = findViewById(R.id.rb_cash);
         rbHomeDelivery = findViewById(R.id.rb_home_delivery);
         rbPickRestaurant = findViewById(R.id.rb_pick_restaurant);
+
+        savedCustomerPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        etCustomerName.setText(savedCustomerPreferences.getString(CUSTOMER_SAVED_NAME, ""));
+        etCustomerPhone.setText(savedCustomerPreferences.getString(CUSTOMER_SAVED_PHONE, ""));
     }
 
     //Sends the order when the button is pressed
-    public void makeOrder(View v) {
+    public void placeOrder(View v) {
         //Gets the order information
         String customerName = etCustomerName.getText().toString();
         String customerPhone = etCustomerPhone.getText().toString();
         String customerAddress = etCustomerAddress.getText().toString();
+
         String orderId = String.valueOf(System.currentTimeMillis());
         this.orderId = orderId; //Stores the generated orderId
         String deliveryMethod = "";
@@ -107,6 +122,16 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
             //sends the order to the server using the AsyncTask
             new ServerConectionBackground(xmlAsString).execute();
+
+            //Stores the customer information into the shared preferences
+            Editor savedCustomerPreferencesEditor = savedCustomerPreferences.edit();
+            savedCustomerPreferencesEditor.putString(CUSTOMER_SAVED_NAME, customerName);
+            savedCustomerPreferencesEditor.putString(CUSTOMER_SAVED_PHONE, customerPhone);
+            if (rbHomeDelivery.isChecked()) {
+                savedCustomerPreferencesEditor.putString(CUSTOMER_SAVED_ADDRESS, customerAddress);
+            }
+            savedCustomerPreferencesEditor.apply();
+
 
         } catch (InputMismatchException e){
             //Do nothing, this exception has already been controlled, its only purpose is to stop the method
@@ -226,7 +251,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
         if (v.getId() == R.id.rb_home_delivery) {
             etCustomerAddress.setEnabled(true);
-            etCustomerAddress.setText("");
+            etCustomerAddress.setText(savedCustomerPreferences.getString(CUSTOMER_SAVED_ADDRESS, ""));
 
         } else {
             etCustomerAddress.setEnabled(false);
@@ -312,7 +337,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
             try {
                 //Variables for the SOAP service
                 String NAMESPACE = "http://pizzashopwebservice.macisdev.com/";
-                String URL = "http://83.58.198.66:8080/PizzaShopWebService/PizzaShopWebService";
+                String URL = "http://88.6.166.33:8080/PizzaShopWebService/PizzaShopWebService";
                 String METHOD_NAME = "sendOrder";
                 String SOAP_ACTION = "";
 
