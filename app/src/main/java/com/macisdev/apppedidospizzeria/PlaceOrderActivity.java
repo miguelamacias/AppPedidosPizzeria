@@ -31,6 +31,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -53,9 +54,6 @@ public class PlaceOrderActivity extends AppCompatActivity {
     RadioButton rbCash;
     RadioButton rbHomeDelivery;
     RadioButton rbPickRestaurant;
-
-    //The generated orderID
-    private String orderId;
 
     //Preferences object used to store the last entered customer information
     SharedPreferences savedCustomerPreferences;
@@ -86,8 +84,6 @@ public class PlaceOrderActivity extends AppCompatActivity {
         String customerPhone = etCustomerPhone.getText().toString();
         String customerAddress = etCustomerAddress.getText().toString();
 
-        String orderId = String.valueOf(System.currentTimeMillis());
-        this.orderId = orderId; //Stores the generated orderId
         String deliveryMethod = "";
         String paymentMethod = "";
 
@@ -111,11 +107,11 @@ public class PlaceOrderActivity extends AppCompatActivity {
             }
 
             //creates the xml document content
-            Document xmlContent = createXMLContent(orderId, customerName, customerPhone,
+            Document xmlContent = createXMLContent(customerName, customerPhone,
                     customerAddress, deliveryMethod, paymentMethod);
 
             //creates the XML file
-            File xmlFile = createXMLFile(xmlContent, orderId);
+            File xmlFile = createXMLFile(xmlContent);
 
             //gets an String representation of the xml content
             String xmlAsString = getXmlAsString(xmlFile);
@@ -141,7 +137,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
     }
 
     //Creates the xml content representing the order
-    public Document createXMLContent(String orderId, String customerName, String customerPhone,
+    public Document createXMLContent(String customerName, String customerPhone,
                                   String customerAddress, String deliveryMethod, String paymentMethod)
             throws ParserConfigurationException {
         /*
@@ -159,10 +155,6 @@ public class PlaceOrderActivity extends AppCompatActivity {
         root.appendChild(orderInfo);
 
         //Create the elements for the actual information about the order
-        Element orderIdElement = document.createElement("order_id");
-        orderIdElement.appendChild(document.createTextNode(orderId));
-        orderInfo.appendChild(orderIdElement);
-
         Element name = document.createElement("customer_name");
         name.appendChild(document.createTextNode(customerName));
         orderInfo.appendChild(name);
@@ -221,12 +213,12 @@ public class PlaceOrderActivity extends AppCompatActivity {
         return document;
     }
 
-    public File createXMLFile(Document document, String documentName) throws TransformerException {
+    public File createXMLFile(Document document) throws TransformerException {
         //creates the physical xml
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         DOMSource domSource = new DOMSource(document);
         File outputDirectory = getFilesDir();
-        File outputFile = new File(outputDirectory, documentName + ".xml");
+        File outputFile = new File(outputDirectory, UUID.randomUUID() + ".xml");
         StreamResult streamResult = new StreamResult(outputFile);
         transformer.transform(domSource, streamResult);
 
@@ -337,7 +329,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
             try {
                 //Variables for the SOAP service
                 String NAMESPACE = "http://pizzashopwebservice.macisdev.com/";
-                String URL = "http://88.6.166.33:8080/PizzaShopWebService/PizzaShopWebService";
+                String URL = "http://88.6.163.82:8080/PizzaShopWebService/PizzaShopWebService";
                 String METHOD_NAME = "sendOrder";
                 String SOAP_ACTION = "";
 
@@ -366,10 +358,10 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
             if (waitingTime > 0) {
                 startActivity(ConfirmationScreenActivity.getConfirmationScreenIntent(
-                        PlaceOrderActivity.this, true, waitingTime, orderId));
+                        PlaceOrderActivity.this, true, waitingTime, "TBI"));
             } else {
                 startActivity(ConfirmationScreenActivity.getConfirmationScreenIntent(
-                        PlaceOrderActivity.this, false, -1, orderId));
+                        PlaceOrderActivity.this, false, -1, "TBI"));
             }
         }
     }
