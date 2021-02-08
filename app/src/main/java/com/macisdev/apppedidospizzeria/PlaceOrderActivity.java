@@ -155,6 +155,10 @@ public class PlaceOrderActivity extends AppCompatActivity {
         root.appendChild(orderInfo);
 
         //Create the elements for the actual information about the order
+        Element orderDateTime = document.createElement("order_datetime");
+        orderDateTime.appendChild(document.createTextNode(String.valueOf(System.currentTimeMillis())));
+        orderInfo.appendChild(orderDateTime);
+
         Element name = document.createElement("customer_name");
         name.appendChild(document.createTextNode(customerName));
         orderInfo.appendChild(name);
