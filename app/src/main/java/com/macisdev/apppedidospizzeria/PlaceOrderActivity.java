@@ -318,7 +318,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
     //Inner class that manages the background proccess that uses the network
     @SuppressLint("StaticFieldLeak")
-    private class ServerConectionBackground extends AsyncTask<Void, Void, Integer> {
+    private class ServerConectionBackground extends AsyncTask<Void, Void, String> {
         //private Context context;
         private String xmlContent;
 
@@ -328,8 +328,8 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
 
         @Override
-        protected Integer doInBackground(Void... objects) {
-            int responseFromWebService;
+        protected String doInBackground(Void... objects) {
+            String responseFromWebService;
             try {
                 //Variables for the SOAP service
                 String NAMESPACE = "http://pizzashopwebservice.macisdev.com/";
@@ -345,27 +345,32 @@ public class PlaceOrderActivity extends AppCompatActivity {
                 HttpTransportSE transport = new HttpTransportSE(URL);
                 transport.call(SOAP_ACTION, envelope);
                 SoapPrimitive serverAnswer = (SoapPrimitive) envelope.getResponse();
-                responseFromWebService = Integer.parseInt(serverAnswer.toString());
+                responseFromWebService = serverAnswer.toString();
 
             } catch (Exception e) {
-                responseFromWebService = 0;
+                responseFromWebService = null;
                 e.printStackTrace();
             } catch (Error e) {
-                responseFromWebService = 0;
+                responseFromWebService = null;
             }
 
             return responseFromWebService;
         }
 
         @Override
-        protected void onPostExecute(Integer waitingTime) {
+        protected void onPostExecute(String serverResponse) {
 
-            if (waitingTime > 0) {
+            if (serverResponse != null) {
+                //Gets the orderId and the waiting time from the server response
+                String orderId = serverResponse.substring(serverResponse.indexOf("_") + 1);
+                int waitingTime = Integer.parseInt(serverResponse.substring(0, serverResponse.indexOf("_")));
+
+                //Start the confirmation activity with the right info
                 startActivity(ConfirmationScreenActivity.getConfirmationScreenIntent(
-                        PlaceOrderActivity.this, true, waitingTime, "TBI"));
+                        PlaceOrderActivity.this, true, waitingTime, orderId));
             } else {
                 startActivity(ConfirmationScreenActivity.getConfirmationScreenIntent(
-                        PlaceOrderActivity.this, false, -1, "TBI"));
+                        PlaceOrderActivity.this, false, -1, "null"));
             }
         }
     }
