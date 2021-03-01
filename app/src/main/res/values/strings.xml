@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">AppPedidosPizzeria</string>
     <string name="shop_name">Pizzería Giuseppe</string>
-    <string name="welcome">Bienvenido a nuestra APP. Navegue por la carta y añada los productos deseados a su pedido.</string>
+    <string name="welcome">Bienvenido a nuestra APP. Navegue por la carta y añada los
+        productos deseados a su pedido.</string>
+    <string name="shop_description">Llevamos 23 años haciendo pizzas artesanales, pasta y un sin
+        fin de recetas típicas de la zona. Todo ello realizado siempre de forma tradicional y
+        casera aportando a nuestros platos ese toque inconfundible que nos caracteriza.</string>
+    <string name="shop_contact">Calle Real nº 28, 41120 Gelves, Sevilla\n<b>Teléfonos:</b>\n955 760 472\n955 762 348\n955 761 175 </string>
+    <string name="send_whatsapp">Mándanos un WhatsApp:</string>
+    <string name="whatsapp_phone"><u>649425570</u></string>
+    <string name="contact">Contacto</string>
     <string name="home">Inicio</string>
     <string name="pizzas_menu">Pizzas</string>
     <string name="drinks_menu">Bebidas</string>
@@ -55,6 +63,7 @@
     <string name="order_waiting_time">Su pedido estará listo en aproximadamente %1$d minutos.</string>
     <string name="your_order_id">El código de su pedido es %1$s.</string>
     <string name="add">Añadir</string>
+    <string name="sending_order">Enviando pedido...</string>
 
     <string-array name="quantity">
         <item>1</item>

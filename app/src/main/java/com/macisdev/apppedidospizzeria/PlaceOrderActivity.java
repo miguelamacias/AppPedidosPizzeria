@@ -7,8 +7,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -116,6 +119,14 @@ public class PlaceOrderActivity extends AppCompatActivity {
             //gets an String representation of the xml content
             String xmlAsString = getXmlAsString(xmlFile);
 
+            //shows a loading animation while the order is being processed
+            Button placeOrberBtn = findViewById(R.id.btn_place_order);
+            placeOrberBtn.setEnabled(false);
+            TextView loadingTextTv = findViewById(R.id.tv_loading_text);
+            loadingTextTv.setVisibility(View.VISIBLE);
+            ProgressBar progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+
             //sends the order to the server using the AsyncTask
             new ServerConectionBackground(xmlAsString).execute();
 
@@ -178,6 +189,10 @@ public class PlaceOrderActivity extends AppCompatActivity {
         Element payment = document.createElement("payment_method");
         payment.appendChild(document.createTextNode(paymentMethod));
         orderInfo.appendChild(payment);
+
+        Element status = document.createElement("order_status");
+        status.appendChild(document.createTextNode("0"));
+        orderInfo.appendChild(status);
 
         //Adds the total price to the xml file
         double totalPrice = 0;
@@ -333,7 +348,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
             try {
                 //Variables for the SOAP service
                 String NAMESPACE = "http://pizzashopwebservice.macisdev.com/";
-                String URL = "http://88.6.163.82:8080/PizzaShopWebService/PizzaShopWebService";
+                String URL = "http://83.38.76.140:8080/PizzaShopWebService/PizzaShopWebService";
                 String METHOD_NAME = "sendOrder";
                 String SOAP_ACTION = "";
 

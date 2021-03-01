@@ -32,7 +32,6 @@ public class ConfirmationScreenActivity extends AppCompatActivity {
         TextView tvSecondaryMessage = findViewById(R.id.tv_secondary_message);
         TextView tvOrderId = findViewById(R.id.tv_order_id);
 
-
         if (orderSuccessfullyPlaced) {
             imgConfirmation.setImageResource(R.drawable.ic_ok_order);
             tvMainMessage.setText(getString(R.string.order_placed_OK));
@@ -40,6 +39,7 @@ public class ConfirmationScreenActivity extends AppCompatActivity {
                     getString(R.string.order_waiting_time), waitingTime));
             tvOrderId.setText(String.format(Locale.getDefault(),
                     getString(R.string.your_order_id), orderId));
+            OrderSingleton.getInstance().getOrderElementsList().clear();
         } else {
             imgConfirmation.setImageResource(R.drawable.ic_fail_order);
             tvMainMessage.setText(getString(R.string.order_placed_fail));
@@ -58,7 +58,6 @@ public class ConfirmationScreenActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //closes the app
         this.finishAffinity();
     }
 }
