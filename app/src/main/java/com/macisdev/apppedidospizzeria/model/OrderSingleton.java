@@ -1,4 +1,4 @@
-package com.macisdev.apppedidospizzeria;
+package com.macisdev.apppedidospizzeria.model;
 
 import java.util.ArrayList;
 

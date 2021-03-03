@@ -1,11 +1,13 @@
-package com.macisdev.apppedidospizzeria;
+package com.macisdev.apppedidospizzeria.util;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-class DBHelper extends SQLiteOpenHelper {
+import com.macisdev.apppedidospizzeria.R;
+
+public class DBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "pizzeria";
     private static final int DB_VERSION = 1;
 
@@ -15,7 +17,7 @@ class DBHelper extends SQLiteOpenHelper {
     public static final String typeMainMeal = "4";
     private final Context context;
 
-    DBHelper(Context context) {
+    public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
     }

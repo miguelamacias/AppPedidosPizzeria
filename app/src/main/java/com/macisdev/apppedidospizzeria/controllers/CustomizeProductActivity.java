@@ -1,4 +1,4 @@
-package com.macisdev.apppedidospizzeria;
+package com.macisdev.apppedidospizzeria.controllers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,9 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.macisdev.apppedidospizzeria.R;
+import com.macisdev.apppedidospizzeria.util.DBHelper;
 
 import java.util.ArrayList;
 

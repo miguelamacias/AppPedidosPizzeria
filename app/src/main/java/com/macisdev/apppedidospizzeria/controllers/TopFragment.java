@@ -1,4 +1,4 @@
-package com.macisdev.apppedidospizzeria;
+package com.macisdev.apppedidospizzeria.controllers;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
+
+import com.macisdev.apppedidospizzeria.R;
 
 public class TopFragment extends Fragment {
 

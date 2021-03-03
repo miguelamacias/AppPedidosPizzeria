@@ -1,4 +1,4 @@
-package com.macisdev.apppedidospizzeria;
+package com.macisdev.apppedidospizzeria.controllers;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.macisdev.apppedidospizzeria.R;
 
 public class MainActivity extends AppCompatActivity implements PizzasListFragment.PizzaListInterface, StartersListFragment.PizzaListInterface, DrinksListFragment.PizzaListInterface{
 

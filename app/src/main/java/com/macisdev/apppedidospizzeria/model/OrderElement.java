@@ -1,10 +1,10 @@
-package com.macisdev.apppedidospizzeria;
+package com.macisdev.apppedidospizzeria.model;
 
 import androidx.annotation.NonNull;
 
 import java.util.Locale;
 
-class OrderElement {
+public class OrderElement {
     private final int code;
     private final String name;
     private final String size;

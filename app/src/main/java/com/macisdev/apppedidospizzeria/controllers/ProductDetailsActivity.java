@@ -1,4 +1,4 @@
-package com.macisdev.apppedidospizzeria;
+package com.macisdev.apppedidospizzeria.controllers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +16,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.macisdev.apppedidospizzeria.R;
+import com.macisdev.apppedidospizzeria.model.OrderElement;
+import com.macisdev.apppedidospizzeria.model.OrderSingleton;
+import com.macisdev.apppedidospizzeria.util.DBHelper;
 
 import java.util.Locale;
 

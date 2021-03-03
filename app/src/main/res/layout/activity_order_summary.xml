@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="8dp"
     android:id="@+id/summary_parent_layout"
-    tools:context=".OrderSummaryActivity">
+    tools:context=".controllers.OrderSummaryActivity">
 
     <ListView
         android:id="@+id/summary_list"

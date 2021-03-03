@@ -1,4 +1,4 @@
-package com.macisdev.apppedidospizzeria;
+package com.macisdev.apppedidospizzeria.controllers;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.macisdev.apppedidospizzeria.R;
+import com.macisdev.apppedidospizzeria.model.OrderElement;
+import com.macisdev.apppedidospizzeria.model.OrderSingleton;
 
 import java.util.Locale;
 

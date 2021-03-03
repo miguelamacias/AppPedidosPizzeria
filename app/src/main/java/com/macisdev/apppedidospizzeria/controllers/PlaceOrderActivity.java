@@ -1,4 +1,4 @@
-package com.macisdev.apppedidospizzeria;
+package com.macisdev.apppedidospizzeria.controllers;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -19,6 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+import com.macisdev.apppedidospizzeria.R;
+import com.macisdev.apppedidospizzeria.model.OrderElement;
+import com.macisdev.apppedidospizzeria.model.OrderSingleton;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;

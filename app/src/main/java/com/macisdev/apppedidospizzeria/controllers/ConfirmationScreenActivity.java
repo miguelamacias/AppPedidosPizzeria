@@ -1,4 +1,4 @@
-package com.macisdev.apppedidospizzeria;
+package com.macisdev.apppedidospizzeria.controllers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.macisdev.apppedidospizzeria.R;
+import com.macisdev.apppedidospizzeria.model.OrderSingleton;
 
 import java.util.Locale;
 

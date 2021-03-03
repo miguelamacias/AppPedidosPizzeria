@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".PizzasListActivity">
+    tools:context=".controllers.MainActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/go_to_summary_floating_button"
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/pizza_list_fragment"
-        android:name="com.macisdev.apppedidospizzeria.PizzasListFragment"
+        android:name="com.macisdev.apppedidospizzeria.controllers.PizzasListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

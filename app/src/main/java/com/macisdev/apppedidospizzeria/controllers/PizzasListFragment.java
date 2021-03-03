@@ -1,4 +1,4 @@
-package com.macisdev.apppedidospizzeria;
+package com.macisdev.apppedidospizzeria.controllers;
 
 
 import android.content.Context;
@@ -15,10 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.ListFragment;
 
+import com.macisdev.apppedidospizzeria.R;
+import com.macisdev.apppedidospizzeria.util.DBHelper;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StartersListFragment extends ListFragment {
+public class PizzasListFragment extends ListFragment {
     //the cursor and Database are declared here so they can be closed from onDestroy
     private Cursor cursor;
     private SQLiteDatabase db;
@@ -29,7 +32,7 @@ public class StartersListFragment extends ListFragment {
 
     private PizzaListInterface communicationInterface;
 
-    public StartersListFragment() {
+    public PizzasListFragment() {
         // Required empty public constructor
     }
 
@@ -40,7 +43,7 @@ public class StartersListFragment extends ListFragment {
         DBHelper dbHelper = new DBHelper(inflater.getContext());
         db = dbHelper.getReadableDatabase();
         //gets the pizza list from the DB
-        cursor = db.rawQuery("SELECT _id, name, description FROM products WHERE type = ?", new String[] {DBHelper.typeStarter});
+        cursor = db.rawQuery("SELECT _id, name, description FROM products WHERE type = ?", new String[] {DBHelper.typePizza});
 
         //Sets the list to contain the results from the BD
         setListAdapter(new SimpleCursorAdapter(inflater.getContext(),

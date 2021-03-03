@@ -7,7 +7,7 @@
     android:paddingStart="12dp"
     android:paddingTop="120dp"
     android:paddingEnd="12dp"
-    tools:context=".ConfirmationScreenActivity">
+    tools:context=".controllers.ConfirmationScreenActivity">
 
     <ImageView
         android:id="@+id/img_confirmation"

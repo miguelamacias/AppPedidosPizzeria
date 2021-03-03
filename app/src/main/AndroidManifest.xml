@@ -14,24 +14,20 @@
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ConfirmationScreenActivity"/>
+        <activity android:name=".controllers.ConfirmationScreenActivity"/>
         <activity
-            android:name=".PlaceOrderActivity"
+            android:name=".controllers.PlaceOrderActivity"
             android:label="@string/make_order_activity" />
-        <activity android:name=".CustomizeProductActivity" />
+        <activity android:name=".controllers.CustomizeProductActivity" />
         <activity
-            android:name=".OrderSummaryActivity"
+            android:name=".controllers.OrderSummaryActivity"
             android:label="@string/show_order_summary"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".controllers.MainActivity" />
         <activity
-            android:name=".ProductDetailsActivity"
+            android:name=".controllers.ProductDetailsActivity"
             android:label="@string/pizza_details_activity"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".PizzasListActivity"
-            android:label="@string/pizzas_menu"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".MainActivity">
+            android:parentActivityName=".controllers.MainActivity" />
+        <activity android:name=".controllers.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
