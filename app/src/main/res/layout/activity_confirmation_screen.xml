@@ -13,7 +13,8 @@
         android:id="@+id/img_confirmation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:srcCompat="@drawable/ic_ok_order" />
+        tools:srcCompat="@drawable/ic_ok_order"
+        android:contentDescription="@string/order_status" />
 
     <TextView
         android:id="@+id/tv_main_message"

@@ -8,7 +8,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/pizza_icon"
-        android:label="@string/shop_name"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/pizza_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
@@ -17,7 +17,8 @@
         <activity android:name=".controllers.ConfirmationScreenActivity"/>
         <activity
             android:name=".controllers.PlaceOrderActivity"
-            android:label="@string/make_order_activity" />
+            android:label="@string/make_order_activity"
+            android:parentActivityName=".controllers.OrderSummaryActivity"/>
         <activity android:name=".controllers.CustomizeProductActivity" />
         <activity
             android:name=".controllers.OrderSummaryActivity"

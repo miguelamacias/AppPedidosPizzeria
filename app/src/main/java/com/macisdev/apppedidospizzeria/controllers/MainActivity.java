@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity implements PizzasListFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //TODO remove this line after testing
-        //OrderSingleton.getInstance().getOrderElementsList().add(new OrderElement(12, "prueba", "mediano", "null", 12.12));
 
         //Slide functionality
         SectionsPageAdapter pagerAdapter = new SectionsPageAdapter(getSupportFragmentManager());
@@ -62,16 +60,16 @@ public class MainActivity extends AppCompatActivity implements PizzasListFragmen
         //Specify the fragment to return at every position
         public Fragment getItem(int position) {
             switch (position) {
-                case 0:
-                    return new TopFragment();
                 case 1:
                     return new PizzasListFragment();
                 case 2:
                     return new StartersListFragment();
                 case 3:
                     return new DrinksListFragment();
+                default: //also case 0:
+                    return new TopFragment();
             }
-            return null;
+
         }
 
         @Nullable

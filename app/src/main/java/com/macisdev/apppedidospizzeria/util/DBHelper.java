@@ -14,7 +14,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String typePizza = "1";
     public static final String typeDrink = "2";
     public static final String typeStarter = "3";
-    public static final String typeMainMeal = "4";
+    //public static final String typeMainMeal = "4";
     private final Context context;
 
     public DBHelper(Context context) {
@@ -67,14 +67,14 @@ public class DBHelper extends SQLiteOpenHelper {
     private void populateProductsTable(SQLiteDatabase db, int dbVersion) {
         if (dbVersion < 1) {
             //initial demo pizzas, more can be added in following updates
-            insertProductRow(db, 1, "Monster", context.getString(R.string.ingedients_monster), typePizza);
-            insertProductRow(db, 2, "Carne de Ternera", context.getString(R.string.ingedients_carneTernera), typePizza);
-            insertProductRow(db, 3, "4 Quesos", context.getString(R.string.ingedients_4Quesos), typePizza);
-            insertProductRow(db, 4, "Barbacoa", context.getString(R.string.ingedients_barbacoa), typePizza);
-            insertProductRow(db, 5, "Carbonara", context.getString(R.string.ingedients_carbonara), typePizza);
-            insertProductRow(db, 6, "Di Luigi", context.getString(R.string.ingedients_diLuigi), typePizza);
-            insertProductRow(db, 7, "Di Marco", context.getString(R.string.ingedients_diMarco), typePizza);
-            insertProductRow(db, 8, "Hawaiana", context.getString(R.string.ingedients_hawaiana), typePizza);
+            insertProductRow(db, 1, "Monster", context.getString(R.string.ingredients_monster), typePizza);
+            insertProductRow(db, 2, "Carne de Ternera", context.getString(R.string.ingredients_carneTernera), typePizza);
+            insertProductRow(db, 3, "4 Quesos", context.getString(R.string.ingredients_4Quesos), typePizza);
+            insertProductRow(db, 4, "Barbacoa", context.getString(R.string.ingredients_barbacoa), typePizza);
+            insertProductRow(db, 5, "Carbonara", context.getString(R.string.ingredients_carbonara), typePizza);
+            insertProductRow(db, 6, "Di Luigi", context.getString(R.string.ingredients_diLuigi), typePizza);
+            insertProductRow(db, 7, "Di Marco", context.getString(R.string.ingredients_diMarco), typePizza);
+            insertProductRow(db, 8, "Hawaiana", context.getString(R.string.ingredients_hawaiana), typePizza);
             //Starters
             insertProductRow(db,101, "Rulo de cabra con nueces y miel", "", typeStarter);
             insertProductRow(db,102, "Patatas fritas", "", typeStarter);
@@ -89,7 +89,7 @@ public class DBHelper extends SQLiteOpenHelper {
             insertProductRow(db, 302, "Fanta", "Naranja, Limón", typeDrink);
             insertProductRow(db, 303, "7Up", "", typeDrink);
             insertProductRow(db, 304, "Cruzcampo", "", typeDrink);
-            insertProductRow(db, 305, "Cruzampo 0,0%", "", typeDrink);
+            insertProductRow(db, 305, "Cruzcampo 0,0%", "", typeDrink);
             insertProductRow(db, 306, "Agua Mineral", "", typeDrink);
         }
     }

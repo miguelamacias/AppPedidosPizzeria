@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">AppPedidosPizzeria</string>
+    <string name="app_name">Pizzería Giuseppe</string>
     <string name="shop_name">Pizzería Giuseppe</string>
     <string name="welcome">Bienvenido a nuestra APP. Navegue por la carta y añada los
         productos deseados a su pedido.</string>
     <string name="shop_description">Llevamos 23 años haciendo pizzas artesanales, pasta y un sin
         fin de recetas típicas de la zona. Todo ello realizado siempre de forma tradicional y
         casera aportando a nuestros platos ese toque inconfundible que nos caracteriza.</string>
-    <string name="shop_contact">Calle Real nº 28, 41120 Gelves, Sevilla\n<b>Teléfonos:</b>\n955 760 472\n955 762 348\n955 761 175 </string>
-    <string name="send_whatsapp">Mándanos un WhatsApp:</string>
+    <string name="shop_contact"><b>Dirección:\n</b>Calle Real nº 28, Gelves (Sevilla)\n<b>Teléfono:</b>\n955760472</string>
+    <string name="send_whatsapp"><b>Mándanos un WhatsApp:</b></string>
     <string name="whatsapp_phone"><u>649425570</u></string>
     <string name="contact">Contacto</string>
     <string name="home">Inicio</string>
@@ -15,20 +15,15 @@
     <string name="drinks_menu">Bebidas</string>
     <string name="appetizers">Complementos</string>
     <string name="choose_size">Seleccione el tamaño:</string>
-    <string name="size">Tamaño: </string>
     <string name="quantity">Cantidad: </string>
-    <string name="not_available">Aún no disponible</string>
     <string name="element_added">¡Artículo añadido a su pedido!</string>
     <string name="total_price">Total: </string>
     <string name="continue_btn">Continuar</string>
-    <string name="show_order_summary">Resúmen del pedido</string>
-    <string name="customize_pizza">Personalizar pizza</string>
+    <string name="show_order_summary">Resumen del pedido</string>
+    <string name="go_to_cart">Ir al carrito</string>
     <string name="ok_button">Aceptar</string>
     <string name="delete_button">Botón borrar</string>
-    <string name="add_button">Botón añadir</string>
-    <string name="extras">Extras:</string>
     <string name="price_with_extras">Precio total:</string>
-    <string name="no">No</string>
     <string name="customer_info">Información del cliente:</string>
     <string name="name">Nombre:</string>
     <string name="address">Dirección:</string>
@@ -41,17 +36,14 @@
     <string name="cash">Efectivo</string>
     <string name="make_order">Realizar Pedido</string>
     <string name="make_order_activity">Finalizar Pedido</string>
-    <string name="add_ingredient">Añadir ingredientes</string>
     <string name="remove_ingredient">Quitar ingredientes</string>
     <string name="customize_ingredients">Personalizar</string>
     <string name="add_ingredients">Añadir ingredientes</string>
-    <string name="add_to_order">Añadir\nal pedido</string>
     <string name="error_empty_order">¡No puede realizar un pedido vacío!</string>
     <string name="order_placed_OK">¡Pedido realizado correctamente!</string>
     <string name="order_placed_fail">No se ha podido procesar su pedido.</string>
     <string name="pizza_details_activity">¿Cómo la quieres?</string>
     <string name="random_error">Ha ocurrido un error, vuelva a intentarlo.</string>
-    <string name="incomplete_info">Por favor, introduzca todos sus datos antes de realizar el pedido</string>
     <string name="deleted_element">Se ha borrado este elemento de su pedido</string>
     <string name="error_empty_name">Debe introducir un nombre</string>
     <string name="error_empty_phone">Debe introducir un número de teléfono</string>
@@ -63,7 +55,10 @@
     <string name="order_waiting_time">Su pedido estará listo en aproximadamente %1$d minutos.</string>
     <string name="your_order_id">El código de su pedido es %1$s.</string>
     <string name="add">Añadir</string>
-    <string name="sending_order">Enviando pedido...</string>
+    <string name="sending_order">Enviando pedido…</string>
+    <string name="order_status">Estado del pedido</string>
+    <string name="shop_logo">Logo de la tienda</string>
+    <string name="whatsapp_icon">Icono de WhatsApp</string>
 
     <string-array name="quantity">
         <item>1</item>
@@ -79,5 +74,4 @@
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

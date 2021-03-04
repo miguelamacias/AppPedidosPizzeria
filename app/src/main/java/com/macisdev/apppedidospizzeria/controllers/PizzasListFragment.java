@@ -22,9 +22,6 @@ import com.macisdev.apppedidospizzeria.util.DBHelper;
  * A simple {@link Fragment} subclass.
  */
 public class PizzasListFragment extends ListFragment {
-    //the cursor and Database are declared here so they can be closed from onDestroy
-    private Cursor cursor;
-    private SQLiteDatabase db;
 
     interface PizzaListInterface {
         void pizzaClicked(int id);
@@ -41,9 +38,10 @@ public class PizzasListFragment extends ListFragment {
                              Bundle savedInstanceState) {
         //loads pizza list from DB
         DBHelper dbHelper = new DBHelper(inflater.getContext());
-        db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         //gets the pizza list from the DB
-        cursor = db.rawQuery("SELECT _id, name, description FROM products WHERE type = ?", new String[] {DBHelper.typePizza});
+
+        Cursor cursor = db.rawQuery("SELECT _id, name, description FROM products WHERE type = ?", new String[]{DBHelper.typePizza});
 
         //Sets the list to contain the results from the BD
         setListAdapter(new SimpleCursorAdapter(inflater.getContext(),

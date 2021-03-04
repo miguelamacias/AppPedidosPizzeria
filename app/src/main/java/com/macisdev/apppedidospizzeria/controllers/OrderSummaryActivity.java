@@ -19,7 +19,7 @@ import java.util.Locale;
 
 public class OrderSummaryActivity extends AppCompatActivity {
     ListView summaryList;
-    ArrayAdapter summaryListAdapter;
+    ArrayAdapter<OrderElement> summaryListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +50,10 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
         //Creates a snackbar with a message and an action to undo the deletion of the order element
         Snackbar snackbar = Snackbar.make(findViewById(R.id.summary_parent_layout), R.string.deleted_element, Snackbar.LENGTH_LONG);
-        snackbar.setAction(getText(R.string.undo), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OrderSingleton.getInstance().getOrderElementsList().add(position, deletedElement);
-                summaryListAdapter.notifyDataSetChanged();
-                updateTotalPrice();
-            }
+        snackbar.setAction(getText(R.string.undo), view -> {
+            OrderSingleton.getInstance().getOrderElementsList().add(position, deletedElement);
+            summaryListAdapter.notifyDataSetChanged();
+            updateTotalPrice();
         });
 
         snackbar.show();

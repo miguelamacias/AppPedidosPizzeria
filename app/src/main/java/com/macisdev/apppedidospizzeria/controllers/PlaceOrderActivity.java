@@ -81,33 +81,21 @@ public class PlaceOrderActivity extends AppCompatActivity {
         savedCustomerPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         etCustomerName.setText(savedCustomerPreferences.getString(CUSTOMER_SAVED_NAME, ""));
         etCustomerPhone.setText(savedCustomerPreferences.getString(CUSTOMER_SAVED_PHONE, ""));
+        //etCustomerAddress is recovered from the shared preferences in 'deliveryMethodChanged' method.
     }
 
     //Sends the order when the button is pressed
     public void placeOrder(View v) {
-        //Gets the order information
+        //Gets the order information from the GUI widgets
         String customerName = etCustomerName.getText().toString();
         String customerPhone = etCustomerPhone.getText().toString();
         String customerAddress = etCustomerAddress.getText().toString();
-
-        String deliveryMethod = "";
-        String paymentMethod = "";
-
-        if (rbCard.isChecked()) {
-            paymentMethod = getString(R.string.card);
-        }
-        if (rbCash.isChecked()) {
-            paymentMethod = getString(R.string.cash);
-        }
-        if (rbHomeDelivery.isChecked()) {
-            deliveryMethod = getString(R.string.home_delivery);
-        }
-        if ((rbPickRestaurant.isChecked())) {
-            deliveryMethod = getString(R.string.pick_at_restaurant);
-        }
+        String deliveryMethod = rbPickRestaurant.isChecked() ?
+                getString(R.string.pick_at_restaurant) : getString(R.string.home_delivery);
+        String paymentMethod = rbCard.isChecked() ? getString(R.string.card) : getString(R.string.cash);
 
         try {
-            //Checks that the information is correct before proceding, throws an exception otherwise
+            //Checks that the information is correct before proceeding, throws an exception otherwise
             if (!checkCorrectValues(customerName, customerPhone, customerAddress)) {
                 throw new InputMismatchException();
             }
@@ -123,25 +111,13 @@ public class PlaceOrderActivity extends AppCompatActivity {
             String xmlAsString = getXmlAsString(xmlFile);
 
             //shows a loading animation while the order is being processed
-            Button placeOrberBtn = findViewById(R.id.btn_place_order);
-            placeOrberBtn.setEnabled(false);
-            TextView loadingTextTv = findViewById(R.id.tv_loading_text);
-            loadingTextTv.setVisibility(View.VISIBLE);
-            ProgressBar progressBar = findViewById(R.id.progressBar);
-            progressBar.setVisibility(View.VISIBLE);
+            showLoadingAnimation();
 
             //sends the order to the server using the AsyncTask
-            new ServerConectionBackground(xmlAsString).execute();
+            new ServerConnectionBackground(xmlAsString).execute();
 
             //Stores the customer information into the shared preferences
-            Editor savedCustomerPreferencesEditor = savedCustomerPreferences.edit();
-            savedCustomerPreferencesEditor.putString(CUSTOMER_SAVED_NAME, customerName);
-            savedCustomerPreferencesEditor.putString(CUSTOMER_SAVED_PHONE, customerPhone);
-            if (rbHomeDelivery.isChecked()) {
-                savedCustomerPreferencesEditor.putString(CUSTOMER_SAVED_ADDRESS, customerAddress);
-            }
-            savedCustomerPreferencesEditor.apply();
-
+            storeLastCustomerInformation(customerName, customerPhone, customerAddress);
 
         } catch (InputMismatchException e){
             //Do nothing, this exception has already been controlled, its only purpose is to stop the method
@@ -235,6 +211,25 @@ public class PlaceOrderActivity extends AppCompatActivity {
         return document;
     }
 
+    private void showLoadingAnimation() {
+        Button placeOrderBtn = findViewById(R.id.btn_place_order);
+        placeOrderBtn.setEnabled(false);
+        TextView loadingTextTv = findViewById(R.id.tv_loading_text);
+        loadingTextTv.setVisibility(View.VISIBLE);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void storeLastCustomerInformation(String customerName, String customerPhone, String customerAddress) {
+        Editor savedCustomerPreferencesEditor = savedCustomerPreferences.edit();
+        savedCustomerPreferencesEditor.putString(CUSTOMER_SAVED_NAME, customerName);
+        savedCustomerPreferencesEditor.putString(CUSTOMER_SAVED_PHONE, customerPhone);
+        if (rbHomeDelivery.isChecked()) {
+            savedCustomerPreferencesEditor.putString(CUSTOMER_SAVED_ADDRESS, customerAddress);
+        }
+        savedCustomerPreferencesEditor.apply();
+    }
+
     public File createXMLFile(Document document) throws TransformerException {
         //creates the physical xml
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -274,7 +269,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
         }
     }
 
-    //Checks that the info provided by the customer meets the requeriments
+    //Checks that the info provided by the customer meets the requirements
     private boolean checkCorrectValues(String customerName, String customerPhone, String customerAddress) {
         boolean validInfo = false;
         try {
@@ -318,7 +313,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
             }
         } catch (NumberParseException e) {//Valid phone number control (library exception)
             etCustomerPhone.setError(getString(R.string.invalid_number));
-        } catch (NumberFormatException e) {//Valid phone number control (meets the requeriments of this project)
+        } catch (NumberFormatException e) {//Valid phone number control (meets the requirements of this project)
 
             if (e.getMessage().equalsIgnoreCase("invalid")) {
                 etCustomerPhone.setError(getString(R.string.invalid_number));
@@ -334,13 +329,13 @@ public class PlaceOrderActivity extends AppCompatActivity {
         return validInfo;
     }
 
-    //Inner class that manages the background proccess that uses the network
+    //Inner class that manages the background process that uses the network
     @SuppressLint("StaticFieldLeak")
-    private class ServerConectionBackground extends AsyncTask<Void, Void, String> {
+    private class ServerConnectionBackground extends AsyncTask<Void, Void, String> {
         //private Context context;
-        private String xmlContent;
+        private final String xmlContent;
 
-        ServerConectionBackground(String xmlContent) {
+        ServerConnectionBackground(String xmlContent) {
             this.xmlContent = xmlContent;
         }
 

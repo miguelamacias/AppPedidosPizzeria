@@ -57,7 +57,8 @@ public class CustomizeProductActivity extends AppCompatActivity {
                 //Loads the list of ingredients from the database
                 SQLiteDatabase db = new DBHelper(this).getReadableDatabase();
 
-                ingredientsCursor = db.rawQuery("SELECT _id, ingredient FROM products_ingredients WHERE product_id = ?",
+                ingredientsCursor = db.rawQuery("SELECT _id, ingredient FROM products_ingredients " +
+                                "WHERE product_id = ?",
                         new String[]{String.valueOf(productId)});
 
                 ingredientsList.setAdapter(new SimpleCursorAdapter(this,
@@ -100,7 +101,7 @@ public class CustomizeProductActivity extends AppCompatActivity {
                 }
             }
 
-            //removes the last comma of the list of extra ingredients in case any has been choosed
+            //removes the last comma of the list of extra ingredients in case any has been chosen
             String listOfExtraIngredients = stringBuilder.toString();
             if (numberOfExtras > 0) {
                 listOfExtraIngredients = listOfExtraIngredients.substring(0,

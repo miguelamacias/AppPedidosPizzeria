@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- PIZZAS -->
-    <string name="ingedients_monster">Tomate, mozzarella, orégano, ternera, pollo, bacon y 4 quesos</string>
-    <string name="ingedients_carneTernera">Tomate, mozzarella, orégano y ternera</string>
-    <string name="ingedients_4Quesos">Tomate, mozzarella, orégano y mezcla de 4 quesos</string>
-    <string name="ingedients_barbacoa">Tomate, mozzarella, orégano, salsa barbacoa, pollo y bacon</string>
-    <string name="ingedients_carbonara">Tomate, mozzarella, orégano, salsa carbonara y bacon</string>
-    <string name="ingedients_diLuigi">Tomate, mozzarella, orégano, jamon york, peperoni y carne</string>
-    <string name="ingedients_diMarco">Tomate, mozzarella, orégano, champiñones, cebolla y chorizo picante</string>
-    <string name="ingedients_hawaiana">Tomate, mozzarella, orégano, jamon york y piña</string>
+    <string name="ingredients_monster">Tomate, mozzarella, orégano, ternera, pollo, bacon y 4 quesos</string>
+    <string name="ingredients_carneTernera">Tomate, mozzarella, orégano y ternera</string>
+    <string name="ingredients_4Quesos">Tomate, mozzarella, orégano y mezcla de 4 quesos</string>
+    <string name="ingredients_barbacoa">Tomate, mozzarella, orégano, salsa barbacoa, pollo y bacon</string>
+    <string name="ingredients_carbonara">Tomate, mozzarella, orégano, salsa carbonara y bacon</string>
+    <string name="ingredients_diLuigi">Tomate, mozzarella, orégano, jamón york, peperoni y carne</string>
+    <string name="ingredients_diMarco">Tomate, mozzarella, orégano, champiñones, cebolla y chorizo picante</string>
+    <string name="ingredients_hawaiana">Tomate, mozzarella, orégano, jamón york y piña</string>
 
     <!--SIZES -->
     <string name="size_medium_pizza">Mediana</string>
