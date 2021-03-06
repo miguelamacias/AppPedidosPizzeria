@@ -1,2 +1,2 @@
-- name: Android Github Action
+  name: Android Github Action
   uses: Vukan-Markovic/Github-Android-Action@1.2
