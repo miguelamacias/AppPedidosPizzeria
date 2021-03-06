@@ -21,15 +21,17 @@ import com.macisdev.apppedidospizzeria.util.DBHelper;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StartersListFragment extends ListFragment {
+public class ProductsListFragment extends ListFragment {
 
-    interface StartersListInterface {
+    interface PizzasListInterface {
         void productClicked(int id);
     }
 
-    private StartersListInterface communicationInterface;
+    private PizzasListInterface communicationInterface;
 
-    public StartersListFragment() {
+    private String productType;
+
+    public ProductsListFragment() {
         // Required empty public constructor
     }
 
@@ -40,7 +42,9 @@ public class StartersListFragment extends ListFragment {
         DBHelper dbHelper = new DBHelper(inflater.getContext());
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         //gets the pizza list from the DB
-        Cursor cursor = db.rawQuery("SELECT _id, name, description FROM products WHERE type = ?", new String[]{DBHelper.typeStarter});
+
+        Cursor cursor = db.rawQuery("SELECT _id, name, description FROM products WHERE type = ?",
+                new String[]{productType});
 
         //Sets the list to contain the results from the BD
         setListAdapter(new SimpleCursorAdapter(inflater.getContext(),
@@ -53,11 +57,15 @@ public class StartersListFragment extends ListFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    //Gets the activity in which the fragment is been shown
+    //Gets the activity in which the fragment is being shown
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        this.communicationInterface = (StartersListInterface) context;
+        this.communicationInterface = (PizzasListInterface) context;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
     }
 
     //called when an item from the list is clicked

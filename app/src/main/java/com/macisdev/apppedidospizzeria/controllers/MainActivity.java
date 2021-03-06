@@ -14,9 +14,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.macisdev.apppedidospizzeria.R;
+import com.macisdev.apppedidospizzeria.util.DBHelper;
 
-public class MainActivity extends AppCompatActivity implements PizzasListFragment.PizzasListInterface,
-        StartersListFragment.StartersListInterface, DrinksListFragment.DrinksListInterface {
+public class MainActivity extends AppCompatActivity implements ProductsListFragment.PizzasListInterface {
 
     private static int currentTab = 0;
 
@@ -80,16 +80,22 @@ public class MainActivity extends AppCompatActivity implements PizzasListFragmen
         @Override
         //Specify the fragment to return at every position
         public Fragment getItem(int position) {
+            ProductsListFragment fragment = new ProductsListFragment();
             switch (position) {
                 case 1:
-                    return new PizzasListFragment();
+                    fragment.setProductType(DBHelper.typePizza);
+                    break;
                 case 2:
-                    return new StartersListFragment();
+                    fragment.setProductType(DBHelper.typeStarter);
+                    break;
                 case 3:
-                    return new DrinksListFragment();
+                    fragment.setProductType(DBHelper.typeDrink);
+                    break;
                 default: //also case 0:
                     return new TopFragment();
             }
+
+            return fragment;
 
         }
 
