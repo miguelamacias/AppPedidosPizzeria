@@ -22,7 +22,6 @@ public class TopFragment extends Fragment {
         LinearLayout whatsappFrame = view.findViewById(R.id.whatsapp_frame);
         whatsappFrame.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://api.whatsapp.com/send/?phone=34649425570"))));
-
         return view;
     }
 }

@@ -15,7 +15,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.macisdev.apppedidospizzeria.R;
 
-public class MainActivity extends AppCompatActivity implements PizzasListFragment.PizzaListInterface, StartersListFragment.PizzaListInterface, DrinksListFragment.PizzaListInterface{
+public class MainActivity extends AppCompatActivity implements PizzasListFragment.PizzasListInterface,
+        StartersListFragment.StartersListInterface, DrinksListFragment.DrinksListInterface {
+
+    private static int currentTab = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,24 @@ public class MainActivity extends AppCompatActivity implements PizzasListFragmen
         SectionsPageAdapter pagerAdapter = new SectionsPageAdapter(getSupportFragmentManager());
         ViewPager pager = findViewById(R.id.pager);
         pager.setAdapter(pagerAdapter);
+        pager.setCurrentItem(currentTab);
+
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                currentTab = position;
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                currentTab = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         //Tabs functionality
         TabLayout tabs = findViewById(R.id.tabs);
@@ -38,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements PizzasListFragmen
     }
 
     @Override
-    public void pizzaClicked(int id) {
+    public void productClicked(int id) {
         Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
         intent.putExtra(ProductDetailsActivity.PRODUCT_ID_KEY, id);
         startActivity(intent);

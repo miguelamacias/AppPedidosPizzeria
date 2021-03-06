@@ -23,11 +23,11 @@ import com.macisdev.apppedidospizzeria.util.DBHelper;
  */
 public class DrinksListFragment extends ListFragment {
 
-    interface PizzaListInterface {
-        void pizzaClicked(int id);
+    interface DrinksListInterface {
+        void productClicked(int id);
     }
 
-    private PizzaListInterface communicationInterface;
+    private DrinksListInterface communicationInterface;
 
     public DrinksListFragment() {
         // Required empty public constructor
@@ -57,7 +57,7 @@ public class DrinksListFragment extends ListFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        this.communicationInterface = (PizzaListInterface) context;
+        this.communicationInterface = (DrinksListInterface) context;
     }
 
     //called when an item from the list is clicked
@@ -65,7 +65,7 @@ public class DrinksListFragment extends ListFragment {
     public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
         if (communicationInterface != null) {
             //it calls the method in the parent activity
-            communicationInterface.pizzaClicked((int)id);//this ID contains the _id of the pizza in the DB table
+            communicationInterface.productClicked((int)id);//this ID contains the _id of the pizza in the DB table
         }
     }
 }
