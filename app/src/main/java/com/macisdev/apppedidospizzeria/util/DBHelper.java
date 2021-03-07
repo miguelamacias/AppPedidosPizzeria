@@ -35,7 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private void updateDB(SQLiteDatabase db, int currentDbVersion) {
         //Updates the DB incrementally
         if (currentDbVersion < 1) {
-            //Creates the Pizzas table
+            //Creates the products table
             db.execSQL("CREATE TABLE products (" +
                     "_id INTEGER PRIMARY KEY," +
                     "name TEXT," +
@@ -56,12 +56,20 @@ public class DBHelper extends SQLiteOpenHelper {
                     "product_id INTEGER, " +
                     "ingredient TEXT," +
                     "UNIQUE(product_id, ingredient))");
+
+            //creates the cities table
+            db.execSQL("CREATE TABLE cities(" +
+                    "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "name TEXT," +
+                    "zipCode TEXT," +
+                    "deliveryPrice REAL)");
         }
 
         //Populates the tables
         populateProductsTable(db, currentDbVersion);
         populateProductsSizeTable(db, currentDbVersion);
         populateProductsIngredientsTable(db, currentDbVersion);
+        populateCitiesTable(db, currentDbVersion);
     }
 
     private void populateProductsTable(SQLiteDatabase db, int dbVersion) {
@@ -187,6 +195,17 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    private void populateCitiesTable(SQLiteDatabase db, int dbVersion) {
+        if (dbVersion < 1) {
+            insertCitiesRow(db, "Gelves", "41120", 0);
+            insertCitiesRow(db, "Coria", "41100", 1);
+            insertCitiesRow(db, "Palomares", "41132", 2);
+            insertCitiesRow(db, "Mairena", "41125", 2.5);
+            insertCitiesRow(db, "San Juan", "41142", 2);
+
+        }
+    }
+
     private void insertProductRow(SQLiteDatabase db, int id, String name, String description, String type) {
         ContentValues values = new ContentValues();
         values.put("_id", id);
@@ -213,4 +232,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.insertOrThrow("products_ingredients", null, values);
     }
+
+    private void insertCitiesRow(SQLiteDatabase db, String name, String zipCode, double deliveryPrice) {
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("zipCode", zipCode);
+        values.put("deliveryPrice", deliveryPrice);
+
+        db.insertOrThrow("cities", null, values);
+    }
+
 }

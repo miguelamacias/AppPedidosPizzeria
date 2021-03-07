@@ -59,6 +59,8 @@
     <string name="order_status">Estado del pedido</string>
     <string name="shop_logo">Logo de la tienda</string>
     <string name="whatsapp_icon">Icono de WhatsApp</string>
+    <string name="city">Localidad:</string>
+    <string name="delivery">Reparto</string>
 
     <string-array name="quantity">
         <item>1</item>

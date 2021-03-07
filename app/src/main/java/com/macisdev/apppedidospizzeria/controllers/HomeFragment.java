@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.macisdev.apppedidospizzeria.R;
 
-public class TopFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

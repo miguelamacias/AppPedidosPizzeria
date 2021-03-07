@@ -84,22 +84,47 @@
 
     </RadioGroup>
 
-    <TextView
-            android:labelFor="@id/et_customer_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/address"
-        android:visibility="visible" />
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/et_customer_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="postalAddress"
-        android:ems="10"
-        android:enabled="false"
-        android:inputType="textPostalAddress"
-        android:text="@string/pick_at_restaurant" />
+        <TextView
+                android:labelFor="@id/et_customer_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                android:visibility="visible"
+                android:layout_marginEnd="12dp" />
+
+        <EditText
+                android:id="@+id/et_customer_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="postalAddress"
+                android:ems="10"
+                android:enabled="false"
+                android:inputType="textPostalAddress"
+                android:text="@string/pick_at_restaurant" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:text="@string/city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView" />
+
+        <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/city_spinner"
+                android:layout_weight="1" />
+    </LinearLayout>
 
     <TextView
             android:layout_width="match_parent"

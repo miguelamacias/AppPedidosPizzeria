@@ -3,14 +3,18 @@ package com.macisdev.apppedidospizzeria.controllers;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +26,7 @@ import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import com.macisdev.apppedidospizzeria.R;
 import com.macisdev.apppedidospizzeria.model.OrderElement;
 import com.macisdev.apppedidospizzeria.model.OrderSingleton;
+import com.macisdev.apppedidospizzeria.util.DBHelper;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -35,6 +40,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.UUID;
@@ -60,6 +66,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
     RadioButton rbCash;
     RadioButton rbHomeDelivery;
     RadioButton rbPickRestaurant;
+    Spinner citySpinner;
 
     //Preferences object used to store the last entered customer information
     SharedPreferences savedCustomerPreferences;
@@ -77,11 +84,14 @@ public class PlaceOrderActivity extends AppCompatActivity {
         rbCash = findViewById(R.id.rb_cash);
         rbHomeDelivery = findViewById(R.id.rb_home_delivery);
         rbPickRestaurant = findViewById(R.id.rb_pick_restaurant);
+        citySpinner = findViewById(R.id.city_spinner);
+        citySpinner.setAdapter(getCitySpinnerAdapter());
+        citySpinner.setEnabled(false);
 
         savedCustomerPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         etCustomerName.setText(savedCustomerPreferences.getString(CUSTOMER_SAVED_NAME, ""));
         etCustomerPhone.setText(savedCustomerPreferences.getString(CUSTOMER_SAVED_PHONE, ""));
-        //etCustomerAddress is recovered from the shared preferences in 'deliveryMethodChanged' method.
+        //etCustomerAddress text is recovered from the shared preferences in 'deliveryMethodChanged' method.
     }
 
     //Sends the order when the button is pressed
@@ -98,6 +108,11 @@ public class PlaceOrderActivity extends AppCompatActivity {
             //Checks that the information is correct before proceeding, throws an exception otherwise
             if (!checkCorrectValues(customerName, customerPhone, customerAddress)) {
                 throw new InputMismatchException();
+            }
+
+            //Adds the delivery price as an OrderElement in case delivery is chosen
+            if (rbHomeDelivery.isChecked()) {
+                addDeliveryElementToOrder();
             }
 
             //creates the xml document content
@@ -123,6 +138,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
             //Do nothing, this exception has already been controlled, its only purpose is to stop the method
         } catch (ParserConfigurationException | TransformerException | IOException e) {
             Toast.makeText(this, R.string.random_error, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
     }
 
@@ -254,18 +270,41 @@ public class PlaceOrderActivity extends AppCompatActivity {
         return builder.toString();
     }
 
-    //Enables or disables the address editText
+    //Updates the GUI, called from the delivery radioButtons 'on:click'
     public void deliveryMethodChanged(View v) {
         EditText etCustomerAddress = findViewById(R.id.et_customer_address);
 
         if (v.getId() == R.id.rb_home_delivery) {
             etCustomerAddress.setEnabled(true);
             etCustomerAddress.setText(savedCustomerPreferences.getString(CUSTOMER_SAVED_ADDRESS, ""));
+            citySpinner.setEnabled(true);
 
         } else {
             etCustomerAddress.setEnabled(false);
             etCustomerAddress.setText(R.string.pick_at_restaurant);
             etCustomerAddress.setError(null);
+            citySpinner.setEnabled(false);
+            citySpinner.setSelection(0);
+        }
+    }
+
+    private void addDeliveryElementToOrder() {
+        //Getting a reference to the DB
+        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT _id, name, zipCode, deliveryPrice FROM cities WHERE _id = ?",
+                new String[]{String.valueOf(citySpinner.getSelectedItemPosition() + 1)});
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            OrderElement deliveryElement = new OrderElement(999, getString(R.string.delivery),
+                    cursor.getString(1), "",cursor.getDouble(3));
+
+            OrderSingleton.getInstance().getOrderElementsList().add(deliveryElement);
+
+            cursor.close();
         }
     }
 
@@ -327,6 +366,25 @@ public class PlaceOrderActivity extends AppCompatActivity {
         }
 
         return validInfo;
+    }
+
+    private ArrayAdapter<String> getCitySpinnerAdapter() {
+        //Getting a reference to the DB
+        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT _id, name, zipCode, deliveryPrice FROM cities",
+                new String[]{});
+
+        ArrayList<String> citiesFormatted = new ArrayList<>();
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            citiesFormatted.add(String.format(Locale.getDefault(), "%s - %s (+%.2f€)",
+                    cursor.getString(1), cursor.getString(2), cursor.getDouble(3)));
+        }
+
+        cursor.close();
+
+        return new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, citiesFormatted);
     }
 
     //Inner class that manages the background process that uses the network

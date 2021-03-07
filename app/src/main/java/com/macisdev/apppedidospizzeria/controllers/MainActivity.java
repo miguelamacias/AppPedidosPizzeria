@@ -29,8 +29,9 @@ public class MainActivity extends AppCompatActivity implements ProductsListFragm
         SectionsPageAdapter pagerAdapter = new SectionsPageAdapter(getSupportFragmentManager());
         ViewPager pager = findViewById(R.id.pager);
         pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(currentTab);
 
+        //Keeps track of the current tab
+        pager.setCurrentItem(currentTab);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements ProductsListFragm
                     fragment.setProductType(DBHelper.typeDrink);
                     break;
                 default: //also case 0:
-                    return new TopFragment();
+                    return new HomeFragment();
             }
 
             return fragment;

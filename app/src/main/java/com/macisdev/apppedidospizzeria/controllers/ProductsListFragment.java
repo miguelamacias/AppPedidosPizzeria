@@ -12,17 +12,14 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.ListFragment;
 
 import com.macisdev.apppedidospizzeria.R;
 import com.macisdev.apppedidospizzeria.util.DBHelper;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ProductsListFragment extends ListFragment {
 
+    //Interface to communicate with the parent activity
     interface PizzasListInterface {
         void productClicked(int id);
     }
@@ -31,18 +28,13 @@ public class ProductsListFragment extends ListFragment {
 
     private String productType;
 
-    public ProductsListFragment() {
-        // Required empty public constructor
-    }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        //loads pizza list from DB
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //Getting a reference to the DB
         DBHelper dbHelper = new DBHelper(inflater.getContext());
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        //gets the pizza list from the DB
 
+        //Gets the right product list from the DB
         Cursor cursor = db.rawQuery("SELECT _id, name, description FROM products WHERE type = ?",
                 new String[]{productType});
 
