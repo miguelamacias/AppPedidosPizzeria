@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements ProductsListFragm
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
 
         @NonNull
@@ -90,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements ProductsListFragm
                     fragment.setProductType(DBHelper.typeStarter);
                     break;
                 case 3:
+                    fragment.setProductType(DBHelper.typeMainCourse);
+                    break;
+                case 4:
                     fragment.setProductType(DBHelper.typeDrink);
                     break;
                 default: //also case 0:
@@ -106,13 +109,15 @@ public class MainActivity extends AppCompatActivity implements ProductsListFragm
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getResources().getString(R.string.home);
+                    return getString(R.string.home);
                 case 1:
-                    return getResources().getString(R.string.pizzas_menu);
+                    return getString(R.string.pizzas_menu);
                 case 2:
-                    return getResources().getString(R.string.appetizers);
+                    return getString(R.string.appetizers);
                 case 3:
-                    return getResources().getString(R.string.drinks_menu);
+                    return getString(R.string.main_courses);
+                case 4:
+                    return getString(R.string.drinks_menu);
             }
             return null;
         }

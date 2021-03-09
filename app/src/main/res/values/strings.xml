@@ -1,4 +1,5 @@
 <resources>
+    <!--Shop info -->
     <string name="app_name">Pizzería Giuseppe</string>
     <string name="shop_name">Pizzería Giuseppe</string>
     <string name="welcome">Bienvenido a nuestra APP. Navegue por la carta y añada los
@@ -9,12 +10,15 @@
     <string name="shop_contact"><b>Dirección:\n</b>Calle Real nº 28, Gelves (Sevilla)\n<b>Teléfono:</b>\n955760472</string>
     <string name="send_whatsapp"><b>Mándanos un WhatsApp:</b></string>
     <string name="whatsapp_phone"><u>649425570</u></string>
+    <!--/Shop info -->
+
     <string name="contact">Contacto</string>
     <string name="home">Inicio</string>
     <string name="pizzas_menu">Pizzas</string>
     <string name="drinks_menu">Bebidas</string>
     <string name="appetizers">Complementos</string>
-    <string name="choose_size">Seleccione el tamaño:</string>
+    <string name="main_courses">Platos</string>
+    <string name="choose_size">Seleccione el tipo:</string>
     <string name="quantity">Cantidad: </string>
     <string name="element_added">¡Artículo añadido a su pedido!</string>
     <string name="total_price">Total: </string>
@@ -61,6 +65,7 @@
     <string name="whatsapp_icon">Icono de WhatsApp</string>
     <string name="city">Localidad:</string>
     <string name="delivery">Reparto</string>
+    <string name="currency_sign">€</string>
 
     <string-array name="quantity">
         <item>1</item>

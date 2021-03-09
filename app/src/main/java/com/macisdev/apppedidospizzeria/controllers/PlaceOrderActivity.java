@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -124,6 +125,9 @@ public class PlaceOrderActivity extends AppCompatActivity {
 
             //gets an String representation of the xml content
             String xmlAsString = getXmlAsString(xmlFile);
+
+            //Hides the keyboard so the loading bar stays visible
+            hideKeyboard(this);
 
             //shows a loading animation while the order is being processed
             showLoadingAnimation();
@@ -366,6 +370,18 @@ public class PlaceOrderActivity extends AppCompatActivity {
         }
 
         return validInfo;
+    }
+
+    //Method used to hide the keyboard when the send button is pressed
+    private void hideKeyboard(AppCompatActivity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private ArrayAdapter<String> getCitySpinnerAdapter() {

@@ -51,7 +51,8 @@ public class ConfirmationScreenActivity extends AppCompatActivity {
 
     }
 
-    public static Intent getConfirmationScreenIntent(Context context, boolean orderSuccessfullyPlaced, int waitingTime, String orderId) {
+    public static Intent getConfirmationScreenIntent(Context context, boolean orderSuccessfullyPlaced,
+                                                     int waitingTime, String orderId) {
         Intent intent = new Intent(context, ConfirmationScreenActivity.class);
         intent.putExtra(ORDER_STATUS, orderSuccessfullyPlaced);
         intent.putExtra(ORDER_WAITING_TIME, waitingTime);

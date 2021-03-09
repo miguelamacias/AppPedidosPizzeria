@@ -158,7 +158,8 @@ public class CustomizeProductActivity extends AppCompatActivity {
     }
 
     //Creates a intent to open this same activity in remove Mode
-    public static Intent newIntentDeleteIngredients(Context context, String previousSelection, int productId, int numberOfExtras) {
+    public static Intent newIntentDeleteIngredients(Context context, String previousSelection,
+                                                    int productId, int numberOfExtras) {
         Intent intent = new Intent(context, CustomizeProductActivity.class);
         intent.putExtra(EXTRA_MODE_KEY, REMOVE_MODE);
         intent.putExtra(PREVIOUS_SELECTION_KEY, previousSelection);

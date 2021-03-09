@@ -32,16 +32,21 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private static final Double MEDIUM_EXTRA_PRICE = 0.5;
     private static final Double BIG_EXTRA_PRICE = 1.0;
 
+    //Used to save the user selection while they customize the product
+    private static int spinnerSizeIndex = 0;
+    private static int spinnerQuantityIndex = 0;
 
     private Spinner spinnerQuantity;
     private SQLiteDatabase db;
     private Cursor cursorNameDetails;
     private TextView tvTotalPrice;
+
     //Fields needed to get the info about the item ordered
     private int productID, numberOfExtras;
     private String productName, productSize;
     private double productPrice;
     private String productExtras;
+    private Spinner spinnerSizes;
 
 
     @Override
@@ -62,11 +67,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
         int selectedProductId = intent.getIntExtra(PRODUCT_ID_KEY, 0);
         productID = selectedProductId;
 
-        //checks if the customize button should be visible (no extra ingredients available means no button shown)
+        //Checks if the customize button should be visible (the product needs to be customizable)
         Button btnCustomize = findViewById(R.id.btn_customize);
         DBHelper dbHelper = new DBHelper(this);
         db = dbHelper.getReadableDatabase();
-        Cursor ingredientsCursor = db.rawQuery("SELECT _id, ingredient FROM products_ingredients WHERE product_id = ?",
+        Cursor ingredientsCursor = db.rawQuery(
+                "SELECT _id, ingredient FROM products_ingredients WHERE product_id = ?",
                 new String[]{String.valueOf(productID)});
         if (ingredientsCursor.getCount() == 0) {
             btnCustomize.setVisibility(View.INVISIBLE);
@@ -102,14 +108,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
         cursorNameDetails.close();
 
 
-        //we also need the sizes and prices, its easier getting them in a separate query
+        //We also need the sizes and their prices, it's easier getting them in a separate cursor
         final Cursor cursorSizePrice = db.query("products_sizes",
                 new String[]{"_id", "size_id", "price"},
                 "product_id = ?",
                 new String[]{String.valueOf(selectedProductId)},
                 null,
                 null,
-                "size_id DESC");
+                "_id");
 
         SimpleCursorAdapter adapterSizePrice = new SimpleCursorAdapter(this,
                 R.layout.layout_listview_two_items,
@@ -120,21 +126,22 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         //ViewBinder used to format the price shown in the Spinner correctly
         adapterSizePrice.setViewBinder((view, cursor, columnIndex) -> {
-            if (columnIndex == 2) { //price is the column #2 of the cursor
-                double price = cursor.getDouble(columnIndex); //getting the price as is stored in the db
-                TextView textView = (TextView) view; //making the generic view a textView
-
-                textView.setText(String.format(Locale.getDefault(), "%.2f%c", price, '€')); //formatting the price to show the currency sign.
+            if (columnIndex == 2) { //Price is the column #2 of the cursor
+                double price = cursor.getDouble(columnIndex); //Getting the price as is stored in the db
+                TextView textView = (TextView) view; //Making the generic view a textView
+                //Formatting the price so it shows the currency sign.
+                textView.setText(String.format(Locale.getDefault(),
+                        "%.2f%s", price, getString(R.string.currency_sign)));
                 return true;
             }
             return false;
         });
 
-        //loads the spinner with the available sizes
-        Spinner spinnerSizes = findViewById(R.id.spinner_size);
+        //Loads the available sizes in the spinner
+        spinnerSizes = findViewById(R.id.spinner_size);
         spinnerSizes.setAdapter(adapterSizePrice);
 
-        //attach a listener to the spinner to get the selected size
+        //Attach a listener to the spinner to get the selected size
         spinnerSizes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -148,6 +155,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
         });
 
+        //Updates the price when an option is chosen in the spinner
         spinnerQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -159,14 +167,24 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
         });
 
-        //shows the current price
+        //Loads the spinners previous selection
+        spinnerQuantity.setSelection(spinnerQuantityIndex);
+        spinnerSizes.setSelection(spinnerSizeIndex);
+
+        //Shows the current price
         refreshPrice();
     }
 
     //Method that triggers when the Customize pizza buttons is pressed
     public void customizeProduct(View v) {
-        if (productID > 100) { //extra ingredients can be added only to certain products, but they can be usually removed
-            startActivity(CustomizeProductActivity.newIntentDeleteIngredients(this, "", productID, 0));
+        //Saves the current spinner selection
+        spinnerQuantityIndex = spinnerQuantity.getSelectedItemPosition();
+        spinnerSizeIndex = spinnerSizes.getSelectedItemPosition();
+
+        //extra ingredients can be added only to certain products, but they can be usually removed
+        if (productID > 100) {
+            startActivity(CustomizeProductActivity.newIntentDeleteIngredients(this, "",
+                    productID, 0));
         } else {
             startActivity(CustomizeProductActivity.newIntentAddIngredients(this, productID));
         }
@@ -186,18 +204,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         startActivity(this.getParentActivityIntent());
     }
 
-    //creates a new intent properly configured to open this activity after a customization has been done
-    public static Intent newIntentFromCustomize(Context context, int productId, int extraType, String extraIngredients, int numberOfExtras) {
-        Intent intent = new Intent(context, ProductDetailsActivity.class);
-        intent.putExtra(PRODUCT_ID_KEY, productId);
-        intent.putExtra(PRODUCT_EXTRA_TYPE_KEY, extraType);
-        intent.putExtra(PRODUCT_EXTRA_INGREDIENTS_KEY, extraIngredients);
-        intent.putExtra(PRODUCT_EXTRA_NUMBER_KEY, numberOfExtras);
-
-        return intent;
-    }
-
-    //updates and show the current price
+    //Updates and show the current price
     private double refreshPrice() {
         //Retrieve the price of the selected pizza
         Cursor cursorPrice = db.rawQuery("SELECT price FROM products_sizes WHERE size_id = ? AND product_id = ?",
@@ -220,5 +227,17 @@ public class ProductDetailsActivity extends AppCompatActivity {
         super.onDestroy();
         cursorNameDetails.close();
         db.close();
+    }
+
+    //Creates a new intent properly configured to open this activity after a customization has been done
+    public static Intent newIntentFromCustomize(Context context, int productId, int extraType,
+                                                String extraIngredients, int numberOfExtras) {
+        Intent intent = new Intent(context, ProductDetailsActivity.class);
+        intent.putExtra(PRODUCT_ID_KEY, productId);
+        intent.putExtra(PRODUCT_EXTRA_TYPE_KEY, extraType);
+        intent.putExtra(PRODUCT_EXTRA_INGREDIENTS_KEY, extraIngredients);
+        intent.putExtra(PRODUCT_EXTRA_NUMBER_KEY, numberOfExtras);
+
+        return intent;
     }
 }
