@@ -50,6 +50,7 @@ public class CustomizeProductActivity extends AppCompatActivity {
         if (previousSelection == null) {
             previousSelection = "";
         }
+
         //Loads one ingredients list according to the selected mode
         switch (mode) {
             case REMOVE_MODE:
@@ -78,7 +79,7 @@ public class CustomizeProductActivity extends AppCompatActivity {
         }
     }
 
-    //when the ok button is pressed
+    //When the ok button is pressed
     public void getSelectedIngredients(View v) {
         //get checked ingredients from the listview
         SparseBooleanArray checkedIngredients = ingredientsList.getCheckedItemPositions();
@@ -89,7 +90,7 @@ public class CustomizeProductActivity extends AppCompatActivity {
         if (mode == ADD_MODE) { //Always executes first
             int numberOfExtras = 0;
 
-            //iterate through the array of ingredients to get only the checked ones
+            //Iterate through the array of ingredients to get only the checked ones
             for (int i = 0; i < ingredientsArray.length; i++) {
                 if (checkedIngredients.get(i)) {
                     //Append the header if hasn't been done before.
@@ -101,7 +102,7 @@ public class CustomizeProductActivity extends AppCompatActivity {
                 }
             }
 
-            //removes the last comma of the list of extra ingredients in case any has been chosen
+            //Removes the last comma of the list of extra ingredients in case any has been chosen
             String listOfExtraIngredients = stringBuilder.toString();
             if (numberOfExtras > 0) {
                 listOfExtraIngredients = listOfExtraIngredients.substring(0,
@@ -120,9 +121,9 @@ public class CustomizeProductActivity extends AppCompatActivity {
             for (ingredientsCursor.moveToFirst(); !ingredientsCursor.isAfterLast(); ingredientsCursor.moveToNext()) {
                 ingredientsArray.add(ingredientsCursor.getString(1));
             }
-            //boolean to check if the header have been added
+            //Boolean to check if the header have been added
             boolean headerAdded = false;
-            //gets a string with the deleted items
+            //Gets a string with the deleted items
             for (int i = 0; i < ingredientsArray.size(); i++) {
                 if (checkedIngredients.get(i)) {
                     if (!headerAdded) {
@@ -133,14 +134,14 @@ public class CustomizeProductActivity extends AppCompatActivity {
                 }
             }
 
-            //removes the last comma of the list
+            //Removes the last comma of the list
             String removedIngredients = stringBuilder.toString();
             if (headerAdded) {
                 removedIngredients = removedIngredients.substring(0,
                         removedIngredients.length() - 2);
             }
 
-            //goes back to the productDetails activity
+            //Goes back to the productDetails activity
             startActivity(ProductDetailsActivity.newIntentFromCustomize(this,
                     productId,
                     REMOVE_MODE,
@@ -149,7 +150,7 @@ public class CustomizeProductActivity extends AppCompatActivity {
         }
     }
 
-    //Creates a intent to open this activity in Addition Mode
+    //Creates a intent to open this activity in addition Mode
     public static Intent newIntentAddIngredients(Context context, int productId) {
         Intent intent = new Intent(context, CustomizeProductActivity.class);
         intent.putExtra(EXTRA_MODE_KEY, ADD_MODE);

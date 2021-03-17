@@ -25,7 +25,7 @@
     <string name="name_andalusian">Andaluza</string>
     <string name="name_carbonara_pasta">Pasta carbonara</string>
     <string name="name_bolognese">Pasta boloñesa</string>
-    <string name="name_cesar">César"</string>
+    <string name="name_cesar">Ensalada César"</string>
     <string name="name_solomillo">Solomillo</string>
     <string name="name_burger">Hamburguesa casera completa</string>
     <string name="name_steak">Churrasco</string>
@@ -155,5 +155,6 @@
         <item>Aceitunas</item>
         <item>Pimiento verde</item>
         <item>Alcachofas</item>
+        <item>Tomate Natural</item>
     </string-array>
 </resources>

@@ -124,7 +124,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void populateProductsIngredientsTable(SQLiteDatabase db, int dbVersion) {
         if (dbVersion < 1) {
-            //pizza ingredients
+            //Pizza ingredients
             insertProductIngredientRow(db, 1, context.getString(R.string.mozzarella));
             insertProductIngredientRow(db, 2, context.getString(R.string.beef));
             insertProductIngredientRow(db, 2, context.getString(R.string.chicken));
@@ -298,10 +298,9 @@ public class DBHelper extends SQLiteOpenHelper {
         if (dbVersion < 1) {
             insertCitiesRow(db, "Gelves", "41120", 0);
             insertCitiesRow(db, "Coria", "41100", 1);
-            insertCitiesRow(db, "Palomares", "41132", 2);
-            insertCitiesRow(db, "Mairena", "41125", 2.5);
-            insertCitiesRow(db, "San Juan", "41142", 2);
-
+            insertCitiesRow(db, "Palomares", "41928", 2);
+            insertCitiesRow(db, "Mairena", "41927", 2.5);
+            insertCitiesRow(db, "San Juan", "41920", 2);
         }
     }
 
