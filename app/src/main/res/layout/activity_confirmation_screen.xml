@@ -42,4 +42,15 @@
         android:gravity="center_horizontal"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         tools:text="@string/your_order_id" />
+
+    <TextView
+            android:text="@string/download_invoice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_download_invoice"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:textColorLink="#FFFFFF"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="18sp" />
 </LinearLayout>

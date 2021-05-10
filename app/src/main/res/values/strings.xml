@@ -66,6 +66,7 @@
     <string name="city">Localidad:</string>
     <string name="delivery">Reparto</string>
     <string name="currency_sign">€</string>
+    <string name="download_invoice"><u>Descargar factura</u></string>
 
     <string-array name="quantity">
         <item>1</item>

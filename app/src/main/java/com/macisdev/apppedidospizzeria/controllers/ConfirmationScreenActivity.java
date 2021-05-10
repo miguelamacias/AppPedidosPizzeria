@@ -2,7 +2,9 @@ package com.macisdev.apppedidospizzeria.controllers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,6 +36,7 @@ public class ConfirmationScreenActivity extends AppCompatActivity {
         TextView tvMainMessage = findViewById(R.id.tv_main_message);
         TextView tvSecondaryMessage = findViewById(R.id.tv_secondary_message);
         TextView tvOrderId = findViewById(R.id.tv_order_id);
+        TextView tvDownloadInvoice = findViewById(R.id.tv_download_invoice);
 
         if (orderSuccessfullyPlaced) {
             imgConfirmation.setImageResource(R.drawable.ic_ok_order);
@@ -43,11 +46,20 @@ public class ConfirmationScreenActivity extends AppCompatActivity {
             tvOrderId.setText(String.format(Locale.getDefault(),
                     getString(R.string.your_order_id), orderId));
             OrderSingleton.getInstance().getOrderElementsList().clear();
+            tvDownloadInvoice.setOnClickListener(view -> {
+                String url = String.format(Locale.getDefault(), "http://83.57.54.122:8080/invoices/invoice?id=%s",
+                        orderId);
+                Intent browser= new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(browser);
+            });
         } else {
             imgConfirmation.setImageResource(R.drawable.ic_fail_order);
             tvMainMessage.setText(getString(R.string.order_placed_fail));
             tvSecondaryMessage.setText(getString(R.string.try_again_message));
+            tvDownloadInvoice.setVisibility(View.GONE);
         }
+
+
 
     }
 
