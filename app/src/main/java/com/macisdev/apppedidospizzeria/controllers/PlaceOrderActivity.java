@@ -420,7 +420,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
             try {
                 //Variables for the SOAP service
                 String NAMESPACE = "http://pizzashopwebservice.macisdev.com/";
-                String URL = "http://83.57.54.122:8080/PizzaShopWebService/PizzaShopWebService";
+                String URL = "http://83.47.223.157:8080/PizzaShopWebService/PizzaShopWebService";
                 String METHOD_NAME = "sendOrder";
                 String SOAP_ACTION = "";
 

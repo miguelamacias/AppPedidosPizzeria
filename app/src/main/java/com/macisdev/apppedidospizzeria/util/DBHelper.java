@@ -63,6 +63,12 @@ public class DBHelper extends SQLiteOpenHelper {
                     "name TEXT," +
                     "zipCode TEXT," +
                     "deliveryPrice REAL)");
+
+            //creates the orders_history table
+            db.execSQL("CREATE TABLE orders_history (" +
+                    "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "order_id TEXT UNIQUE," +
+                    "time TEXT)");
         }
 
         //Populates the tables
