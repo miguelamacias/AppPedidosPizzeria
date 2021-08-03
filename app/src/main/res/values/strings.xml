@@ -67,6 +67,8 @@
     <string name="delivery">Reparto</string>
     <string name="currency_sign">€</string>
     <string name="download_invoice"><u>Descargar factura</u></string>
+    <string name="orders_history">Historial de pedidos</string>
+    <string name="choose_order_to_see_details">Selecciona un pedido para ver los detalles:</string>
 
     <string-array name="quantity">
         <item>1</item>

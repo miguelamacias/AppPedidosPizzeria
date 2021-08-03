@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.macisdev.apppedidospizzeria">
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.macisdev.apppedidospizzeria">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/pizza_icon"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/pizza_icon"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
-        android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".controllers.ConfirmationScreenActivity"/>
+            android:allowBackup="true"
+            android:icon="@mipmap/pizza_icon"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/pizza_icon"
+            android:supportsRtl="true"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
+            android:usesCleartextTraffic="true"
+            tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".controllers.PlaceOrderActivity"
-            android:label="@string/make_order_activity"
-            android:parentActivityName=".controllers.OrderSummaryActivity"/>
+                android:name=".controllers.OrdersHistoryActivity"
+                android:label="@string/orders_history"
+                android:parentActivityName=".controllers.MainActivity"
+                android:exported="true" />
+        <activity android:name=".controllers.ConfirmationScreenActivity" />
+        <activity
+                android:name=".controllers.PlaceOrderActivity"
+                android:label="@string/make_order_activity"
+                android:parentActivityName=".controllers.OrderSummaryActivity" />
         <activity android:name=".controllers.CustomizeProductActivity" />
         <activity
-            android:name=".controllers.OrderSummaryActivity"
-            android:label="@string/show_order_summary"
-            android:parentActivityName=".controllers.MainActivity" />
+                android:name=".controllers.OrderSummaryActivity"
+                android:label="@string/show_order_summary"
+                android:parentActivityName=".controllers.MainActivity" />
         <activity
-            android:name=".controllers.ProductDetailsActivity"
-            android:label="@string/pizza_details_activity"
-            android:parentActivityName=".controllers.MainActivity" />
+                android:name=".controllers.ProductDetailsActivity"
+                android:label="@string/pizza_details_activity"
+                android:parentActivityName=".controllers.MainActivity" />
         <activity android:name=".controllers.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

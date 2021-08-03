@@ -56,7 +56,8 @@ public class MainActivity extends AppCompatActivity implements ProductsListFragm
 
     //launch the summary activity from the floating button
     public void goToSummary(View v) {
-        startActivity(new Intent(this, OrderSummaryActivity.class));
+        //startActivity(new Intent(this, OrderSummaryActivity.class));
+        startActivity(new Intent(this, OrdersHistoryActivity.class));
     }
 
     @Override

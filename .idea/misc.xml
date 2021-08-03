@@ -13,6 +13,15 @@
       </map>
     </option>
   </component>
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/activity_main.xml" value="0.5083333333333333" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/activity_orders_history.xml" value="0.5083333333333333" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/layout_listview_two_items.xml" value="0.5083333333333333" />
+      </map>
+    </option>
+  </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="org.jetbrains.annotations.Nullable" />
     <option name="myDefaultNotNull" value="androidx.annotation.RecentlyNonNull" />
