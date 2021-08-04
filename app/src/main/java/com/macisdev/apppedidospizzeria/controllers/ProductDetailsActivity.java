@@ -53,6 +53,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
+
         productExtras = "";
         productSize = getString(R.string.size_medium_pizza);
 

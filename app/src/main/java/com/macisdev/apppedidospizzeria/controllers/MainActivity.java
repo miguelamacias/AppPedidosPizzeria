@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -24,6 +25,10 @@ public class MainActivity extends AppCompatActivity implements ProductsListFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Configures the toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         //Slide functionality
         SectionsPageAdapter pagerAdapter = new SectionsPageAdapter(getSupportFragmentManager());
@@ -56,8 +61,8 @@ public class MainActivity extends AppCompatActivity implements ProductsListFragm
 
     //launch the summary activity from the floating button
     public void goToSummary(View v) {
-        //startActivity(new Intent(this, OrderSummaryActivity.class));
-        startActivity(new Intent(this, OrdersHistoryActivity.class));
+        startActivity(new Intent(this, OrderSummaryActivity.class));
+        //startActivity(new Intent(this, OrdersHistoryActivity.class));
     }
 
     @Override
