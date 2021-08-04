@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="#03DAC6" />
+                    android:textColor="@color/colorAccent" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

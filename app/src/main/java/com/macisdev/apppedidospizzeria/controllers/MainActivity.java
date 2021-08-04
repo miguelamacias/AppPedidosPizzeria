@@ -2,6 +2,8 @@ package com.macisdev.apppedidospizzeria.controllers;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -57,6 +59,24 @@ public class MainActivity extends AppCompatActivity implements ProductsListFragm
         //Tabs functionality
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(pager);
+    }
+
+    //Configures the menu of the toolbar and listen for clicks of its items
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflates the menu to add its items to the toolbar
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_open_order_history) {
+            startActivity(new Intent(this, OrdersHistoryActivity.class));
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     //launch the summary activity from the floating button

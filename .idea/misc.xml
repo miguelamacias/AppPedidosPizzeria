@@ -16,11 +16,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/drawable/outline_history_24.xml" value="0.30364583333333334" />
         <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/activity_main.xml" value="0.5083333333333333" />
         <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/activity_orders_history.xml" value="0.5083333333333333" />
         <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/activity_product_details.xml" value="0.2462159434914228" />
         <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/layout_listview_two_items.xml" value="0.5083333333333333" />
         <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/toolbar_main.xml" value="0.2838541666666667" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/menu/menu_main.xml" value="0.2833333333333333" />
       </map>
     </option>
   </component>
