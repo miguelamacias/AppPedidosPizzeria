@@ -44,7 +44,7 @@
         tools:text="@string/your_order_id" />
 
     <TextView
-            android:text="@string/download_invoice"
+            android:text="@string/download_invoice_underlined"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tv_download_invoice"

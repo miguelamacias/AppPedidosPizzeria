@@ -5,11 +5,34 @@ import androidx.annotation.NonNull;
 import java.util.Locale;
 
 public class OrderElement {
-    private final int code;
-    private final String name;
-    private final String size;
-    private final String extras;
-    private final double price;
+    private int code;
+    private String name;
+    private String size;
+    private String extras;
+    private double price;
+
+    public OrderElement() {
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public void setExtras(String extras) {
+        this.extras = extras;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     public OrderElement(int code, String name, String size, String extras, double price) {
         this.code = code;

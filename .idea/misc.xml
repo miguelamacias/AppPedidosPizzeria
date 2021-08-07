@@ -16,11 +16,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/drawable/ic_add.xml" value="0.3489583333333333" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/drawable/ic_delete.xml" value="0.3489583333333333" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/drawable/ic_fail_order.xml" value="0.3489583333333333" />
         <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/drawable/outline_history_24.xml" value="0.30364583333333334" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/activity_confirmation_screen.xml" value="0.2604166666666667" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/activity_filed_order_details.xml" value="0.5" />
         <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/activity_main.xml" value="0.5083333333333333" />
         <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/activity_order_summary.xml" value="0.27239583333333334" />
         <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/activity_orders_history.xml" value="0.5083333333333333" />
         <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/activity_product_details.xml" value="0.2462159434914228" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/layout_listview_filed_order.xml" value="0.2604166666666667" />
+        <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/layout_listview_order_summary.xml" value="0.32864583333333336" />
         <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/layout_listview_two_items.xml" value="0.5083333333333333" />
         <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/layout/toolbar_main.xml" value="0.2838541666666667" />
         <entry key="..\:/Workspaces/AndroidWorkspace/AppPedidosPizzeria/app/src/main/res/menu/menu_main.xml" value="0.2833333333333333" />

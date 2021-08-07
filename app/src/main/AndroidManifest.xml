@@ -15,10 +15,15 @@
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
         <activity
-                android:name=".controllers.OrdersHistoryActivity"
-                android:label="@string/orders_history"
-                android:parentActivityName=".controllers.MainActivity"
+                android:name=".controllers.FiledOrderDetails"
+                android:parentActivityName=".controllers.OrdersHistoryActivity"
+                android:label="@string/filed_order_details"
                 android:exported="true" />
+        <activity
+                android:name=".controllers.OrdersHistoryActivity"
+                android:exported="true"
+                android:label="@string/orders_history"
+                android:parentActivityName=".controllers.MainActivity" />
         <activity android:name=".controllers.ConfirmationScreenActivity" />
         <activity
                 android:name=".controllers.PlaceOrderActivity"
@@ -33,7 +38,8 @@
                 android:name=".controllers.ProductDetailsActivity"
                 android:label="@string/pizza_details_activity"
                 android:parentActivityName=".controllers.MainActivity" />
-        <activity android:name=".controllers.MainActivity"
+        <activity
+                android:name=".controllers.MainActivity"
                 android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
