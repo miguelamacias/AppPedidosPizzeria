@@ -10,7 +10,6 @@ import android.widget.SimpleCursorAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.macisdev.apppedidospizzeria.R;
-import com.macisdev.apppedidospizzeria.util.AndroidParserXML;
 import com.macisdev.apppedidospizzeria.util.DBHelper;
 
 import org.ksoap2.SoapEnvelope;
@@ -63,7 +62,6 @@ public class OrdersHistoryActivity extends AppCompatActivity {
 			this.orderId = orderId;
 		}
 
-
 		@Override
 		protected String doInBackground(Void... objects) {
 			String responseFromWebService;
@@ -96,17 +94,9 @@ public class OrdersHistoryActivity extends AppCompatActivity {
 
 		@Override
 		protected void onPostExecute(String serverResponse) {
-
 			if (serverResponse != null) {
-				//Parse the string returned from the server
-				AndroidParserXML parserXML = new AndroidParserXML(serverResponse);
-
-
 				//Launches the activity that shows the details recovered from server
-				startActivity(FiledOrderDetails.getFiledOrderIntent(getApplicationContext(), parserXML.getOrderId(),
-						parserXML.getOrderDateTime(), parserXML.getCustomerName(), parserXML.getCustomerPhone(),
-						parserXML.getDeliveryMethod(), parserXML.getCustomerAddress(), parserXML.getPaymentMethod(),
-						parserXML.getOrderStatus(), parserXML.getTotalPrice(), serverResponse));
+				startActivity(FiledOrderDetails.getFiledOrderIntent(getApplicationContext(), serverResponse));
 			}
 		}
 	}
