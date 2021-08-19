@@ -13,12 +13,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.i18n.phonenumbers.NumberParseException;
@@ -58,6 +57,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
     private static final String CUSTOMER_SAVED_NAME = "customerSavedName";
     private static final String CUSTOMER_SAVED_PHONE = "customerSavedPhone";
     private static final String CUSTOMER_SAVED_ADDRESS = "customerSavedAddress";
+    private static final String CUSTOMER_SAVED_CITY = "customerSavedCity";
 
     //Declares the views needed
     EditText etCustomerName;
@@ -136,7 +136,8 @@ public class PlaceOrderActivity extends AppCompatActivity {
             new ServerConnectionBackground(xmlAsString).execute();
 
             //Stores the customer information into the shared preferences
-            storeLastCustomerInformation(customerName, customerPhone, customerAddress);
+            storeLastCustomerInformation(customerName, customerPhone,
+                    customerAddress, citySpinner.getSelectedItemPosition());
 
         } catch (InputMismatchException e){
             //Do nothing, this exception has already been controlled, its only purpose is to stop the method
@@ -234,19 +235,25 @@ public class PlaceOrderActivity extends AppCompatActivity {
     private void showLoadingAnimation() {
         Button placeOrderBtn = findViewById(R.id.btn_place_order);
         placeOrderBtn.setEnabled(false);
-        TextView loadingTextTv = findViewById(R.id.tv_loading_text);
-        loadingTextTv.setVisibility(View.VISIBLE);
-        ProgressBar progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.VISIBLE);
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.setView(R.layout.layout_loading_dialog);
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
     }
 
-    private void storeLastCustomerInformation(String customerName, String customerPhone, String customerAddress) {
+    private void storeLastCustomerInformation(String customerName, String customerPhone,
+                                              String customerAddress, int city) {
         Editor savedCustomerPreferencesEditor = savedCustomerPreferences.edit();
         savedCustomerPreferencesEditor.putString(CUSTOMER_SAVED_NAME, customerName);
         savedCustomerPreferencesEditor.putString(CUSTOMER_SAVED_PHONE, customerPhone);
+
         if (rbHomeDelivery.isChecked()) {
             savedCustomerPreferencesEditor.putString(CUSTOMER_SAVED_ADDRESS, customerAddress);
+            savedCustomerPreferencesEditor.putInt(CUSTOMER_SAVED_CITY, city);
         }
+
         savedCustomerPreferencesEditor.apply();
     }
 
@@ -282,7 +289,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
             etCustomerAddress.setEnabled(true);
             etCustomerAddress.setText(savedCustomerPreferences.getString(CUSTOMER_SAVED_ADDRESS, ""));
             citySpinner.setEnabled(true);
-
+            citySpinner.setSelection(savedCustomerPreferences.getInt(CUSTOMER_SAVED_CITY, 0));
         } else {
             etCustomerAddress.setEnabled(false);
             etCustomerAddress.setText(R.string.pick_at_restaurant);
@@ -303,7 +310,7 @@ public class PlaceOrderActivity extends AppCompatActivity {
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
 
-            OrderElement deliveryElement = new OrderElement(999, getString(R.string.delivery),
+            OrderElement deliveryElement = new OrderElement(DBHelper.DELIVERY_CODE, getString(R.string.delivery),
                     cursor.getString(1), "",cursor.getDouble(3));
 
             OrderSingleton.getInstance().getOrderElementsList().add(deliveryElement);

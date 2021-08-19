@@ -11,10 +11,11 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "pizzaShop";
     private static final int DB_VERSION = 1;
 
-    public static final String typePizza = "0";
-    public static final String typeDrink = "3";
-    public static final String typeStarter = "1";
-    public static final String typeMainCourse = "2";
+    public static final String TYPE_PIZZA = "0";
+    public static final String TYPE_DRINK = "3";
+    public static final String TYPE_STARTER = "1";
+    public static final String TYPE_MAIN_COURSE = "2";
+    public static final int DELIVERY_CODE = 999;
     private final Context context;
 
     public DBHelper(Context context) {
@@ -81,50 +82,50 @@ public class DBHelper extends SQLiteOpenHelper {
     private void populateProductsTable(SQLiteDatabase db, int dbVersion) {
         if (dbVersion < 1) {
             //Pizzas
-            insertProductRow(db, 1, context.getString(R.string.name_margherita), context.getString(R.string.ingredients_margherita), typePizza);
-            insertProductRow(db, 2, context.getString(R.string.name_monster), context.getString(R.string.ingredients_monster), typePizza);
-            insertProductRow(db, 3, context.getString(R.string.name_beef_meat), context.getString(R.string.ingredients_beef_meat), typePizza);
-            insertProductRow(db, 4, context.getString(R.string.name_4_cheeses), context.getString(R.string.ingredients_4_cheeses), typePizza);
-            insertProductRow(db, 5, context.getString(R.string.name_bbq_pizza), context.getString(R.string.ingredients_bbq), typePizza);
-            insertProductRow(db, 6, context.getString(R.string.name_carbonara), context.getString(R.string.ingredients_carbonara), typePizza);
-            insertProductRow(db, 7, context.getString(R.string.name_diLuigi), context.getString(R.string.ingredients_diLuigi), typePizza);
-            insertProductRow(db, 8, context.getString(R.string.name_diMarco), context.getString(R.string.ingredients_diMarco), typePizza);
-            insertProductRow(db, 9, context.getString(R.string.name_hawaiian), context.getString(R.string.ingredients_hawaiian), typePizza);
-            insertProductRow(db, 10, context.getString(R.string.name_mixed), context.getString(R.string.ingredients_mixed), typePizza);
-            insertProductRow(db, 11, context.getString(R.string.name_4_stagioni), context.getString(R.string.ingredients_4_stagioni), typePizza);
-            insertProductRow(db, 12, context.getString(R.string.name_torino), context.getString(R.string.ingredients_torino), typePizza);
-            insertProductRow(db, 13, context.getString(R.string.name_vegetarian), context.getString(R.string.ingredients_vegetarian), typePizza);
-            insertProductRow(db, 14, context.getString(R.string.name_andalusian), context.getString(R.string.ingredients_andalusian), typePizza);
+            insertProductRow(db, 1, context.getString(R.string.name_margherita), context.getString(R.string.ingredients_margherita), TYPE_PIZZA);
+            insertProductRow(db, 2, context.getString(R.string.name_monster), context.getString(R.string.ingredients_monster), TYPE_PIZZA);
+            insertProductRow(db, 3, context.getString(R.string.name_beef_meat), context.getString(R.string.ingredients_beef_meat), TYPE_PIZZA);
+            insertProductRow(db, 4, context.getString(R.string.name_4_cheeses), context.getString(R.string.ingredients_4_cheeses), TYPE_PIZZA);
+            insertProductRow(db, 5, context.getString(R.string.name_bbq_pizza), context.getString(R.string.ingredients_bbq), TYPE_PIZZA);
+            insertProductRow(db, 6, context.getString(R.string.name_carbonara), context.getString(R.string.ingredients_carbonara), TYPE_PIZZA);
+            insertProductRow(db, 7, context.getString(R.string.name_diLuigi), context.getString(R.string.ingredients_diLuigi), TYPE_PIZZA);
+            insertProductRow(db, 8, context.getString(R.string.name_diMarco), context.getString(R.string.ingredients_diMarco), TYPE_PIZZA);
+            insertProductRow(db, 9, context.getString(R.string.name_hawaiian), context.getString(R.string.ingredients_hawaiian), TYPE_PIZZA);
+            insertProductRow(db, 10, context.getString(R.string.name_mixed), context.getString(R.string.ingredients_mixed), TYPE_PIZZA);
+            insertProductRow(db, 11, context.getString(R.string.name_4_stagioni), context.getString(R.string.ingredients_4_stagioni), TYPE_PIZZA);
+            insertProductRow(db, 12, context.getString(R.string.name_torino), context.getString(R.string.ingredients_torino), TYPE_PIZZA);
+            insertProductRow(db, 13, context.getString(R.string.name_vegetarian), context.getString(R.string.ingredients_vegetarian), TYPE_PIZZA);
+            insertProductRow(db, 14, context.getString(R.string.name_andalusian), context.getString(R.string.ingredients_andalusian), TYPE_PIZZA);
 
             //Starters
-            insertProductRow(db,101, context.getString(R.string.name_goat_cheese), "", typeStarter);
-            insertProductRow(db,102, context.getString(R.string.name_chips), "", typeStarter);
-            insertProductRow(db, 103, context.getString(R.string.name_bacon_cheddar_chips), "", typeStarter);
-            insertProductRow(db, 104, context.getString(R.string.name_bacon_cheddar_nachos), "", typeStarter);
-            insertProductRow(db, 105, context.getString(R.string.name_chicken_nuggets), "", typeStarter);
-            insertProductRow(db, 106, context.getString(R.string.name_bbq_chicken_wings), "", typeStarter);
-            insertProductRow(db, 107, context.getString(R.string.name_fried_cheese), "", typeStarter);
-            insertProductRow(db, 108, context.getString(R.string.name_sauces), context.getString(R.string.description_sauce), typeStarter);
+            insertProductRow(db,101, context.getString(R.string.name_goat_cheese), "", TYPE_STARTER);
+            insertProductRow(db,102, context.getString(R.string.name_chips), "", TYPE_STARTER);
+            insertProductRow(db, 103, context.getString(R.string.name_bacon_cheddar_chips), "", TYPE_STARTER);
+            insertProductRow(db, 104, context.getString(R.string.name_bacon_cheddar_nachos), "", TYPE_STARTER);
+            insertProductRow(db, 105, context.getString(R.string.name_chicken_nuggets), "", TYPE_STARTER);
+            insertProductRow(db, 106, context.getString(R.string.name_bbq_chicken_wings), "", TYPE_STARTER);
+            insertProductRow(db, 107, context.getString(R.string.name_fried_cheese), "", TYPE_STARTER);
+            insertProductRow(db, 108, context.getString(R.string.name_sauces), context.getString(R.string.description_sauce), TYPE_STARTER);
 
             //Main courses
-            insertProductRow(db,201, context.getString(R.string.name_carbonara_pasta), context.getString(R.string.description_pasta), typeMainCourse);
-            insertProductRow(db,202, context.getString(R.string.name_bolognese), context.getString(R.string.description_pasta), typeMainCourse);
-            insertProductRow(db,203, context.getString(R.string.name_cesar), context.getString(R.string.description_cesar), typeMainCourse);
-            insertProductRow(db,204, context.getString(R.string.name_solomillo), context.getString(R.string.description_solomillo), typeMainCourse);
+            insertProductRow(db,201, context.getString(R.string.name_carbonara_pasta), context.getString(R.string.description_pasta), TYPE_MAIN_COURSE);
+            insertProductRow(db,202, context.getString(R.string.name_bolognese), context.getString(R.string.description_pasta), TYPE_MAIN_COURSE);
+            insertProductRow(db,203, context.getString(R.string.name_cesar), context.getString(R.string.description_cesar), TYPE_MAIN_COURSE);
+            insertProductRow(db,204, context.getString(R.string.name_solomillo), context.getString(R.string.description_solomillo), TYPE_MAIN_COURSE);
             insertProductRow(db,205, context.getString(R.string.name_burger), context.getString(R.string.description_burger)
-                    , typeMainCourse);
-            insertProductRow(db,206, context.getString(R.string.name_steak), context.getString(R.string.description_steak), typeMainCourse);
-            insertProductRow(db,207, context.getString(R.string.name_serranito), context.getString(R.string.description_serranito), typeMainCourse);
+                    , TYPE_MAIN_COURSE);
+            insertProductRow(db,206, context.getString(R.string.name_steak), context.getString(R.string.description_steak), TYPE_MAIN_COURSE);
+            insertProductRow(db,207, context.getString(R.string.name_serranito), context.getString(R.string.description_serranito), TYPE_MAIN_COURSE);
 
             //Drinks
-            insertProductRow(db, 301, context.getString(R.string.name_coke), context.getString(R.string.description_coke), typeDrink);
-            insertProductRow(db, 302, context.getString(R.string.name_fanta), context.getString(R.string.description_fanta), typeDrink);
-            insertProductRow(db, 303, context.getString(R.string.name_7up), "", typeDrink);
-            insertProductRow(db, 304, context.getString(R.string.name_aquarius), context.getString(R.string.description_aquarius), typeDrink);
-            insertProductRow(db, 305, context.getString(R.string.name_nestea), "", typeDrink);
-            insertProductRow(db, 306, context.getString(R.string.name_beer), "", typeDrink);
-            insertProductRow(db, 307, context.getString(R.string.name_fake_beer), "", typeDrink);
-            insertProductRow(db, 308, context.getString(R.string.name_water), "", typeDrink);
+            insertProductRow(db, 301, context.getString(R.string.name_coke), context.getString(R.string.description_coke), TYPE_DRINK);
+            insertProductRow(db, 302, context.getString(R.string.name_fanta), context.getString(R.string.description_fanta), TYPE_DRINK);
+            insertProductRow(db, 303, context.getString(R.string.name_7up), "", TYPE_DRINK);
+            insertProductRow(db, 304, context.getString(R.string.name_aquarius), context.getString(R.string.description_aquarius), TYPE_DRINK);
+            insertProductRow(db, 305, context.getString(R.string.name_nestea), "", TYPE_DRINK);
+            insertProductRow(db, 306, context.getString(R.string.name_beer), "", TYPE_DRINK);
+            insertProductRow(db, 307, context.getString(R.string.name_fake_beer), "", TYPE_DRINK);
+            insertProductRow(db, 308, context.getString(R.string.name_water), "", TYPE_DRINK);
         }
     }
 
@@ -304,8 +305,8 @@ public class DBHelper extends SQLiteOpenHelper {
         if (dbVersion < 1) {
             insertCitiesRow(db, "Gelves", "41120", 0);
             insertCitiesRow(db, "Coria", "41100", 1);
-            insertCitiesRow(db, "Palomares", "41928", 2);
-            insertCitiesRow(db, "Mairena", "41927", 2.5);
+            insertCitiesRow(db, "Palomares", "41928", 1.5);
+            insertCitiesRow(db, "Mairena", "41927", 2);
             insertCitiesRow(db, "San Juan", "41920", 2);
         }
     }

@@ -110,16 +110,16 @@ public class MainActivity extends AppCompatActivity implements ProductsListFragm
             ProductsListFragment fragment = new ProductsListFragment();
             switch (position) {
                 case 1:
-                    fragment.setProductType(DBHelper.typePizza);
+                    fragment.setProductType(DBHelper.TYPE_PIZZA);
                     break;
                 case 2:
-                    fragment.setProductType(DBHelper.typeStarter);
+                    fragment.setProductType(DBHelper.TYPE_STARTER);
                     break;
                 case 3:
-                    fragment.setProductType(DBHelper.typeMainCourse);
+                    fragment.setProductType(DBHelper.TYPE_MAIN_COURSE);
                     break;
                 case 4:
-                    fragment.setProductType(DBHelper.typeDrink);
+                    fragment.setProductType(DBHelper.TYPE_DRINK);
                     break;
                 default: //also case 0:
                     return new HomeFragment();

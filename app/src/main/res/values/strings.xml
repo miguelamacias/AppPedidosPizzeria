@@ -71,6 +71,7 @@
     <string name="orders_history">Historial de pedidos</string>
     <string name="choose_order_to_see_details">Selecciona un pedido para ver los detalles:</string>
     <string name="filed_order_details">Detalles del pedido</string>
+    <string name="processing_order">Procesando su pedido, espere por favor…</string>
 
     <string-array name="quantity">
         <item>1</item>
@@ -84,6 +85,4 @@
         <item>9</item>
         <item>10</item>
     </string-array>
-
-    <!-- TODO: Remove or change this placeholder text -->
 </resources>

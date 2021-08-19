@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.macisdev.apppedidospizzeria.R;
+import com.macisdev.apppedidospizzeria.model.OrderElement;
 import com.macisdev.apppedidospizzeria.model.OrderSingleton;
 import com.macisdev.apppedidospizzeria.util.DBHelper;
 
@@ -65,11 +66,23 @@ public class ConfirmationScreenActivity extends AppCompatActivity {
                 startActivity(browser);
             });
         } else {
-            ////Configures the visible screen to show that the order hasn't been placed
+            //Configures the visible screen to show that the order hasn't been placed
             imgConfirmation.setImageResource(R.drawable.ic_fail_order);
             tvMainMessage.setText(getString(R.string.order_placed_fail));
             tvSecondaryMessage.setText(getString(R.string.try_again_message));
             tvDownloadInvoice.setVisibility(View.GONE);
+
+            //Deletes the Delivery object from the order so it doesn't get added twice
+            int deliveryIndex = -1;
+            for (int i = 0; i < OrderSingleton.getInstance().getOrderElementsList().size(); i++) {
+                OrderElement element = OrderSingleton.getInstance().getOrderElementsList().get(i);
+                if (element.getCode() == DBHelper.DELIVERY_CODE) {
+                    deliveryIndex = i;
+                }
+            }
+            if (deliveryIndex >= 0) {
+                OrderSingleton.getInstance().getOrderElementsList().remove(deliveryIndex);
+            }
         }
     }
 

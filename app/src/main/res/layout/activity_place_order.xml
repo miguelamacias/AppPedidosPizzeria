@@ -161,23 +161,5 @@
                 android:layout_marginTop="8dp"
                 android:onClick="placeOrder"
                 android:text="@string/make_order" />
-
-        <ProgressBar
-                style="?android:attr/progressBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:id="@+id/progressBar"
-                android:indeterminate="true"
-                android:visibility="invisible" />
-
-        <TextView
-                android:text="@string/sending_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_loading_text"
-                android:contentDescription="@string/sending_order"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:visibility="invisible"
-                android:layout_gravity="center_horizontal" />
     </LinearLayout>
 </ScrollView>
